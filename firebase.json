@@ -4,6 +4,7 @@
     "ignore": [ "firebase.json", "**/.*","**/node_modules/**"],
     "rewrites": [
       {"source":"/","destination": "index.html"},
+      {"source":"/signout","function": "main"},
       {"source":"/skedules","function": "skedules"},
       {"source":"/savebooking","function": "skedules"},
       {"source":"/newslot","function": "skedules"},
