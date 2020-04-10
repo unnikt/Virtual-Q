@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="pgHeader">
+        <i id="menuIcon" class="material-icons md-24 gicon-regular" >menu</i>
+        <p class="hdr1">Virtual Q</p>
+    </div>
+    <div id="mainMenu" class="main-menu">
+        <ul>
+            <li class="hMenu"><a href="/skedules">Appointments</a></li>
+            <li class="hMenu"><a href="/services">Services</a></li>
+            <li class="hMenu"><a href="settings.html">Settings</a></li>
+            <li class="hMenu"><a href="index.html">Log out</a></li>
+            <li class="hMenu"><a href="grid.html">View Grid</a></li>
+        </ul>
+    </div>
+    <div style=" display: flex; background: aliceblue;">
+        <button id="btnLt" class="fab" style="display: inline;" > &lt </button>
+        <button id="btnGt" class="fab"  style=" float: right;"> &gt </button>    
+    </div>
+
+    <div id="slide-1" class="div-slide" >
+        <div class="div-title">
+            <a href=""  class="span-breadcrumbs">Slide 1 Customer Details | </a>
+            <span class="txt-title" style="width:90%">Slots</span>
+            <a href="" class="span-breadcrumbs">Available Slots | </a>
+        </div>
+        <label for="fromdate">Start time:</label>
+        <input id="fromdate" class="datetime"  type="date" placeholder="Start Time">
+        <div id="divContainer" class="div-container"></div>
+    </div>
+
+    <div id="slide-3" class="div-slide" >
+        <div class="div-title">
+            <a href=""  class="span-breadcrumbs">Slide-3 Customer Details | </a>
+            <span class="txt-title" style="width:90%">Slots</span>
+            <a href="" class="span-breadcrumbs">Available Slots | </a>
+        </div>
+        <label for="fromdate">Start time:</label>
+        <input id="fromdate" class="datetime"  type="date" placeholder="Start Time">
+        <div id="divContainer" class="div-container"></div>
+    </div>
+
+    <div id="slide-2"  class="div-slide" style="display: none;">
+        <div class="div-breadcrumbs">
+            <a href=""  class="span-breadcrumbs"> Slide 2 Customer Details | </a>
+            <a href="" class="span-breadcrumbs">Service | </a>
+            <a href="" class="span-breadcrumbs">Available Slots | </a>
+        </div>
+    
+        <div class="div-title" >
+            <span class="txt-title">Customer Details</span>
+        </div>
+        <input type="text" id="cusname" placeholder="Customer Name">
+        <input type="text" id="svcname" placeholder="Service">
+        <div class="datetime">
+            <label for="fromdate">Start time:</label>
+            <input id="fromdate" class="datetime" type="datetime-local" placeholder="Start Time">
+        </div>
+        <div class="datetime">
+            <label for="todate">End time:</label>
+            <input id="todate" class="datetime" type="datetime-local" placeholder="End Time">
+        </div>
+        <input id="btnSave" type="button" value="Save">
+    </div>
+    <script>
+    var menuicon = document.getElementById("menuIcon");
+    menuicon.onclick = function (){
+        if(mainMenu.style.display!="block")
+            mainMenu.style.display = "block";
+        else 
+            mainMenu.style.display = "none";
+    }
+
+    var divContainer = document.getElementById('divContainer');
+    divContainer.setAttribute('id','name');
+    draw_header(0,12);
+
+    draw_calendar("Unni",11);
+    draw_calendar("Rekha",9);
+    draw_calendar("Keshav",8);
+    function draw_calendar(name,t){
+
+        var divfirst_Col = document.getElementById('first_col');
+        var divName = document.createElement('div');
+        divName.setAttribute('id', name);
+        divName.innerText =name;
+        divfirst_Col.appendChild(divName);
+
+        var divTime = document.getElementById('time_'+t);
+        var divSlot = document.createElement('div');
+        divSlot.setAttribute('id', name + t);
+        divSlot.innerText ="*";
+        divTime.appendChild(divSlot);
+
+    }
+
+    function draw_header(start, end){
+
+        var divSlot = document.createElement('div')
+            divSlot.setAttribute("id",'first_col');
+            divSlot.setAttribute("class",'first-col');
+            divSlot.innerText = "Time Table...";
+
+        var divHeader = document.createElement('div');
+            divHeader.setAttribute('class',"calendar-day");
+            divHeader.appendChild(divSlot);
+
+        for(i=start;i<=end;i++){
+            var divSlot = document.createElement('div')
+            divSlot.setAttribute("id",'time_'+ i);
+            divSlot.innerText = i + ":00";
+            divHeader.appendChild(divSlot);
+        }
+        divContainer.appendChild(divHeader);
+    }
+
+    var btnRight = document.getElementById('btnGt');
+    var slideNo=1; var maxSlides =3;
+
+    btnRight.addEventListener('click', function() {
+    if(slideNo<maxSlides){
+        console.log(slideNo);
+        var currSlide = document.getElementById('slide-' + slideNo);
+        var nextSlide = document.getElementById('slide-' + ++slideNo);
+        currSlide.style.animation = "slideout-right 1s ease-in";
+        currSlide.style.left="1000px"
+        nextSlide.style.animation ="slidein-right 1s ease-in";
+        nextSlide.style.left="10px"
+        if (slideNo==maxSlides) btnRight.style.visibility="none";
+        if (slideNo>1) btnLeft.style.visibility="visible";
+    }
+    });
+
+    var btnLeft = document.getElementById('btnLt');
+    btnLeft.style.visibility ="none";
+    btnLeft.addEventListener('click', function() {
+    if(slideNo>1){
+        var currSlide = document.getElementById('slide-' + slideNo);
+        var nextSlide = document.getElementById('slide-' + --slideNo);
+
+        currSlide.style.animation = "slideout-left 1s ease-in";
+        currSlide.style.left = "-1000px";
+        nextSlide.style.animation ="slidein-left 1s ease-in";
+        nextSlide.style.left = "10px";
+
+        if (slideNo==1) btnLeft.style.visibility="none";
+        if(slideNo<maxSlides) btnRight.style.visibility="visible";
+    }
+    });
+    </script>
+    
+ 
+</body>
+</html>

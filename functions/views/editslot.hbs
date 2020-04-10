@@ -1,0 +1,37 @@
+<style>
+    label {margin: 4px 0; padding-bottom: 0px;}
+</style>
+<form class="grid-default" style="  border: 1px solid var(--shadow-color);">
+    <input type="text" id="cus-name" placeholder="Customer Name"  >
+    <input type="text" id="cus-id" placeholder="Email / Phone number"  >
+    <input type="text" id="svc-name" placeholder="Services Name" >    
+    <div style="display: grid;">
+        <label for="dtfrom" >From</label>
+        <input type="datetime-local"  id="dtfrom" >    
+        <label for="dtto" >To</label>
+        <input type="datetime-local"  id="dtto" > 
+    </div>
+    <div style="margin-top:1em; text-align: center; background:var(--light-background); ">
+        <i class="material-icons gicon-regular" >event </i>
+        <i class="material-icons gicon-regular" >search</i>    
+        <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
+        <i class="material-icons gicon-regular" >save</i>    
+        <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
+    </div>  
+</form>
+<div id="confirm" class="mod-container">
+    <div class="mod-content" style="text-align: center; width: 80%;">
+        <span style='display:block;padding:2em 1em; color:var(--accent-color); '>Please confirm deletion</span>
+        <hr>
+        <i class="material-icons gicon-regular" onclick='delSlot()'>check</i>    
+        <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='none'">close</i>    
+    </div>
+</div>
+<script>
+function delSlot(){
+    document.getElementById('confirm').style.display="none";
+    fetch('/delslot?id= {{sid}} ')
+    .then(res =>{ console.log(res)})
+    .catch(err=>{ console.log(err)});
+}
+</script>

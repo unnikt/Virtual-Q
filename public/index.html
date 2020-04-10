@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign In</title>
+    <link rel="shortcut icon" href="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://www.gstatic.com/">   
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="/__/firebase/7.9.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="/__/firebase/7.9.1/firebase-auth.js"></script>
+    <style>
+      .menu-icon {grid-area: 1/1/span 1 / span 1;}
+      .gtitle {grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color); text-align: start;}
+      .appimg {grid-area: 1/12/span 1 / span 1; height: 50px; padding: 0;}
+    </style>
+  </head>
+  <body>
+  <style>
+    .email {grid-area: 1/1 /span 1 / span 2;}
+    .pwd  {grid-area: 2/1/span 1 / span 2;}
+    .sign-in{grid-area: 3/1; width: 90%;}
+    .sign-up{grid-area: 3/2; width: 90% ;}
+    .errMsg {grid-area: 4/1/span 2 /span 2; text-align: justify;font-size:x-small;}
+  </style>
+
+  <div class="grid-default" style="margin: 0; border:none;border-bottom: 1px solid var(--accent-color);">
+    <i class="item material-icons md-24 gicon-regular" >menu</i>
+    <h3 class="gtitle">Virtual Q</h3>
+    <img class="appimg" src="/img/undraw_stand_out_1oag.svg">
+  </div>
+  <form  id="signinform" style="display: none; margin-top: 30%;" >
+    <div class="grid-default"  >
+      <input  class="email" type="email" id="email" placeholder="Email" autocomplete="email">
+      <input  class="pwd" type="password" id="password" placeholder="Password" autocomplete="current-password">
+      <input  class="sign-in" type="button"   id="btnSignIn" value="Sign In" >  
+      <input  class="sign-up" type="button"   id="btnSignUp" value="Sign Up" >  
+      <p  class="errMsg" type="text" id="errMsg"></p>  
+    </div>
+  </form>
+  <div id="gridicons" class="grid-default" style="display: grid; border: none;">
+    <a class="tile" href="/skedules">Appointments</a>
+    <a class="tile" href="/services">Services</a>
+    <a class="tile" href="settings.html">Settings</a>
+    <a class="tile" href="index.html" onclick="auth.signOut()">Log out</a>
+  </div>
+
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+  <script src="js/signin.js" ></script>
+  
+</body>
+</html>

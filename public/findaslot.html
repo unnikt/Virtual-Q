@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <title>Document</title>   
+</head>
+<body>
+<div class="grid-default" style="border:none;border-bottom: 1px solid var(--shadow-color);">
+    <i onclick="window.location='index.html'" style="grid-area: 1/1/span 1 / span 1; margin: 0;" id="menuIcon" class="material-icons md-24 gicon-regular" >menu</i>
+    <p style="grid-area: 1/2/span 1 / span 9; width: 70%; margin:0; text-align: start;" class="txt-title">Virtual Q</p>
+    <img style="grid-area: 1/12/span 1 / span 1; height: 50px; "  src="/img/undraw_stand_out_1oag.svg" >
+</div>
+<div id="mainMenu" class="main-menu">
+    <ul>
+        <li class="hMenu"><a href="/skedules">Appointments</a></li>
+        <li class="hMenu"><a href="/services">Services</a></li>
+        <li class="hMenu"><a href="settings.html">Settings</a></li>
+        <li class="hMenu"><a href="index.html">Log out</a></li>
+    </ul>
+</div>
+
+    <div id="grid-calendar" class="grid-calendar" style="display: none;">         
+        <span class="item" style="grid-area: 1/1/span 1 / span 9;">Pick a date</span>
+        <input id="dttoday" type="date" style="grid-area: 1/10/span 1/span 3;">    
+    </div>
+    <style>
+        input[type=text],
+        input[type=datetime-local]{width: 95%;}
+        label {margin: 4px 0; padding-bottom: 0px;}
+    </style>
+        <form style="display: grid; margin:0 1em; padding: 0.5em; border: 1px solid var(--shadow-color);">
+            <input type="text"  id="cus-name" placeholder="Customer Name"  >
+            <input type="text" id="cus-id" placeholder="Email / Phone number"  >
+            <div style="display: grid;">
+                <input  style="grid-area: 1/1;" type="text"  id="svc-name" placeholder="Services Name" >    
+                <i style="grid-area: 1/2;" class="material-icons gicon-regular" id="icnCalendar">search</i>
+            </div>
+            <div style="display: grid;margin-top: 12px; ">
+                <label for="dtfrom" >Start time</label>
+                <input type="datetime-local"  id="dtfrom" >    
+                <label for="dtto" >End time</label>
+                <input type="datetime-local"  id="dtto" > 
+                <i id="icnCalendar" class="material-icons gicon-large" style=" text-align: center;" >event </i>
+            </div>
+
+            <div class="grid-default" style="margin: 0;">
+                <input id="btnSave" type="button" value="Save" style="width:5em;  grid-area: 1/1;" >   
+                <input id="btnClose" type="button" value="Cancel" onclick='window.location="skedules"' style="width:5em;grid-area: 1/2;">                  
+            </div>
+        </form>
+        
+    <!-- <i id="icnCalendar" class="material-icons md-24 gicon-large" style="grid-area: 1/1/span 1/span 2">event </i>
+    <input type="button" value="Save" style="width: 100%;">    
+    <input type="button" value="Save" style="width: 100%;">     
+        <input type="text"  id="txt_slot" placeholder="col"> 
+    <div style="display: inline-flex; width: 100%;">
+        <input type="button" value="Save" onclick="saveSlot()">    
+    </div>
+    <input type="text"  id="txt" placeholder="text">
+    <input type="text"  id="row" placeholder="row">
+    <input type="text"  id="col" placeholder="col">
+    <input type="button" value="Update" onclick="updGrid()"> -->
+
+    <script src="./js/app.js"></script>
+    <script src="./js/dates.js"></script>
+    <script src="./js/saveslot.js"></script>
+<script>
+
+function canceSlot(){
+    document.getElementById('popup-slot').style.display='none';
+}
+function saveSlot(){
+    var txt_slot = document.getElementById('txt_slot');
+    var divClicked = txt_slot.getAttribute('data_div');
+    document.getElementById(divClicked).innerText = txt_slot.value;
+    document.getElementById('popup-slot').style.display = "none";
+}
+
+function updGrid(){
+    var txt = document.getElementById('txt').value;
+    var row = document.getElementById('row').value;
+    var col = document.getElementById('col').value;
+    update_cell(txt,row,col);
+}
+
+// draw_timeline(9,11,10);
+// update_cell('KWarrel',1,2)
+// var menuicon = document.getElementById("menuIcon");
+// menuicon.onclick = function (){
+//     if(mainMenu.style.display!="block") 
+//         mainMenu.style.display = "block";
+//     else 
+//         mainMenu.style.display = "none";
+// }
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Appointments</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    
+    <div class="pgheader">
+        <!-- this is where the header will be injected -->
+        <input type="button" id="menuIcon" value="=" class="app-button menuicon">
+        <h1 class="hdr1"> Skedule -  Virtual Q</h1>
+    </div>
+    <div id="mainMenu" class="dropdown-content">
+        <ul class="ulbar">
+        <li class="hMenu"><a href="Appointments.html">Appointments</a></li>
+        <li class="hMenu"><a href="services.html">Services</a></li>
+        <li class="hMenu"><a href="settings.html">Settings</a></li>
+        <li class="hMenu"><a href="index.html">Log out</a></li>
+        </ul>
+    </div>
+    <script>
+        var menuicon = document.getElementById("menuIcon");
+        menuicon.onclick = function (){
+            if(mainMenu.style.display!="block")
+                mainMenu.style.display = "block";
+            else
+                mainMenu.style.display="none"
+        }
+    </script>
+
+    <input id="btnTime" class="app-button timeDisplay" type="button"/>
+     <script>
+     var btnTime = document.getElementById("btnTime");  
+     function refreshTime()
+         {
+         var dt = new Date();
+         // document.getElementById("btnTime").innerHTML = dt.toLocaleTimeString();
+         var hh = ("0"+dt.getHours()).slice(-2);
+         var ap="AM: "
+         if(hh>11) {
+             hh=hh-12;
+             ap="PM: "
+         } 
+         var mm = ("0"+dt.getMinutes()).slice(-2);
+         var ss = ("0"+dt.getSeconds()).slice(-2);
+         btnTime.setAttribute("value", ap + hh+":"+mm+":"+ss); 
+         }
+         setInterval(refreshTime,1000);
+         btnTime.style.display="block";
+     </script>
+
+    <div style="height:280pt; overflow: auto;">
+        <ul class="vlist">
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Traininga</span>
+        </li>
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Training</span>
+        </li>
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Training</span>
+        </li>
+
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Training</span>
+        </li>
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Training</span>
+        </li>
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Training</span>
+        </li>
+        <li class="vlistitem" >
+            <span>12:30 PM</span>
+            <span>John Doe</span>
+            <span>PPL Training</span>
+        </li>
+        </ul>
+    </div>  
+    <div id="pgfooter"></div>
+    <script>
+        fbnGetSkeds();
+        function fbnGetSkeds(){
+            
+        }
+    </script>
+
+
+</body>
+</html>
+

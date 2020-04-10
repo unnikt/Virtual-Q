@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Settings</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="app.css">
+
+</head>
+<body>
+    <div>
+        <input type="button" id="menuIcon" value="v" class="app-button menuicon">
+        <h1 class="hdr1"> Skedule -  Virtual Q</h1>
+    </div>
+    <div id="mainMenu" class="dropdown-content">
+        <ul class="ulbar">
+        <li class="hMenu"><a href="Appointments.html">Appointments</a></li>
+        <li class="hMenu"><a href="services.html">Services</a></li>
+        <li class="hMenu"><a href="settings.html">Settings</a></li>
+        <li class="hMenu"><a href="index.html">Log out</a></li>
+        </ul>
+    </div>
+    <script>
+        var menuicon = document.getElementById("menuIcon");
+        menuicon.onclick = function (){
+            if(mainMenu.style.display!="block")
+                mainMenu.style.display = "block";
+            else
+                mainMenu.style.display="none"
+        }
+    </script>
+    <hr>
+    <div class="app-card">
+        <div style="float: left;">
+            <div>
+                <div aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                        <path d="M10.39 9.398a6.69 6.69 0 013.368 2.555A7.048 7.048 0 0115 16h-1c0-.854-.151-1.646-.453-2.375a5.81 5.81 0 00-1.266-1.906 5.728 5.728 0 00-1.898-1.258A6.43 6.43 0 008 10a6.09 6.09 0 00-3.047.805 5.808 5.808 0 00-1.21.93 5.809 5.809 0 00-.93 1.21 6.26 6.26 0 00-.602 1.446A5.738 5.738 0 002 16H1c0-.75.11-1.466.328-2.148a7.102 7.102 0 01.93-1.891 6.685 6.685 0 011.453-1.516 7.287 7.287 0 011.914-1.039A4.913 4.913 0 013.711 7.57a5.244 5.244 0 01-.523-1.226A4.868 4.868 0 013 5c0-.693.13-1.341.39-1.945A5.137 5.137 0 014.46 1.46 4.873 4.873 0 016.048.39 5.066 5.066 0 018 0c.693 0 1.341.13 1.945.39.604.261 1.136.618 1.594 1.07.458.454.815.983 1.07 1.587a5.066 5.066 0 01.211 3.289 4.87 4.87 0 01-.523 1.219c-.23.38-.503.726-.82 1.039-.318.312-.68.58-1.086.804zM4 5a3.948 3.948 0 001.172 2.82c.364.36.789.646 1.273.86A3.81 3.81 0 008 9a3.947 3.947 0 002.82-1.172c.36-.364.646-.789.86-1.273C11.893 6.07 12 5.552 12 5s-.104-1.07-.313-1.555a3.947 3.947 0 00-.859-1.265 4.222 4.222 0 00-1.273-.86A3.81 3.81 0 008 1a3.948 3.948 0 00-2.82 1.172c-.36.364-.646.789-.86 1.273A3.81 3.81 0 004 5z"></path>
+                    </svg>
+                </div>
+                <div >
+                    <div>Manage account</div>
+                </div>
+                <div class="c01617">
+                    <button aria-label="Manage account" class="c01243 c01632">
+                        <span class="c01238">
+                            <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M14 1H9V2H13.293L7.64648 7.64648L8.35352 8.35364L14 2.70715V7H15V2V1H14ZM3 3H8V4H3V13H12V8.00012H13V13V14.0001H12L3 14H2V13V4V3H3Z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="app-card">
+        <p>Find me on social media.</p>
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <i class="fa fa-instagram w3-hover-opacity"></i>
+        <i class="fa fa-snapchat w3-hover-opacity"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+        <i class="fa fa-twitter w3-hover-opacity"></i>
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+      </footer>
+    
+</body>
+</html>
+

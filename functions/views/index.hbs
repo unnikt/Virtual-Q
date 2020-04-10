@@ -1,0 +1,21 @@
+  <form>
+    <div class="grid-default" id="signinform" style="display: none;">
+      <input  class="email" type="email"    id="email" placeholder="Email">
+      <input  class="pwd" type="password" id="password" placeholder="Password">
+      <input  class="sign-in" type="button"   id="btnSignIn" value="Sign In" >  
+      <input  class="sign-up" type="button"   id="btnSignUp" value="Sign Up" >  
+      <p  class="errMsg" type="text" id="errMsg"></p>  
+    </div>
+  </form>
+  <div id="gridicons" class="grid-default" style="display: none; border: none;">
+    <a class="tile" href="/skedules">Appointments</a>
+    <a class="tile" href="/services">Services</a>
+    <a class="tile" href="settings.html">Settings</a>
+    <a class="tile" href="index.html" onclick="auth.signOut()">Log out</a>
+  </div>
+  <script>
+    var bSignOut = true;
+  </script>
+  <!-- Initialize Firebase -->
+  <script src="/__/firebase/init.js"></script>
+  <script src="js/signin.js" ></script>

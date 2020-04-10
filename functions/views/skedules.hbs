@@ -1,0 +1,27 @@
+<style>
+    .cus-name   { grid-area: 1 / 1 / span 1 / span 3; font-weight:bold; color: var(--accent-color);}
+    .status     { grid-area: 2 / 3 / span 1 / span 1; font-size: x-small; color: green;}
+    .date       { grid-area: 2 / 1 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
+    .time       { grid-area: 2 / 2 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
+    .svc_name   { grid-area: 3 / 1 / span 1 / span 3; font-size: smaller; background:#eaeef0fb;}
+    .svc_details{ grid-area: 4 / 1 / span 2 / span 3; font-size: smaller; padding: 12px 0; }
+    .gitem {padding: 8px 0;}
+    .gborder {
+        margin: 1em 2em;padding:1em;
+        box-shadow: 2px 2px 8px 0 var(--shadow-color);
+        border-bottom: 2px solid var(--accent-color);  }
+</style>
+
+{{#each skeds}}
+<div class="grid-default gborder" data-tstamp="{{tstamp}}">
+    <div class="cus-name gitem">{{cusname}}
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id={{id}}'">edit</i>
+    </div>
+    <div class="date gitem">{{date}}</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">{{from}}</div>
+    <div class="svc_name gitem">{{svcname}}</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+{{/each}}
+<button id="btnAdd" class="fab" onclick="window.location='newslot';">+</button>

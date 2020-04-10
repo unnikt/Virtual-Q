@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <title>Document</title>   
+</head>
+<body>
+<div class="grid-default" style="border:none;border-bottom: 1px solid var(--shadow-color);">
+    <i onclick="window.location='index.html'" style="grid-area: 1/1/span 1 / span 1; margin: 0;" id="menuIcon" class="material-icons md-24 gicon-regular" >menu</i>
+    <p style="grid-area: 1/2/span 1 / span 9; width: 70%; margin:0; text-align: start;" class="txt-title">Virtual Q</p>
+    <img style="grid-area: 1/12/span 1 / span 1; height: 50px; "  src="/img/undraw_stand_out_1oag.svg" >
+</div>
+<style>
+    label {margin: 4px 0; padding-bottom: 0px;}
+</style>
+<form class="grid-default" style="  border: 1px solid var(--shadow-color);">
+    <input type="text"  id="cus-name" placeholder="Customer Name"  >
+    <input type="text" id="cus-id" placeholder="Email / Phone number"  >
+    <input type="text"  id="svc-name" placeholder="Services Name" >    
+    <div style="display: grid;">
+        <label for="dtfrom" >From</label>
+        <input type="datetime-local"  id="dtfrom" >    
+        <label for="dtto" >To</label>
+        <input type="datetime-local"  id="dtto" > 
+    </div>
+    <!-- <div class="grid-default" style="margin: 0;">
+        <input id="btnSave" type="button" value="Save" style="width:5em;  grid-area: 1/1;" >   
+    </div> -->
+    <div style="margin-top:1em; text-align: center; background:var(--light-background); ">
+        <i class="material-icons gicon-regular" >event </i>
+        <i class="material-icons gicon-regular" >search</i>    
+        <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
+        <i class="material-icons gicon-regular" >save</i>    
+        <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
+    </div>
+    
+</form>
+
+<div id="confirm" class="mod-container">
+    <div class="mod-content" style="text-align: center; width: 80%;">
+        <span style='display:block;padding:2em 1em; color:var(--accent-color); '>Please confirm deletion</span>
+        <hr>
+        <i class="material-icons gicon-regular" onclick='delSlot()'>check</i>    
+        <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='none'">close</i>    
+    </div>
+</div>
+<script>
+function delSlot(){
+    document.getElementById('confirm').style.display="none";
+
+    fetch('/delslot?id=NdOJZHJ6H6PUPk9jmHQv')
+    .then(res =>{ console.log(res)})
+    .catch(err=>{ console.log(err)});
+}
+</script>
+<script src="./js/app.js"></script>
+<script src="./js/dates.js"></script>
+</body>
+</html>
