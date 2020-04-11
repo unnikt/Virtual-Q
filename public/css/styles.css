@@ -3,8 +3,8 @@
     --accent-color:#f44336;
     --secondary-color: #f1cdcb;
     --shadow-color:#b8b7b7;
-    --light-background:#efeef5;
-    --lighter-text: #a9a9a9;
+    --light-background:#e9eff0;
+    --lighter-text: #807373;
     --border-color: #f0ac5e;/*#2d56dd;*/
     --primary-color:#304ffe;
 }
@@ -39,7 +39,16 @@ input[type=date],input[type=datetime-local]{
     background: white; 
 }
 
-i{display: flex; padding:0 .3em;  color:var(--primary-color);}
+i{  margin:0.2em; padding:.4em; 
+    width: fit-content; height: fit-content; 
+    color:var(--primary-color);
+    box-shadow: 1px 1px 8px 0px var(--shadow-color);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.icons-bar {
+    display: flex;
+    margin:12px;justify-content:flex-start;}
 .gicon-regular{
     font-size: 1.5em; padding: 12px;text-align: center;
     color:var(--primary-color);
@@ -58,7 +67,8 @@ i{display: flex; padding:0 .3em;  color:var(--primary-color);}
 label {padding: 12px; font-size: 1em;}
 
 /* default Grid */
-.grid-default{display: grid;  margin: 12px; padding: 12px ;}
+
+.grid,.grid-default{display: grid;  margin: 12px; padding: 12px ;}
 .grid-item{padding: 8px 0;}
 .tile {
     padding: 12px;
@@ -86,14 +96,14 @@ a:link, a:visited {
 .mod-content,
 .modal-content{
     position: relative;
-    margin: auto; top: 30%;     width: 70%; 
+    margin: 1em; padding: .5em; 
+    top: 30%; 
     background: white; overflow-y: auto;
     box-shadow: 4px 8px 16px 0px var(--shadow-color)
 }
-.modal-header {
-    margin:0; padding: 0.5em; 
-    background-color: var(--light-background);
-    color: var(--accent-color);
+.mod-header {
+    margin:8px 0; padding:8px 0; 
+    color: var(--lighter-text);
 }
 .modal-title{
     width: 95%; padding: 12px;
@@ -110,20 +120,55 @@ a:link, a:visited {
     z-index: 10;  }
 @media only screen and (min-width: 600px) {
 
-    body{
-        width: 70%;
-    }
-    .modal-form {
-        margin: 0 15%;
-        width: 70%;overflow: auto;
-    }
-    .avatar-small{width: 60px;}       
-    .div-signin{ width: 60%;    position: absolute; display: block; top: 100px;}
+body{
+    width: 70%;
+}
+.modal-form {
+    margin: 0 15%;
+    width: 70%;overflow: auto;
+}
+.mod-content{
+    margin: auto; padding: .5em; 
+    width: fit-content;
+    background: white; overflow-y: auto;
+    box-shadow: 4px 8px 16px 0px var(--shadow-color)
+}
+.avatar-small{width: 60px;}       
+.div-signin{ width: 60%;    position: absolute; display: block; top: 100px;}
 }
 
 
+/* External Code */
+.lds-dual-ring {
+    position: fixed; top: 40%;
+    width: 64px;
+    height: 64px;
+  }
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 6px solid #fff; 
+    border-color: var(--shadow-color) transparent var(--shadow-color) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+/* External code - end */
 
-
-
-
-
+/* Generic Decorations */
+.shdw{box-shadow: 1px 1px 8px 0px var(--shadow-color);}
+.bbdr {border-bottom: 2px solid var(--accent-color);}
+.flxr {justify-content: flex-end;}
+.flxm {justify-content:center;}
+.flxr {justify-content: flex-end;}
+/* Generic Decorations */

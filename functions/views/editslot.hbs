@@ -1,8 +1,8 @@
 <style>
     label {margin: 4px 0; padding-bottom: 0px;}
 </style>
-<form class="grid-default" style="  border: 1px solid var(--shadow-color);">
-    <input type="text" id="cus-name" placeholder="Customer Name"  >
+<form class="grid-default" style="border:1px solid var(--shadow-color);">
+    <input type="text" id="cus-name" placeholder="Customer Name" data-id="{{sid}}">
     <input type="text" id="cus-id" placeholder="Email / Phone number"  >
     <input type="text" id="svc-name" placeholder="Services Name" >    
     <div style="display: grid;">
@@ -27,11 +27,16 @@
         <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='none'">close</i>    
     </div>
 </div>
+<script src="./js/app.js"></script>
 <script>
 function delSlot(){
+    working("Deleting...");
     document.getElementById('confirm').style.display="none";
-    fetch('/delslot?id= {{sid}} ')
-    .then(res =>{ console.log(res)})
+    fetch("delslot?id="+document.getElementById('cus-name').getAttribute('data-id'))
+    .then(res =>{
+        if(res.status==200) window.location = "/skedules";
+        else console.log(res.status);
+        return;})
     .catch(err=>{ console.log(err)});
 }
 </script>

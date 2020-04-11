@@ -13,8 +13,15 @@ function initform(){
 function saveSlot(){
     if (!validate()) return;
     const options = {method:"POST", headers:{"content-type":"application/json"},body:JSON.stringify(data)};
-    fetch('/savebooking',options)
-    .then(res =>{ console.log(res)})
+    
+    working();
+
+    fetch('/saveslot',options)
+    .then(res =>{ 
+        if(res.status==200) window.location = "/skedules";
+        else console.log(res.status);
+        return;
+    })
     .catch(err=>{ console.log(err)});
 }
 function validate(){

@@ -19,19 +19,22 @@ const db = firebase.firestore();
 skedules.get("/skedules", (req,res) =>
 cors(req,res,() =>{
     const pid = req.query.pid;
+    let today = new Date(req.query.from);
+    if (today===null)
+        today = new Date();
+
     if(pid===null) 
         res.send("No pid specified...");
     else {
         // const colPath = "/appointments/" + pid + "/skeds";
-        
-        db.collection('appointments').orderBy('from').get().then(querySnapshot=>{
+        db.collection('appointments').
+            where('from','>=',today).orderBy('from').
+            get().then(querySnapshot=>{
             const colSkeds:{id:string,tstamp:number, date:string,from:string,to:Date,cusname:string,
                             cusid:string,svcname:string,svcid:string,status:string}[] =[];
             querySnapshot.forEach(doc=>{
                 const sked = doc.data();
                 sked.id = doc.id;
-                // console.log(doc);
-
                 const dt = sked.from.toDate();
                 let hh = dt.toLocaleTimeString().slice(0,2);
                 const mm = dt.toLocaleTimeString().slice(3,5);
@@ -56,7 +59,7 @@ cors(req,res,() =>{
         }   
     }));
 
-skedules.post('/savebooking',(req,res) =>
+skedules.post('/saveslot',(req,res) =>
 cors(req,res,()=>
     {   const data = req.body;
         const doc = {
@@ -78,13 +81,15 @@ cors(req,res,()=>
 skedules.get('/editslot',(req,res) =>
 cors(req,res,()=>
 {   res.set('content-type', 'text/html');
-    res.render('editslot');
+    res.render('editslot',{sid:req.query.id});
 }));
 
 skedules.get('/delslot',(req,res) =>
 cors(req,res,()=>
 {   res.set('content-type', 'text/html');
-    res.render('editslot',{sid:req.query.id});
+    db.doc("/appointments/" + req.query.id).delete()
+    .then(result =>{res.send("Deletion succeeded.")})
+    .catch(error =>{res.send("Deletion failed..." + error);})
 }));
 
 exports.skedules = functions.https.onRequest(skedules);

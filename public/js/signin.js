@@ -34,7 +34,3 @@ firebase.auth().onAuthStateChanged(user=>{
         btnSignUp.style.display="block";
     }
 })
-
-function signOut(){
-    auth.signOut();
-}
