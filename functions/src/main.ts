@@ -29,11 +29,13 @@ main.get('/delete',(req,res) =>
 cors(req,res,()=>
 {   const location = getlocation(req.query.type);
     const docid = req.query.id
+
+    res.set('content-type', 'text/html');
     
     if((!location) || (!docid))
         res.send ("doctype or docid is missing..");
 
-    res.set('content-type', 'text/html');
+    console.log(location + docid)
     db.doc(location + docid).delete()
     .then(result =>{res.send("Deletion succeeded.")})
     .catch(error =>{res.send("Deletion failed..." + error);})

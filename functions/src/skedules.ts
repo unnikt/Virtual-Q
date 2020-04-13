@@ -21,16 +21,13 @@ cors(req,res,() =>{
     const pid = req.query.pid;
     
     let from = new Date();
-    const to_dd = from.getDate();
-    const to_mm = from.getMonth();
-    const to_yy = from.getFullYear();
-    let to = new Date(to_yy,to_mm,to_dd+1);
-
-    if(req.query.from)
-        from = new Date(req.query.from);
-    if(req.query.to)
-        to = new Date(req.query.to);
-
+    if(req.query.from) from = new Date(req.query.from);
+    else from = new Date(from.getFullYear(),from.getMonth(),from.getDate());
+    
+    let to = new Date();
+    if(req.query.to) to = new Date(req.query.to);
+    else to = new Date(from.getFullYear(),from.getMonth(),from.getDate()+1); 
+    
     if(pid===null) 
         res.send("No pid specified...");
     else {

@@ -1,8 +1,15 @@
 <style>
     label {margin: 4px 0; padding-bottom: 0px;}
 </style>
+<div style="margin-top:1em; text-align: center; background:var(--light-background); ">
+    <i class="material-icons gicon-regular" >event </i>
+    <i class="material-icons gicon-regular" >search</i>    
+    <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
+    <i class="material-icons gicon-regular" >save</i>    
+    <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
+</div>  
 <form class="grid-default" style="border:1px solid var(--shadow-color);">
-    <input type="text" id="cus-name" placeholder="Customer Name" data-id="{{sid}}">
+    <input type="text" id="cus-name" placeholder="Customer Name">
     <input type="text" id="cus-id" placeholder="Email / Phone number"  >
     <input type="text" id="svc-name" placeholder="Services Name" >    
     <div style="display: grid;">
@@ -11,32 +18,13 @@
         <label for="dtto" >To</label>
         <input type="datetime-local"  id="dtto" > 
     </div>
-    <div style="margin-top:1em; text-align: center; background:var(--light-background); ">
-        <i class="material-icons gicon-regular" >event </i>
-        <i class="material-icons gicon-regular" >search</i>    
-        <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
-        <i class="material-icons gicon-regular" >save</i>    
-        <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
-    </div>  
 </form>
 <div id="confirm" class="mod-container">
     <div class="mod-content" style="text-align: center; width: 80%;">
         <span style='display:block;padding:2em 1em; color:var(--accent-color); '>Please confirm deletion</span>
         <hr>
-        <i class="material-icons gicon-regular" onclick='delSlot()'>check</i>    
+        <i class="material-icons gicon-regular" onclick="deldoc('appointment','{{sid}}')">check</i>    
         <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='none'">close</i>    
     </div>
 </div>
 <script src="./js/app.js"></script>
-<script>
-function delSlot(){
-    working("Deleting...");
-    document.getElementById('confirm').style.display="none";
-    fetch("delslot?id="+document.getElementById('cus-name').getAttribute('data-id'))
-    .then(res =>{
-        if(res.status==200) window.location = "/skedules";
-        else console.log(res.status);
-        return;})
-    .catch(err=>{ console.log(err)});
-}
-</script>

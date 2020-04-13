@@ -20,7 +20,6 @@ btnSignUp.addEventListener("click", e =>{
 });
 
 firebase.auth().onAuthStateChanged(user=>{
-    console.log(user);
     if(user)    {
         document.getElementById("signinform").style.display="none";
         document.getElementById("gridicons").style.display="grid";

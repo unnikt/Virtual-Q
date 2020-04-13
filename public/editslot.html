@@ -18,6 +18,14 @@
 <style>
     label {margin: 4px 0; padding-bottom: 0px;}
 </style>
+<div class="icons-bar flxr">
+    <i class="material-icons gicon-regular" >event </i>
+    <i class="material-icons gicon-regular" >search</i>    
+    <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
+    <i class="material-icons gicon-regular" id="btnSave">save</i>    
+    <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
+</div>
+
 <form class="grid-default" style="  border: 1px solid var(--shadow-color);">
     <input type="text"  id="cus-name" placeholder="Customer Name"  >
     <input type="text" id="cus-id" placeholder="Email / Phone number"  >
@@ -31,13 +39,6 @@
     <!-- <div class="grid-default" style="margin: 0;">
         <input id="btnSave" type="button" value="Save" style="width:5em;  grid-area: 1/1;" >   
     </div> -->
-    <div style="margin-top:1em; text-align: center; background:var(--light-background); ">
-        <i class="material-icons gicon-regular" >event </i>
-        <i class="material-icons gicon-regular" >search</i>    
-        <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
-        <i class="material-icons gicon-regular" id="btnSave">save</i>    
-        <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
-    </div>
     
 </form>
 

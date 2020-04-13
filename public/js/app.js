@@ -5,70 +5,6 @@ var gProviderID = "AUS-SYD-CAM-001";
 var gID = 0;
 
 
-function fbnGetServices(){
-    ajax("GET","getServices?pid=AUS-SYD-CAM-001","lstSvcs"); 
-}
-
-function addService(){
-    //Get values from the form
-    var zName = document.getElementById('Name').value;
-    var zDesc = document.getElementById('Desc').value;
-    var zPrice = document.getElementById('Price').value;
-
-    if(zName==""){
-        document.getElementById("Name").setAttribute("value","Cannot be empty..");
-        return;
-    }
-
-    // create the doc JSON object  ;
-    var data = {"pid":gProviderID,
-                doc:{"ServiceID":0,
-                "ServiceName":zName,
-                "ServiceDescription":zDesc,
-                "Price":zPrice}
-            };
-
-    console.log(JSON.stringify(data));
-    // ajax("GET","addService?pid="+gProviderID+"&doc="+doc,null);    
-    //Call fetch to send the form data
-    const options = {
-        method:"POST",
-        headers:{"content-type":"application/json"},
-        body:JSON.stringify(data)
-    };
-    fetch("./addService",options)
-        .then(response=>function(){
-            fbnGetServices(); //if promise fulfilled then refresh services list
-        });
-}
-
-function configService(){
-    if(gDelClicked){gDelClicked=false; return;}
-    alert(this.getAttribute("value"));
-    console.log(this.getAttribute("value"));
-}
-
-function removeService(ele){
-const sID = ele.id;
-ajax("GET","remService?pid=" + gProviderID+"&sid=" + sID,null);
-fbnGetServices();
-}
-
-// Call functions on the cloud
-function ajax(method,request,target){
-    const xhttp = new XMLHttpRequest ();
-    xhttp.onreadystatechange = function(){
-        if (this.readyState==4 && this.status==200){
-            if (target!=null)
-                document.getElementById(target).innerHTML = this.responseText;
-            else
-                return(this.readyState);
-        }
-    };
-    xhttp.open(method,request);
-    xhttp.send();
-    return("Request sent to server...");
-}
 function working(msg)
 {
     var mod_Container = document.getElementById('busy-bee');    
@@ -106,15 +42,13 @@ function showError(title,msg){
 }
 
 function deldoc(type, id){
+    working();
     fetch("/delete?type="+type+"&id="+id)
     .then (res =>{
-        if(res.status==200)
-            window.location="services"
-        else
-            showError('Error',"Deletion fialed...")
+        if(res.status==200) window.location="services"
+        else showError('Error',"Deletion fialed...")
     })
-    .catch (err =>{
-        console.log(err);
+    .catch (err =>{console.log(err);
     });
 
 }
