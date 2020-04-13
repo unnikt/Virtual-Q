@@ -36,7 +36,7 @@ cors(request,response,()=>{
         });
         // response.send("update..." + arrSvcs);
         // render the index handlbar
-        console.log(arrServices);
+        // console.log(arrServices);
         response.render('services',{arrServices:arrServices});
 
     })

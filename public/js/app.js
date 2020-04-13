@@ -104,3 +104,17 @@ function showError(title,msg){
     document.getElementById('msg').style.display = "block";
     modForm.style.display = "block";
 }
+
+function deldoc(type, id){
+    fetch("/delete?type="+type+"&id="+id)
+    .then (res =>{
+        if(res.status==200)
+            window.location="services"
+        else
+            showError('Error',"Deletion fialed...")
+    })
+    .catch (err =>{
+        console.log(err);
+    });
+
+}

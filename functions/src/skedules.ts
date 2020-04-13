@@ -19,17 +19,27 @@ const db = firebase.firestore();
 skedules.get("/skedules", (req,res) =>
 cors(req,res,() =>{
     const pid = req.query.pid;
-    let today = new Date(req.query.from);
-    if (today===null)
-        today = new Date();
+    
+    let from = new Date();
+    const to_dd = from.getDate();
+    const to_mm = from.getMonth();
+    const to_yy = from.getFullYear();
+    let to = new Date(to_yy,to_mm,to_dd+1);
+
+    if(req.query.from)
+        from = new Date(req.query.from);
+    if(req.query.to)
+        to = new Date(req.query.to);
 
     if(pid===null) 
         res.send("No pid specified...");
     else {
-        // const colPath = "/appointments/" + pid + "/skeds";
-        db.collection('appointments').
-            where('from','>=',today).orderBy('from').
-            get().then(querySnapshot=>{
+        db.collection('appointments')
+            .where('from','>=',from)
+            .where('from','<',to)
+            .orderBy('from')
+            .get()
+            .then(querySnapshot=>{
             const colSkeds:{id:string,tstamp:number, date:string,from:string,to:Date,cusname:string,
                             cusid:string,svcname:string,svcid:string,status:string}[] =[];
             querySnapshot.forEach(doc=>{

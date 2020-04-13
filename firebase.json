@@ -5,6 +5,7 @@
     "rewrites": [
       {"source":"/","destination": "index.html"},
       {"source":"/signout","function": "main"},
+      {"source":"/delete","function": "main"},
       {"source":"/skedules","function": "skedules"},
       {"source":"/saveslot","function": "skedules"},
       {"source":"/newslot","function": "skedules"},

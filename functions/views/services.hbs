@@ -6,9 +6,10 @@
     .gborder {box-shadow: 1px 1px 4px 1px var(--shadow-color);}
 </style>
 {{#each arrServices}}
-<div class="grid-default gborder">
-    <div class="svc gitem">{{name}}</div>
-    <div class="svc_id gitem">{{sid}}</div>
+<div class="grid shdw bbdr">
+    <div class="svc gitem">{{name}}
+        <i class=" material-icons" style="float:right;"  onclick="deldoc('{{sid}}')">delete</i>
+    </div>
     <div class="svc_desc gitem">{{desc}}</div>
 </div>
 {{/each}}
@@ -32,3 +33,4 @@
 </div>
 <button id="btnAdd" class="fab">+</button>
 <script src="js/services.js"></script>
+<script src="js/app.js"></script>
