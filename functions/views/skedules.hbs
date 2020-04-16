@@ -7,24 +7,15 @@
     .svc_details{ grid-area: 4 / 1 / span 2 / span 3; font-size: smaller; padding: 12px 0; }
     .gitem {padding: 8px 0;}
 </style>
-<div class="icons-bar flxr" >
-    <i class="material-icons" id="btnAdd" onclick="document.getElementById('picdate').style.display='block'">event</i>
+{{#with dtrange}}
+<div class="icons-bar flxr">
+    <input type="date" id="dtfrom" value='{{from}}'>
+    <label for="dtto">To</label>
+    <input type="date" id="dtto" value='{{to}}'>
+    <i class="material-icons flxr" id="btnAdd" onclick="loadslots()">autorenew</i>
     <i class="material-icons" id="btnAdd" onclick="window.location='newslot';">add</i>    
 </div>
-<div class="mod-container" id="picdate">
-    <div class="grid mod-content" >
-        <h3 class="mod-header bbdr">Pick a date range</h3>
-        <label for="dtfrom">From</label>
-        <input type="date" id="dtfrom" style="margin: auto;">
-        <label for="dtto">To</label>
-        <input type="date" id="dtto" style="margin: auto;">
-        <div class="icons-bar flxm">
-            <i class="material-icons" onclick="loadslots()">check</i>    
-            <i class="material-icons" onclick="document.getElementById('picdate').style.display='none'">close</i>        
-        </div>
-    </div>    
-</div>
-
+{{/with}}
 {{#each skeds}}
 <div class="grid bbdr shdw" data-tstamp="{{tstamp}}">
     <div class="cus-name gitem">{{cusname}}
@@ -40,14 +31,15 @@
 <script src="./js/app.js"></script>
 <script src="./js/dates.js"></script>
 <script>
-
-document.getElementById('dtfrom').setAttribute('value',getDate(new Date()));
-document.getElementById('dtto').setAttribute('value',getDate(new Date()));
-
+var dtfrom = document.getElementById('dtfrom');
+var dtto = document.getElementById('dtto');
+dtto.min = dtfrom.value;
+dtfrom.addEventListener('change', function(e){
+    dtto.value=dtfrom.value;
+    dtto.min = dtfrom.value;
+})
 function loadslots(){
     working();
-    const dtfrom = document.getElementById('dtfrom').value;
-    const dtto = document.getElementById('dtto').value;
-    window.location="skedules?from=" + dtfrom + "&to=" + dtto ;
+    window.location="skedules?from=" + dtfrom.value + "&to=" + dtto.value ;
 }
 </script>

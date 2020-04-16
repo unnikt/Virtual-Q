@@ -17,14 +17,14 @@
     .save {grid-area: 1/1; width: 100px;}
     .close {grid-area: 1/2; width: 100px; }
 </style>
-<div class="modal-form" id="modalform" >
-<div  class="modal-content"  >
-    <h3 class="modal-header">Create a new service</h3>
+<div class="mod-container" id="modalform" >
+<div  class="mod-content"  >
+    <h3 class="mod-header">Create a new service</h3>
     <form style="display: grid; padding:1em;">
         <input class="svc-name" type="text" id="Name" placeholder="Service Name" autofocus required>
         <textarea class="svc-desc" id="Desc" placeholder="Description"></textarea>
         <input class="svc-price" type="text" id="Price" placeholder="Price">
-        <div class="grid-default">
+        <div class="grid">
             <input class="save" type="button" id="btnSave" value="Save">
             <input class="close" type="button" value="Cancel" id="btnClose">    
         </div>

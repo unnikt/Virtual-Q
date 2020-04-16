@@ -15,8 +15,8 @@
 </style>
 </head>
 <body>
-<div class="grid-default" style="margin: 0; border:none;border-bottom: 1px solid var(--accent-color);">
-    <i onclick="window.location='index.html'" class="menu-icon item material-icons md-24 gicon-regular" >menu</i>
+<div class="grid bbdr">
+    <i onclick="window.location='index.html'" class="material-icons gicon-regular" >menu</i>
     <h3 class="gtitle">Virtual Q</h3>
     <img class="appimg" src="/img/undraw_stand_out_1oag.svg">
 </div>
@@ -27,48 +27,107 @@
     .time       { grid-area: 2 / 2 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
     .svc_name   { grid-area: 3 / 1 / span 1 / span 3; font-size: smaller; background:#eaeef0fb;}
     .svc_details{ grid-area: 4 / 1 / span 2 / span 3; font-size: smaller; padding: 12px 0; }
-    .gitem {padding: 8px 0;}
 </style>
-<div class="icons-bar flxr" style="display: flex;">
-        <i class="material-icons flxr" id="btnAdd" onclick="document.getElementById('picdate').style.display='block'">event</i>
-        <i class="material-icons flxr" id="btnAdd" onclick="window.location='newslot';">add</i>        
+<div class="icons-bar flxr">
+    <input type="date" id="dtfrom" value='2020-03-01'>
+    <label for="dtto">To</label>
+    <input type="date" id="dtto" value='2020-04-17'>
+    <i class="material-icons flxr" id="btnAdd" onclick="loadslots()">autorenew</i>
+    <i class="material-icons" id="btnAdd" onclick="window.location='newslot';">add</i>    
 </div>
-<div class="mod-container" id="picdate">
-    <div class="grid mod-content" >
-        <h3 class="mod-header bbdr">Pick a date range</h3>
-        <label for="dtfrom">From</label>
-        <input type="date" id="dtfrom" style="margin: auto;">
-        <label for="dtto">To</label>
-        <input type="date" id="dtto" style="margin: auto;">
-        <div class="icons-bar flxm">
-            <i class="material-icons" onclick="loadslots()">check</i>    
-            <i class="material-icons" onclick="document.getElementById('picdate').style.display='none'">close</i>        
-        </div>
-    </div>    
+<div class="grid bbdr shdw" data-tstamp="1583914920000">
+    <h2 class="cus-name gitem">Keshav
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=Ux5orfHg8osahgfiOZFe'">edit</i>
+    </h2>
+    <p class="date ">Wed Mar 11 2020</p>
+    <p class="status ">Checked in</p>
+    <p class="time ">08:22 AM</p>
+    <span class="svc_name ">Unnikrishnan</span>
+    <p class="svc_details ">Instructor: Kevin Warrel, Aircraft: LJL</p>       
 </div>
-
-<div class="grid-default bbdr shdw" data-tstamp="1589097240000">
-    <div class="cus-name gitem">Unnikrishnan Thottathil
-        <i class=" material-icons" style="float:right;" onclick="window.location='editslot?id=FSdtBJpc868BKEpxTpBg'">edit</i>
+<div class="grid bbdr shdw" data-tstamp="1584230400000">
+    <div class="cus-name gitem">Unni T
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=ATVKRsN65ZvPC61PcPWu'">edit</i>
     </div>
-    <div class="date gitem">Sun May 10 2020</div>
+    <div class="date gitem">Sun Mar 15 2020</div>
     <div class="status gitem">Checked in</div>
-    <div class="time gitem">07:54 AM</div>
+    <div class="time gitem">00:00 AM</div>
     <div class="svc_name gitem">PPL training</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+<div class="grid bbdr shdw" data-tstamp="1584925200000">
+    <div class="cus-name gitem">Barack
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=xla6ZOcby4skWMsUwysk'">edit</i>
+    </div>
+    <div class="date gitem">Mon Mar 23 2020</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">01:00 AM</div>
+    <div class="svc_name gitem">Obama</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+<div class="grid bbdr shdw" data-tstamp="1584936000000">
+    <div class="cus-name gitem">Thomas Edison
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=D1V2UxAZJvFVJKT5WCaJ'">edit</i>
+    </div>
+    <div class="date gitem">Mon Mar 23 2020</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">04:00 AM</div>
+    <div class="svc_name gitem">Inventor</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+<div class="grid bbdr shdw" data-tstamp="1586515200000">
+    <div class="cus-name gitem">Samuel Baxter
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=gg1yFKRA4wajTM5FfN1W'">edit</i>
+    </div>
+    <div class="date gitem">Fri Apr 10 2020</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">10:40 AM</div>
+    <div class="svc_name gitem">John Baxter</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+<div class="grid bbdr shdw" data-tstamp="1586588880000">
+    <div class="cus-name gitem">John Baxter
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=aMbRSOpUWfOzNEInxWkP'">edit</i>
+    </div>
+    <div class="date gitem">Sat Apr 11 2020</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">07:08 AM</div>
+    <div class="svc_name gitem">John Baxter</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+<div class="grid bbdr shdw" data-tstamp="1586588940000">
+    <div class="cus-name gitem">Keshav Unnikrishnan
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=Zd3kcAPs8BKe7hweMzCR'">edit</i>
+    </div>
+    <div class="date gitem">Sat Apr 11 2020</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">07:09 AM</div>
+    <div class="svc_name gitem">John Baxter</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+<div class="grid bbdr shdw" data-tstamp="1586675460000">
+    <div class="cus-name gitem">Rekha Nelliyattukandiyil
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id=fSFNrWDSmSPp28unN3VY'">edit</i>
+    </div>
+    <div class="date gitem">Sun Apr 12 2020</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">07:11 AM</div>
+    <div class="svc_name gitem">John Baxter</div>
     <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
 </div>
 <script src="./js/app.js"></script>
 <script src="./js/dates.js"></script>
 <script>
-
-document.getElementById('dtfrom').setAttribute('value',getDate(new Date()));
-document.getElementById('dtto').setAttribute('value',getDate(new Date()));
-
+var dtfrom = document.getElementById('dtfrom');
+var dtto = document.getElementById('dtto');
+dtto.min = dtfrom.value;
+dtfrom.addEventListener('change', function(e){
+    dtto.value=dtfrom.value;
+    dtto.min = dtfrom.value;
+})
 function loadslots(){
     working();
-    const dtfrom = document.getElementById('dtfrom').value;
-    const dtto = document.getElementById('dtfrom').value;
-    window.location="skedules?from=" + dtfrom + "&to=" + dtto ;
+    window.location="skedules?from=" + dtfrom.value + "&to=" + dtto.value ;
 }
 </script>
 </body>

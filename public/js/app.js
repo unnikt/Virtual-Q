@@ -41,11 +41,11 @@ function showError(title,msg){
     modForm.style.display = "block";
 }
 
-function deldoc(type, id){
+function deldoc(type, id, target ){
     working();
     fetch("/delete?type="+type+"&id="+id)
     .then (res =>{
-        if(res.status==200) window.location="services"
+        if(res.status==200) window.location=target;
         else showError('Error',"Deletion fialed...")
     })
     .catch (err =>{console.log(err);

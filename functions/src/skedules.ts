@@ -27,6 +27,13 @@ cors(req,res,() =>{
     let to = new Date();
     if(req.query.to) to = new Date(req.query.to);
     else to = new Date(from.getFullYear(),from.getMonth(),from.getDate()+1); 
+
+    const sfrom = from.getFullYear() + '-' + 
+                ('0' + (from.getMonth() + 1)).slice(-2) + '-' + ('0' + from.getDate()).slice(-2);
+    const sto = to.getFullYear() + '-' + 
+                ('0' + (to.getMonth() + 1)).slice(-2) + '-' + ('0' + to.getDate()).slice(-2);
+
+    const dtrange = {from:sfrom, to:sto};
     
     if(pid===null) 
         res.send("No pid specified...");
@@ -58,7 +65,7 @@ cors(req,res,() =>{
                     status:sked.status});
             });
             res.set('content-type', 'text/html');
-            res.render('skedules',{skeds:colSkeds});
+            res.render('skedules',{skeds:colSkeds,dtrange:dtrange});
         })
         .catch(error=>{
             res.send(error);
