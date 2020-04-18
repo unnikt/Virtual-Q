@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sign In</title>
     <link rel="shortcut icon" href="">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Acme&family=Roboto+Slab&display=swap" rel="stylesheet">    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link href="https://www.gstatic.com/">   
@@ -25,11 +25,14 @@
 </style>
   </head>
   <body>
-  <div class="grid bbdr" >
+  <div class="grid bbdr-12" >
     <i class="material-icons gicon-regular" >menu</i>
     <h3 class="gtitle">Virtual Q</h3>
-    <img class="appimg" src="/img/undraw_stand_out_1oag.svg">
   </div>
+  <div id="banner">
+    <img src="d:/Developer/firebase/Checkinapp/public/img/undraw_stand_out_1oag.png" alt="" style="width:90%; margin:auto 5%;">
+  </div>
+
   <form  id="signinform" style="display: none;" >
     <div class="grid"  >
       <h2>Sign in</h2>
@@ -40,7 +43,7 @@
       <p  type="text" id="errMsg"></p>  
     </div>
   </form>
-  <div id="gridicons" class="grid" style="display: none;">
+  <div id="gridicons" class="grid" >
     <a class="tile bbdr" href="/skedules">Appointments</a>
     <a class="tile bbdr" href="/services">Services</a>
     <a class="tile bbdr" href="settings.html">Settings</a>
