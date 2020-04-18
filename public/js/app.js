@@ -8,7 +8,7 @@ const busybee = "<div style='display: flex;justify-content: center;'> \
                     <div class='lds-dual-ring'></div> \
                 </div>";
 
-function working(msg)
+function spinner(msg)
 {   var mod_Container = document.getElementById('busy-bee');    
     if(mod_Container==null){
         mod_Container = document.createElement('div');
@@ -42,7 +42,7 @@ function showError(title,msg){
 }
 
 function deldoc(type, id, target ){
-    working();
+    spinner();
     fetch("/delete?type="+type+"&id="+id)
     .then (res =>{
         if(res.status==200) window.location=target;

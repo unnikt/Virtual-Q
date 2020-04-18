@@ -16,6 +16,15 @@ body{
     margin:auto;
     overflow-x: hidden;
 }
+.apptitle {font-family: 'Fredoka One', cursive;
+    grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color); text-align: start;}
+
+.menu-icon {grid-area: 1/1/span 1 / span 1;}
+.gtitle {font-family: 'Fredoka One', cursive;
+    grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color);}
+.appimg {grid-area: 1/12/span 1 / span 1; height: 50px; padding: 0;}
+
+
 button, input[type=button]{
     outline: none; display: block;
     border: none; border-radius: 5px;
@@ -87,6 +96,7 @@ label {padding: 12px; font-size: 1em;}
     padding: 12px;
     margin: 0 12px;  text-decoration: none;
     color: var(--primary-color);
+    font-size: 1.1em;
 }
 
 .tile > a:link, a:visited {
@@ -169,12 +179,13 @@ body{
   @keyframes lds-dual-ring {
     0% {
       transform: rotate(0deg);
-      border-color: var(--primary-color) transparent var(--accent-color) transparent;
-      background: var(--shadow-color);
+      border-color: var(--primary-color) transparent tomato transparent;
+      background: lightgrey;
 
     }
     100% {
       transform: rotate(360deg);
+
     }
   }
   
@@ -187,4 +198,5 @@ body{
 .flxr {justify-content: flex-end;}
 .flxm {justify-content:center;}
 .flxr {justify-content: flex-end;}
+.fnt-fredo{font-family: 'Fredoka One', cursive;}
 /* Generic Decorations */

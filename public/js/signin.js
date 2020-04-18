@@ -12,5 +12,5 @@ auth.onAuthStateChanged(user=>{
         document.getElementById("gridicons").style.display="none";
         document.getElementById("errMsg").innerText="Please sign in..";
     }
-    document.getElementById("banner").style.display='none';
+    // document.getElementById("banner").style.display='none';
 })

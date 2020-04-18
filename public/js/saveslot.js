@@ -14,7 +14,7 @@ function saveSlot(){
     if (!validate()) return;
     const options = {method:"POST", headers:{"content-type":"application/json"},body:JSON.stringify(data)};
     
-    working();
+    spinner();
 
     fetch('/saveslot',options)
     .then(res =>{ 
