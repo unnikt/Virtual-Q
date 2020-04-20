@@ -1,0 +1,45 @@
+<style>
+    .cus-name   { grid-area: 1 / 1 / span 1 / span 3; font-weight:bold; color: var(--accent-color);}
+    .status     { grid-area: 2 / 3 / span 1 / span 1; font-size: x-small; color: green;}
+    .date       { grid-area: 2 / 1 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
+    .time       { grid-area: 2 / 2 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
+    .svc_name   { grid-area: 3 / 1 / span 1 / span 3; font-size: smaller; background:#eaeef0fb;}
+    .svc_details{ grid-area: 4 / 1 / span 2 / span 3; font-size: smaller; padding: 12px 0; }
+    .gitem {padding: 8px 0;}
+</style>
+{{#with dtrange}}
+<div class="icons-bar flxr">
+    <input type="date" id="dtfrom" value='{{from}}'>
+    <label for="dtto">To</label>
+    <input type="date" id="dtto" value='{{to}}'>
+    <i class="material-icons flxr" id="btnAdd" onclick="loadslots()">autorenew</i>
+    <i class="material-icons" id="btnAdd" onclick="window.location='newslot';">add</i>    
+</div>
+{{/with}}
+{{#each skeds}}
+<div class="grid bbdr shdw" data-tstamp="{{tstamp}}">
+    <div class="cus-name gitem">{{cusname}}
+        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id={{id}}'">edit</i>
+    </div>
+    <div class="date gitem">{{date}}</div>
+    <div class="status gitem">Checked in</div>
+    <div class="time gitem">{{from}}</div>
+    <div class="svc_name gitem">{{svcname}}</div>
+    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>       
+</div>
+{{/each}}
+<script src="./js/app.js"></script>
+<script src="./js/dates.js"></script>
+<script>
+var dtfrom = document.getElementById('dtfrom');
+var dtto = document.getElementById('dtto');
+dtto.min = dtfrom.value;
+dtfrom.addEventListener('change', function(e){
+    dtto.value=dtfrom.value;
+    dtto.min = dtfrom.value;
+})
+function loadslots(){
+    spinner();
+    window.location="skedules?from=" + dtfrom.value + "&to=" + dtto.value ;
+}
+</script>

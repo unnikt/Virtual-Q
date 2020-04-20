@@ -1,0 +1,25 @@
+<div id="banner">
+  <img src="img/undraw_stand_out_1oag.svg" alt="" style="width:90%; margin:auto 5%;">
+</div>
+<form>
+  <div class="grid-default" id="signinform" style="display: none;">
+    <input  class="email" type="email"    id="email" placeholder="Email">
+    <input  class="pwd" type="password" id="password" placeholder="Password">
+    <input  class="sign-in" type="button"   id="btnSignIn" value="Sign In" >  
+    <input  class="sign-up" type="button"   id="btnSignUp" value="Sign Up" >  
+    <p  class="errMsg" type="text" id="errMsg"></p>  
+  </div>
+</form>
+<div id="gridicons" class="grid" >
+  <a class="tile bbdr fnt-fredo " href="/skedules">Appointments</a>
+  <a class="tile bbdr fnt-fredo" href="/services">Services</a>
+  <a class="tile bbdr fnt-fredo" href="settings.html">Settings</a>
+  <a class="tile bbdr fnt-fredo" onclick="auth.signOut()">Log out</a>
+</div>
+<script>
+  var bSignOut = true;
+  const page = 'signin';
+</script>
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+<script src="js/signin.js" ></script>

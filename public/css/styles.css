@@ -1,0 +1,243 @@
+:root{
+    --primary-color:#2157b4; 
+    --accent-color:#607d8b; /*#f44336;*/
+    --secondary-color: #f1cdcb;
+    --shadow-color:#b8b7b7;
+    --light-background:#e9eff0;
+    --lighter-text: #807373;
+    --border-color: #f0ac5e;/*#2d56dd;*/
+}
+*{
+    font-family: 'Montserrat';
+    font-family: 'Acme', sans-serif;
+    font-family: 'Roboto Slab', serif;
+}
+body{
+    margin:auto;
+    overflow-x: hidden;
+}
+/* Start - Full screen menu */
+.overlay {
+    height: 100%;  width: 0;
+    position: fixed; z-index: 1;
+    top: 0; left: 0;
+    background-color:var(--accent-color);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+  
+.overlay-content {
+    position: relative;
+    top: 20%;  width: 100%;
+    text-align: center;
+}
+.overlay a {
+    color:white;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px; right: 45px;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+.theme {position: fixed;
+    margin: auto;width: 100%;
+    bottom: 10%; padding: 1em;
+    color: white; 
+    font-size: 1em;
+    border-top: 12px solid white;}
+
+/* End - Full screen menu  */
+
+.apptitle {font-family: 'Fredoka One', cursive; font-size: 1.5em;
+    grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color); text-align: start;}
+
+.menu-icon {grid-area: 1/1/span 1 / span 1;}
+.appimg {grid-area: 1/12/span 1 / span 1; height: 50px; padding: 0;}
+
+
+button, input[type=button]{
+    outline: none; display: block;
+    border: none; border-radius: 5px;
+    margin:12px auto; padding:12px 20px;
+    background:var(--accent-color); color: white;
+    font-size: 1em;
+    box-shadow: 2px 2px 4px 0px var(--accent-color);
+}
+button:focus,button:hover, 
+input[type=button]:hover,
+input[type=button]:focus{
+    box-shadow: 0px 0px 0px 0px var(--shadow-color);
+}
+input[type=date],input[type=datetime-local],
+input[type=email],input[type=password], 
+input[type=text],textarea{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 16px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    box-sizing: border-box;outline: none; 
+    border: 0;border-bottom: 1px solid var(--accent-color);
+    font-size: 1em; padding: 12px;
+}
+input[type=date],input[type=datetime-local]{
+    background: white;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+i{  margin:0.1em; padding:.2em; 
+    width: fit-content; height: fit-content; 
+    color:var(--primary-color); 
+    /* box-shadow: 1px 1px 8px 0px var(--shadow-color); */
+    /* border-radius: 5px; */
+    cursor: pointer;
+}
+.icons-bar {
+    display: flex;
+    margin:12px;justify-content:flex-start;
+    font-size: 12px;}
+.gicon-regular{
+    font-size: 2em; padding: 12px;text-align: center;
+    color:var(--primary-color);
+}
+.gicon-large {
+    color:var(--primary-color);
+    padding: 12px; font-size: 2em;
+}
+.gicon-fab{
+    position: fixed; bottom:2%; right:2%;
+    font-size: 48px; margin: 0;
+    color:var(--primary-color);
+    box-shadow: 0px 8px 16px 0px hsla(0, 0%, 0%, 0.2);
+    border-radius: 50%;
+}
+label {padding: 12px; font-size: 1em;}
+
+/* default Grid */
+
+.grid,.grid-default{display: grid;  margin: 12px; padding: 12px ;}
+.grid-item{padding: 8px 0;}
+.tile {
+    padding: 12px;
+    margin: 0 12px;  text-decoration: none;
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+.tile > a:link, a:visited {
+    text-align: center;text-decoration: none;
+  }
+
+/* --------------------------------------------------- */
+.mod-container,
+.modal-form{
+    display: none; /* Hidden by default */
+    position: fixed;top: 0; left: 0;   /* Stay in place */
+    z-index: 2; /* Sit on top */
+    width:100%; /* Full width */
+    height: 100%; /* Full height */
+    margin:auto;
+    overflow: hidden; /* Enable scroll if needed */
+    background:transparent; /* rgb(255, 255, 255); /* Fallback color */
+}
+.mod-content,
+.modal-content{
+    position: relative;
+    margin: 1em; padding: .5em; 
+    top: 30%; 
+    background: white; overflow-y: auto;
+    box-shadow: 4px 8px 16px 0px var(--shadow-color)
+}
+.mod-header {
+    margin:8px 0; padding:8px 0; 
+    color: var(--lighter-text);
+}
+.modal-title{
+    width: 95%; padding: 12px;
+    font-size:small; font-weight: bold;
+}
+.menuicon{
+    width: 10%;
+}
+.fab{position: fixed;
+    bottom: 1%; right: 5%;
+    min-width: 1em; font-size:2em;
+    background: var(--accent-color);
+    padding: 0;
+    z-index: 10;  }
+@media only screen and (min-width: 600px) {
+
+body{
+    width: 70%;
+}
+.modal-form {
+    margin: 0 15%;
+    width: 70%;overflow: auto;
+}
+.mod-content{
+    margin: auto; padding: .5em; 
+    width: fit-content;
+    background: white; overflow-y: auto;
+    box-shadow: 4px 8px 16px 0px var(--shadow-color)
+}
+.avatar-small{width: 60px;}       
+.div-signin{ width: 60%;    position: absolute; display: block; top: 100px;}
+}
+
+
+/* External Code */
+.lds-dual-ring {
+    position: fixed; top: 50%;left:40%;
+    width: 64px;
+    height: 64px;
+  }
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 6px solid #fff; 
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+      border-color: var(--primary-color) transparent tomato transparent;
+      background: lightgrey;
+
+    }
+    100% {
+      transform: rotate(360deg);
+
+    }
+  }
+  
+/* External code - end */
+
+/* Generic Decorations */
+.shdw{box-shadow: 1px 1px 8px 0px var(--shadow-color);}
+.bbdr {border-bottom: 2px solid var(--accent-color);}
+.bbdr-12 {border-bottom: 12px solid var(--accent-color);}
+.flxr {justify-content: flex-end;}
+.flxm {justify-content:center;}
+.flxr {justify-content: flex-end;}
+.fnt-fredo{font-family: 'Fredoka One', cursive;}
+/* Generic Decorations */

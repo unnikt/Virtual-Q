@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign In</title>
+    <link rel="shortcut icon" href="">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://www.gstatic.com/">   
+    <link rel="stylesheet" href="css/styles.css">
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="/__/firebase/7.9.1/firebase-app.js"></script>
+<!-- Add Firebase products that you want to use -->
+<script src="/__/firebase/7.9.1/firebase-auth.js"></script>
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+
+  </head>
+  <body>
+  <div class="grid bbdr-12" >
+    <i class="material-icons gicon-regular" >menu</i>
+    <h3 class="apptitle">Viritual.Q</h3>
+  </div>
+  <div id="banner">
+    <img src="img/undraw_stand_out_1oag.svg" alt="" style="width:90%; margin:auto 5%;">
+  </div>
+
+  </div>
+  <form  id="signinform" style="display: none;" >
+    <div class="grid"  >
+      <h2>Sign in</h2>
+      <input type="email" id="email" placeholder="Email" autocomplete="email">
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+      <input type="button"   id="btnSignIn" value="Sign In" >  
+      <a href="signup.html" style="color:dodgerblue">Sign up</a>
+      <p  type="text" id="errMsg"></p>  
+    </div>
+  </form>
+  <div id="gridicons" class="grid" >
+    <a class="tile bbdr fnt-fredo " href="/skedules">Appointments</a>
+    <a class="tile bbdr fnt-fredo" href="/services">Services</a>
+    <a class="tile bbdr fnt-fredo" href="settings.html">Settings</a>
+    <a class="tile bbdr fnt-fredo" onclick="auth.signOut()">Log out</a>
+  </div>
+
+<script src="js/signin.js" ></script>
+<script>
+const page = 'signin';
+// Sign In event
+document.getElementById('btnSignIn').addEventListener("click", e => {
+    e.preventDefault();
+    auth.signInWithEmailAndPassword
+    (document.getElementById("email").value,document.getElementById("password").value)
+    .catch(e => errMsg.innerText = e.message);
+});
+</script>
+</body>
+</html>
