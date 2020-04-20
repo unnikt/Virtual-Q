@@ -21,11 +21,11 @@ cors(req,res,() =>{
     const pid = req.query.pid;
     
     let from = new Date();
-    if(req.query.from) from = new Date(req.query.from);
+    if(req.query.from) from = new Date(req.query.from.toString());
     else from = new Date(from.getFullYear(),from.getMonth(),from.getDate());
     
     let to = new Date();
-    if(req.query.to) to = new Date(req.query.to);
+    if(req.query.to) to = new Date(req.query.to.toString());
     else to = new Date(from.getFullYear(),from.getMonth(),from.getDate()+1); 
 
     const sfrom = from.getFullYear() + '-' + 

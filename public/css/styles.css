@@ -16,12 +16,54 @@ body{
     margin:auto;
     overflow-x: hidden;
 }
-.apptitle {font-family: 'Fredoka One', cursive;
+/* Start - Full screen menu */
+.overlay {
+    height: 100%;  width: 0;
+    position: fixed; z-index: 1;
+    top: 0; left: 0;
+    background-color:var(--accent-color);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+  
+.overlay-content {
+    position: relative;
+    top: 20%;  width: 100%;
+    text-align: center;
+}
+.overlay a {
+    color:white;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px; right: 45px;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+.theme {position: fixed;
+    margin: auto;width: 100%;
+    bottom: 10%; padding: 1em;
+    color: white; 
+    font-size: 1em;
+    border-top: 12px solid white;}
+
+/* End - Full screen menu  */
+
+.apptitle {font-family: 'Fredoka One', cursive; font-size: 1.5em;
     grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color); text-align: start;}
 
 .menu-icon {grid-area: 1/1/span 1 / span 1;}
-.gtitle {font-family: 'Fredoka One', cursive;
-    grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color);}
 .appimg {grid-area: 1/12/span 1 / span 1; height: 50px; padding: 0;}
 
 
@@ -72,7 +114,7 @@ i{  margin:0.1em; padding:.2em;
     margin:12px;justify-content:flex-start;
     font-size: 12px;}
 .gicon-regular{
-    font-size: 1.5em; padding: 12px;text-align: center;
+    font-size: 2em; padding: 12px;text-align: center;
     color:var(--primary-color);
 }
 .gicon-large {
@@ -96,11 +138,11 @@ label {padding: 12px; font-size: 1em;}
     padding: 12px;
     margin: 0 12px;  text-decoration: none;
     color: var(--primary-color);
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 .tile > a:link, a:visited {
-    /* color: white; */
+    color: white;
     text-align: center;text-decoration: none;
   }
 

@@ -37,7 +37,7 @@
     </label>
     <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
     <div style="display: flex;">
-      <button onclick="window.location='index.html'">Cancel</button>
+      <button onclick="window.location='/'">Cancel</button>
       <button id='btnSignUp'>Sign Up</button>
     </div>
   </div>
@@ -56,7 +56,7 @@ document.getElementById('btnSignUp').addEventListener("click", e =>{
   spinner();
   auth.createUserWithEmailAndPassword(email,psw)
     .then (res =>{
-      window.location="index"
+      window.location="/"
     })
     .catch(e => errMsg.innerText=e.message)
 });

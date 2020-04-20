@@ -2,7 +2,7 @@ const auth = firebase.auth();
 var bLoggedIn = false;
 
 auth.onAuthStateChanged(user=>{
-    if (page==='signup') window.location='index.html';
+    if (page==='signup') window.location='index';
     if(user)    {
         document.getElementById("signinform").style.display="none";
         document.getElementById("gridicons").style.display="grid";
