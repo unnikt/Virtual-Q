@@ -8,8 +8,12 @@ const busybee = "<div style='display: flex;justify-content: center;'> \
                     <div class='lds-dual-ring'></div> \
                 </div>";
 
-function spinner(msg)
-{   var mod_Container = document.getElementById('busy-bee');    
+function spinner(action)
+{   var mod_Container = document.getElementById('busy-bee');
+    if(action=="stop") {
+        if(mod_Container!=null) mod_Container.parentNode.removeChild(mod_Container);
+        return; 
+    }
     if(mod_Container==null){
         mod_Container = document.createElement('div');
         mod_Container.setAttribute('class', "mod-container");
@@ -42,7 +46,7 @@ function showError(title,msg){
 }
 
 function deldoc(type, id, target ){
-    spinner();
+    spinner("start");
     fetch("/delete?type="+type+"&id="+id)
     .then (res =>{
         if(res.status==200) window.location=target;

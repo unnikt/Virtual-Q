@@ -1,12 +1,12 @@
 import express = require('express');
 import hbEngine = require('express-handlebars');
 import * as corsMod from 'cors';
-import firebase = require('firebase-admin');
+// import firebase = require('firebase-admin');
 import * as functions from 'firebase-functions';
 
 const main = express();
 const cors = corsMod({origin:true});
-const db = firebase.firestore();
+// const db = firebase.firestore();
 
 //Set up view engine
 main.engine('hbs', hbEngine({extname:'hbs',
@@ -29,28 +29,28 @@ main.get('/signout', (request, response)=>{
 })
 });
 
-main.get('/delete',(req,res) =>
-cors(req,res,()=>
-{   const location = getlocation(req.query.type.toString());
-    const docid = req.query.id;
-    res.set('content-type', 'text/html');
-    if((!location) || (!docid))
-        res.send ("doctype or docid is missing..");
-    db.doc(location + docid).delete()
-    .then(result =>{res.send("Deletion succeeded.")})
-    .catch(error =>{res.send("Deletion failed..." + error);})
-}));
+// main.get('/delete',(req,res) =>
+// cors(req,res,()=>
+// {   const location = getlocation(req.query.type.toString());
+//     const docid = req.query.id;
+//     res.set('content-type', 'text/html');
+//     if((!location) || (!docid))
+//         res.send ("doctype or docid is missing..");
+//     db.doc(location + docid).delete()
+//     .then(result =>{res.send("Deletion succeeded.")})
+//     .catch(error =>{res.send("Deletion failed..." + error);})
+// }));
 
-function getlocation(doctype:string){
-    switch(doctype){
-        case('appointment'):
-            return ("/appointments/");
-        case('service'):
-            return ('/providers/AUS-SYD-CAM-001/services/');
-        case('provider'):
-            return ('/providers/');
-    }
-    return("");
-}
+// function getlocation(doctype:string){
+//     switch(doctype){
+//         case('appointment'):
+//             return ("/appointments/");
+//         case('service'):
+//             return ('/providers/AUS-SYD-CAM-001/services/');
+//         case('provider'):
+//             return ('/providers/');
+//     }
+//     return("");
+// }
 
 exports.main = functions.https.onRequest(main);

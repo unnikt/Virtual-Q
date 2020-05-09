@@ -15,13 +15,15 @@
     "rewrites": [
       {"source":"/","function": "main"},
       {"source":"/signout","function": "main"},
-      {"source":"/delete","function": "main"},
+      {"source":"/add","function": "dbstore"},
+      {"source":"/delete","function": "dbstore"},
       {"source":"/skedules","function": "skedules"},
       {"source":"/saveslot","function": "skedules"},
       {"source":"/newslot","function": "skedules"},
       {"source":"/editslot","function": "skedules"},
       {"source":"/delslot","function": "skedules"},
       {"source":"/services","function": "services"},
+      {"source":"/createsp","function": "services"},
       {"source":"/addservice","function": "services"},
       {"source":"/remservice","function": "services"},
       {"source":"/editservice","function": "services"}

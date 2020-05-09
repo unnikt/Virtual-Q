@@ -99,4 +99,8 @@ services.get('/editservice',(request,response)=>{
       response.send("updServiceTS");
 });
 
+services.get('/createsp',(request,response)=>{
+    response.render('createsp');
+});
+
 exports.services = functions.https.onRequest(services);

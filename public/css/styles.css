@@ -15,6 +15,10 @@
 body{
     margin:auto;
     overflow-x: hidden;
+    /* background:url(../img/undraw_stand_out_1oag.svg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
 }
 /* Start - Full screen menu */
 .overlay {
@@ -70,7 +74,7 @@ body{
 button, input[type=button]{
     outline: none; display: block;
     border: none; border-radius: 5px;
-    margin:12px auto; padding:12px 20px;
+    margin:12px auto; padding:12px;
     background:var(--accent-color); color: white;
     font-size: 1em;
     box-shadow: 2px 2px 4px 0px var(--accent-color);
@@ -80,8 +84,11 @@ input[type=button]:hover,
 input[type=button]:focus{
     box-shadow: 0px 0px 0px 0px var(--shadow-color);
 }
+
+button:disabled{opacity: 50%;box-shadow: none;}
+
 input[type=date],input[type=datetime-local],
-input[type=email],input[type=password], 
+input[type=email],input[type=password],input[type=tel],  
 input[type=text],textarea{
     width: 100%;
     padding: 15px;
@@ -130,9 +137,23 @@ i{  margin:0.1em; padding:.2em;
 }
 label {padding: 12px; font-size: 1em;}
 
+/* START: Accordion class */
+.acc {
+    margin-top:4px; margin-bottom: 4px; padding: 1em;
+    font-size: .8em;
+    background: var(--light-background);
+}
+.acc-cntnt {
+    display: none;
+    margin-top:0; margin-bottom: 0;
+}
+
+/* END: Accordion class */
+
+
 /* default Grid */
 
-.grid,.grid-default{display: grid;  margin: 12px; padding: 12px ;}
+.grid,.grid-default{display: grid;  margin: 12px; padding: 12px ; background: white; }
 .grid-item{padding: 8px 0;}
 .tile {
     padding: 12px;
@@ -233,7 +254,9 @@ body{
 /* External code - end */
 
 /* Generic Decorations */
+.hide {display: none;}
 .shdw{box-shadow: 1px 1px 8px 0px var(--shadow-color);}
+.nbdr {border: 1px solid var(--accent-color);}
 .bbdr {border-bottom: 2px solid var(--accent-color);}
 .bbdr-12 {border-bottom: 12px solid var(--accent-color);}
 .flxr {justify-content: flex-end;}

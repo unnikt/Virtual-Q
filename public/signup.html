@@ -43,9 +43,19 @@
   </div>
 </form>
 <script src="js/app.js"></script>
+<script src="js/dbstore.js"></script>
 <script>
 const auth = firebase.auth();
 const page = 'signup';
+var newDoc = {
+  "type":"",
+  "doc": {
+    "pid":"AUS-SYD-CAM-001",
+    "name": "Curtis aviation",
+    "email": "",
+    "phone": "04 12 345 678"
+  }
+};
 // Sign Up event
 document.getElementById('btnSignUp').addEventListener("click", e =>{
   const email = document.getElementById("email").value;
@@ -56,9 +66,12 @@ document.getElementById('btnSignUp').addEventListener("click", e =>{
   spinner();
   auth.createUserWithEmailAndPassword(email,psw)
     .then (res =>{
+      newDoc.type = "provider"; 
+      newDoc.doc.email = email; 
+      addDoc(newDoc);
       window.location="/"
     })
-    .catch(e => errMsg.innerText=e.message)
+    .catch(e => console.log(e.message))
 });
 </script>
 </body>
