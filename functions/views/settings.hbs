@@ -1,0 +1,23 @@
+<div class="grid">
+    <h3>Manage</h3>
+    <p class="acc bbdr ">User Profile</p>
+    <div>
+        <p class="acc bbdr " onclick="toggle('div01')">Service Provider Account</p>
+        <div class="acc-cntnt" id="div01">
+            <button style="width: 80%;" onclick="window.location = '/createsp'">Create</button>
+        </div>
+    </div>
+    <p class="acc bbdr " onclick="toggle('div02')">Payment Options</p>
+    <div class="acc-cntnt" id="div02">
+        <button style="width: 80%;">Google pay</button>
+        <button style="width: 80%;">Paypal</button>
+        <button style="width: 80%;">Credit Card</button>
+        <button style="width: 80%;">Direct Debit</button>
+    </div>
+</div>
+<script>
+    function toggle(divid) {
+        var divx = document.getElementById(divid);
+        (divx.style.display != 'block') ? divx.style.display = 'block' : divx.style.display = 'none';
+    }
+</script>

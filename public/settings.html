@@ -15,43 +15,58 @@
 <script src="/__/firebase/init.js"></script>
 
 <style>
-    .menu-icon {grid-area: 1/1/span 1 / span 1;}
-    .gtitle {grid-area: 1/2/span 1 / span 9;margin: 0; padding: 12px; color: var(--primary-color); text-align: start;}
-    .appimg {grid-area: 1/12/span 1 / span 1; height: 50px; padding: 0;}
+  .menu-icon {
+    grid-area: 1/1/span 1 / span 1;
+  }
+
+  .gtitle {
+    grid-area: 1/2/span 1 / span 9;
+    margin: 0;
+    padding: 12px;
+    color: var(--primary-color);
+    text-align: start;
+  }
+
+  .appimg {
+    grid-area: 1/12/span 1 / span 1;
+    height: 50px;
+    padding: 0;
+  }
 </style>
 
 <body>
-<div class="grid" style="margin: 0; border:none;border-bottom: 1px solid var(--accent-color);">
-    <i class="item material-icons md-24 gicon-regular" >menu</i>
+  <div class="grid" style="margin: 0; border:none;border-bottom: 1px solid var(--accent-color);">
+    <i class="item material-icons md-24 gicon-regular">menu</i>
     <h3 class="gtitle">Virtual Q</h3>
     <img class="appimg" src="/img/undraw_stand_out_1oag.svg">
-</div>
-<div class="grid">
-  <h3>Manage</h3>
-  <p class="acc bbdr ">User Profile</p>
-  <div>
-    <p class="acc bbdr " onclick="toggle('div01')">Service Provider Account</p>
-    <div class="acc-cntnt" id="div01">
-      <button style="width: 80%;" onclick="window.location = '/createsp'">Create</button>  
-    </div>  
   </div>
-  <p class="acc bbdr " onclick="toggle('div02')">Payment Options</p>
-  <div class="acc-cntnt" id="div02">
-    <button style="width: 80%;">Google pay</button>  
-    <button style="width: 80%;">Paypal</button>  
-    <button style="width: 80%;">Credit Card</button>  
-    <button style="width: 80%;">Direct Debit</button>  
+  <div class="grid">
+    <h3>Manage</h3>
+    <p class="acc bbdr ">User Profile</p>
+    <div>
+      <p class="acc bbdr " onclick="toggle('div01')">Service Provider Account</p>
+      <div class="acc-cntnt" id="div01">
+        <button style="width: 80%;" onclick="window.location = '/createsp'">Create</button>
+      </div>
+    </div>
+    <p class="acc bbdr " onclick="toggle('div02')">Payment Options</p>
+    <div class="acc-cntnt" id="div02">
+      <button style="width: 80%;">Google pay</button>
+      <button style="width: 80%;">Paypal</button>
+      <button style="width: 80%;">Credit Card</button>
+      <button style="width: 80%;">Direct Debit</button>
+    </div>
   </div>
-</div>
-<script>
-function toggle(divid){
-  var divx = document.getElementById(divid);
-  if (divx.style.display=='none')
-    divx.style.display = 'block';
-  else
-    divx.style.display = 'none';
-}
-</script>
+  <script>
+    function toggle(divid) {
+      var divx = document.getElementById(divid);
+      if (divx.style.display != 'block')
+        divx.style.display = 'block';
+      else
+        divx.style.display = 'none';
+    }
+  </script>
 
 </body>
+
 </html>
