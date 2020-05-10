@@ -23,7 +23,7 @@ body{
 /* Start - Full screen menu */
 .overlay {
     height: 100%;  width: 0;
-    position: fixed; z-index: 1;
+    position: fixed; z-index: 3;
     top: 0; left: 0;
     background-color:var(--accent-color);
     overflow-x: hidden;
@@ -203,7 +203,7 @@ label {padding: 12px; font-size: 1em;}
     min-width: 1em; font-size:2em;
     background: var(--accent-color);
     padding: 0;
-    z-index: 10;  }
+    z-index: 1;  }
 @media only screen and (min-width: 600px) {
 
 body{

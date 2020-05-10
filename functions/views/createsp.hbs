@@ -28,7 +28,7 @@ function createProvider(){
   spinner("start");
   var newDoc = {
     "type":"provider",
-    "doc": {"pid":"",
+    "doc": {"uid":auth.currentUser.uid,
             "orgname": document.getElementById("orgname").value,
             "email": document.getElementById("email").value,
             "phone": document.getElementById("phone").value,
