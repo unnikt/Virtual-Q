@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
@@ -9,36 +10,38 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="shortcut icon" href="">
-<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="/__/firebase/7.9.1/firebase-app.js"></script>
-<!-- Add Firebase products that you want to use -->
+    <!-- Add Firebase products that you want to use -->
     <script src="/__/firebase/7.9.1/firebase-auth.js"></script>
-<!-- Initialize Firebase -->
+    <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
     <script>
         const auth = firebase.auth();
-        auth.onAuthStateChanged(user=>{if(!user) window.location="/"; })
+        auth.onAuthStateChanged(user => { if (!user) window.location = "/"; })
     </script>
 </head>
+
 <body>
-<div class="grid bbdr">
-    <i onclick="openNav()" class="material-icons gicon-regular" >menu</i>
-    <h3 class="apptitle">VirQ.app</h3>
-    <div id="myNav" class="overlay">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div class="overlay-content">
-            <a class="tile bbdr fnt-fredo " href="skedules">Appointments</a>
-            <a class="tile bbdr fnt-fredo" href="services">Services</a>
-            <a class="tile bbdr fnt-fredo" href="settings">Settings</a>
-            <a class="tile bbdr fnt-fredo" onclick="auth.signOut()">Log out</a>      
+    <div class="grid bbdr">
+        <i onclick="openNav()" class="material-icons gicon-regular">menu</i>
+        <h3 class="apptitle" style="grid-area: 1/2/span 1 / span 9;margin: 0;">VirQ.app</h3>
+        <div id="myNav" class="overlay">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="overlay-content">
+                <a class="tile" href="skedules">Bookings</a>
+                <a class="tile" href="services">Services</a>
+                <a class="tile" href="settings">Settings</a>
+                <a class="tile" href="javascript:auth.signOut();">Log out</a>
+            </div>
+            <p class="theme">Save time <br> Keep the distance</p>
         </div>
-        <p class="theme fnt-fredo">Save time <br> Keep the distance</p>
     </div>
-</div>
     {{{body}}}
-<script>
-    function openNav() {document.getElementById("myNav").style.width = "100%";}
-    function closeNav() {document.getElementById("myNav").style.width = "0%";}
-</script>
+    <script>
+        function openNav() { document.getElementById("myNav").style.width = "100%"; }
+        function closeNav() { document.getElementById("myNav").style.width = "0%"; }
+    </script>
 </body>
+
 </html>

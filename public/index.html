@@ -18,24 +18,71 @@
   <!-- Initialize Firebase -->
   <script src="/__/firebase/init.js"></script>
 
+  <!-- Firebase Authentication UI -->
+  <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+
+  <script type="text/javascript">
+    // FirebaseUI config.
+    var uiConfig = {
+      signInSuccessUrl: '/',
+      signInOptions: [
+        // Authentication using either Google or Email
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      ],
+      // tosUrl and privacyPolicyUrl accept either url string or a callback
+      // function.
+      // Terms of service url/callback.
+      tosUrl: '/terms.html',
+      // Privacy policy url/callback.
+      privacyPolicyUrl: function () {
+        window.location.assign('<your-privacy-policy-url>');
+      }
+    };
+
+    const auth = firebase.auth();
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    var mainNav = document.getElementById('mainNav');
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('mainNav').style.width = '100%';
+      }
+      else {
+        // Initialize the FirebaseUI Widget using Firebase.
+        // The start method will wait until the DOM is loaded.
+        document.getElementById('mainNav').style.width='0%';
+        ui.start('#firebaseui-auth-container', uiConfig);
+        // document.getElementById('firebaseui-auth-container').style.display = 'block';
+        console.log("user:" + user);
+
+      }
+    })
+    const page = 'signin';
+
+  </script>
 </head>
 
 <body>
-  <div class="grid bbdr-12">
-    <i class="material-icons gicon-regular">menu</i>
-    <h3 class="apptitle">Viritual.Q</h3>
-    <div id="mainNav" class="overlay">
-      <div class="overlay-content">
-        <a class="tile bbdr fnt-fredo " href="skedules">Appointments</a>
-        <a class="tile bbdr fnt-fredo" href="services">Services</a>
-        <a class="tile bbdr fnt-fredo" href="settings">Settings</a>
-        <a class="tile bbdr fnt-fredo" onclick="auth.signOut()">Log out</a>
-      </div>
-      <p class="theme fnt-fredo">Save time <br> Keep the distance</p>
+  <!-- The surrounding HTML is left untouched by FirebaseUI.
+  Your app may use that space for branding, controls and other customizations.-->
+  <div class="grid bbdr">
+    <!-- <i class="material-icons gicon-regular">menu</i> -->
+    <h3 class="apptitle"> Welcome to Vir.Q</h3>
+  </div>
+  <div id="firebaseui-auth-container" ></div>
+
+  <div id="mainNav" class="overlay">
+    <div class="overlay-content">
+      <a class="tile" href="skedules">Bookings</a>
+      <a class="tile" href="services">Services</a>
+      <a class="tile" href="settings">Settings</a>
+      <a class="tile" href="javascript:auth.signOut();">Log out</a>
     </div>
+    <p class="theme ">Keep the distance - Save time</p>
   </div>
-  </div>
-  <form id="signinform" style="display: none;">
+  <!--<form id="signinform" style="display: none;">
     <div class="grid">
       <h2>Sign in</h2>
       <input type="email" id="email" placeholder="Email" autocomplete="email">
@@ -44,9 +91,8 @@
       <a href="signup.html" style="color:dodgerblue">Sign up</a>
       <p type="text" id="errMsg"></p>
     </div>
-  </form>
-  <script src="js/signin.js"></script>
-  <script>
+  </form>-->
+  <!-- <script>
     const page = 'signin';
     // Sign In event
     document.getElementById('btnSignIn').addEventListener("click", e => {
@@ -55,7 +101,7 @@
         (document.getElementById("email").value, document.getElementById("password").value)
         .catch(e => errMsg.innerText = e.message);
     });
-  </script>
+  </script> -->
 </body>
 
 </html>
