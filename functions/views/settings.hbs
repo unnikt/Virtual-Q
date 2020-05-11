@@ -2,16 +2,13 @@
     <h3>Manage</h3>
     <p class="acc bbdr ">User Profile</p>
     <div>
-        <p class="acc bbdr " onclick="toggle('div01')">Service Provider Account</p>
-        {{#if provider}}
+        <p class="acc bbdr " onclick="toggle('div01')">Service Provider Accounts</p>
         <div class="acc-cntnt" id="div01">
-            <button style="width: 80%;" onclick="window.location = '/createsp'">{{orgname}}</button>
+        {{#each orgs}}
+            <a class="a-settings" href="services?pid={{id}}">{{orgname}}</a>
+        {{/each}}
+        <a class="a-settings" href="createsp">Create new...</a>
         </div>
-        {{else}}
-        <div class="acc-cntnt" id="div01">
-            <button style="width: 80%;" onclick="window.location = '/createsp'">Create</button>
-        </div>
-        {{/if}}
     </div>
     <p class="acc bbdr " onclick="toggle('div02')">Payment Options</p>
     <div class="acc-cntnt" id="div02">

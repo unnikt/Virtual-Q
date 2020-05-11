@@ -44,6 +44,17 @@ body{
     font-size: 60px;
 }
 
+.a-settings {
+    align-items: center;
+    color: var(--accent-color);
+    display: flex;
+    font-size: .7em;
+    font-weight: 600;
+    margin-inline-end: 2px;
+    margin-inline-start: 1px;
+    padding: 12px;
+}
+
 @media screen and (max-height: 450px) {
     .overlay a {font-size: 20px}
     .overlay .closebtn {
@@ -144,6 +155,8 @@ label {padding: 12px; font-size: 1em;}
     font-size: .8em;
     background: var(--light-background);
     cursor: pointer;
+    color: var(--accent-color);
+    font-weight: 600;
 }
 .acc-cntnt {
     display: none;
