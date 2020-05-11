@@ -23,7 +23,7 @@ dbstore.post('/add', (req, res) =>
         const doc = req.body.doc;
         res.set('content-type', 'text/html');
         //Add document to collection
-        admin.firestore().collection(location).add(doc)
+        db.collection(location).add(doc)
             .then(result => res.send("01-Document added successfully"))
             .catch(err => res.send("00-Err:[dbstore.post - /add] " + err));
     }));
@@ -72,5 +72,5 @@ exports.createDefaultService = functions.firestore.document('/providers/{doc_id}
             sname: 'Walk in',
             desc: 'Default Walk in service'
         }
-        return admin.firestore().collection('/providers/' + doc_id + '/services').doc(doc_id).set(default_Services);
+        return db.collection('/providers/' + doc_id + '/services').doc(doc_id).set(default_Services);
     });

@@ -20,7 +20,7 @@
       },
       {
         "source": "/settings",
-        "function": "main"
+        "function": "settings"
       },
       {
         "source": "/add",

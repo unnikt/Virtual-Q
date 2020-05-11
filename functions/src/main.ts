@@ -19,7 +19,5 @@ main.use(express.json({ limit: '1mb' })); //set up to receive data in JSON forma
 main.get('/', (request, response) => cors(request, response, () => response.render('index')));
 // This function sign's out the user 
 main.get('/signout', (request, response) => cors(request, response, () => response.render('index')));
-// This function sign's out the user 
-main.get('/settings', (request, response) => cors(request, response, () => response.render('settings')));
 
 exports.main = functions.https.onRequest(main);

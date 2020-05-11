@@ -1,10 +1,11 @@
-import firebase = require('firebase-admin');
+import admin = require('firebase-admin');
 import functions = require('firebase-functions');
 import express = require('express');
 import hbEngine = require('express-handlebars');
 import corsMod = require('cors');
 
 const services = express();
+const db = admin.firestore();
 
 //Set up view engine
 services.set('views', './views'); //Set the views folder
@@ -17,9 +18,6 @@ services.engine('hbs', hbEngine({
 }));
 const cors = corsMod({ origin: true });
 
-//Initialise firebaseapp
-firebase.initializeApp(functions.config().firebase);
-
 // This function returns the services collection for a given provide 
 services.get('/services', (request, response) => {
     cors(request, response, () => {
@@ -28,7 +26,7 @@ services.get('/services', (request, response) => {
         const location = "/providers/" + pid + "/services/";
         if (pid === null) response.send("No pid specified...");
         // Get the services collection from firestore and store it in an array
-        firebase.firestore().collection(location).get()
+        db.collection(location).get()
             .then(querysnapshot => {
                 const arrServices: { sid: string; name: string; desc: string; }[] = [];
                 querysnapshot.forEach(doc => {
@@ -58,7 +56,7 @@ services.post('/addservice', (request, response) => {
         const colPath = "/providers/" + pid + "/services/";
 
         //Add document to collection
-        firebase.firestore().collection(colPath).add(data.doc)
+        db.collection(colPath).add(data.doc)
             .then(result => {
                 console.log("New service created...");
                 response.send(1);
