@@ -54,13 +54,8 @@
         // The start method will wait until the DOM is loaded.
         document.getElementById('mainNav').style.width='0%';
         ui.start('#firebaseui-auth-container', uiConfig);
-        // document.getElementById('firebaseui-auth-container').style.display = 'block';
-        console.log("user:" + user);
-
       }
     })
-    const page = 'signin';
-
   </script>
 </head>
 
@@ -82,26 +77,6 @@
     </div>
     <p class="theme">Keep the distance - - - Save time</p>
   </div>
-  <!--<form id="signinform" style="display: none;">
-    <div class="grid">
-      <h2>Sign in</h2>
-      <input type="email" id="email" placeholder="Email" autocomplete="email">
-      <input type="password" id="password" placeholder="Password" autocomplete="current-password">
-      <input type="button" id="btnSignIn" value="Sign In">
-      <a href="signup.html" style="color:dodgerblue">Sign up</a>
-      <p type="text" id="errMsg"></p>
-    </div>
-  </form>-->
-  <!-- <script>
-    const page = 'signin';
-    // Sign In event
-    document.getElementById('btnSignIn').addEventListener("click", e => {
-      e.preventDefault();
-      auth.signInWithEmailAndPassword
-        (document.getElementById("email").value, document.getElementById("password").value)
-        .catch(e => errMsg.innerText = e.message);
-    });
-  </script> -->
 </body>
 
 </html>

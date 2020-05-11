@@ -30,7 +30,7 @@ services.get('/services', (request, response) => {
             .then(querysnapshot => {
                 const arrServices: { sid: string; name: string; desc: string; }[] = [];
                 querysnapshot.forEach(doc => {
-                    arrServices.push({ sid: doc.id, name: doc.data().name, desc: doc.data().desc });
+                    arrServices.push({ sid: doc.id, name: doc.data().sname, desc: doc.data().desc });
                 });
                 response.render('services', { arrServices: arrServices });
             })
