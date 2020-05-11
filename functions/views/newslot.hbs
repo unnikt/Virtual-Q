@@ -4,7 +4,12 @@
 <form class="grid-default" style="  border: 1px solid var(--shadow-color);">
     <input type="text" id="cus-name" placeholder="Customer Name"  >
     <input type="text" id="cus-id" placeholder="Email / Phone number"  >
-    <input type="text" id="svc-name" placeholder="Services Name" > 
+    
+    <select id="svc">
+    {{#each svcs}}
+        <option id="sname" value="{{sname}}">{{sname}}</option>
+    {{/each}}
+    </select>
     <div style="display: grid;">
         <label for="dtfrom" >From</label>
         <input type="datetime-local"  id="dtfrom" >    

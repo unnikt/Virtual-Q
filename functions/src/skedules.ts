@@ -21,13 +21,13 @@ cors(req,res,() =>{
     const pid = req.query.pid;
     
     let from = new Date();
-    if(req.query.from) from = new Date(req.query.from.toString());
-    else from = new Date(from.getFullYear(),from.getMonth(),from.getDate());
-    
+    if (req.query.from) from = new Date(req.query.from.toString());
     let to = new Date();
-    if(req.query.to) to = new Date(req.query.to.toString());
-    else to = new Date(from.getFullYear(),from.getMonth(),from.getDate()+1); 
+    if (req.query.to) to = new Date(req.query.to.toString());
 
+    from.setHours(0, 0, 0, 0);
+    to.setHours(23, 59, 0, 0);
+    
     const sfrom = from.getFullYear() + '-' + 
                 ('0' + (from.getMonth() + 1)).slice(-2) + '-' + ('0' + from.getDate()).slice(-2);
     const sto = to.getFullYear() + '-' + 
@@ -88,8 +88,18 @@ cors(req,res,()=>
 
 skedules.get('/newslot',(req,res) =>
 cors(req,res,()=>
-{   res.set('content-type', 'text/html');
-    res.render('newslot');
+{
+    const pid = "Xza438iMfuiZtwF8t8Zs";
+    res.set('content-type', 'text/html');
+    const params: { svcs: { sname: String }[] } = { svcs: [] };
+    db.collection("/providers/" + pid + "/services/").get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                params.svcs.push({ sname: doc.get("sname")});                       
+            })
+            res.render('newslot',params);
+        })
+    .catch(err => res.send("/newslot"+ err))
 }));
 
 skedules.get('/editslot',(req,res) =>
