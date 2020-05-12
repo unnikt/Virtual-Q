@@ -23,6 +23,7 @@
       {"source": "/newslot","function": "skedules"},
       {"source": "/editslot","function": "skedules"},
       {"source": "/delslot","function": "skedules"},
+      {"source": "/checkin","function": "skedules"},
       {"source": "/services","function": "services"},
       {"source": "/createsp","function": "services"},
       {"source": "/addservice","function": "services"},

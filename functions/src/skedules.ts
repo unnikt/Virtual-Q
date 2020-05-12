@@ -116,4 +116,11 @@ cors(req,res,()=>
     .catch(error =>{res.send("Deletion failed..." + error);})
 }));
 
+skedules.get('/checkin', (req, res) =>
+    cors(req, res, () => {
+        res.set('content-type', 'text/html');
+        res.render('checkin', { pid: 'req.query.id' }); //TO DO - pass appointment id here
+    }));
+
+
 exports.skedules = functions.https.onRequest(skedules);
