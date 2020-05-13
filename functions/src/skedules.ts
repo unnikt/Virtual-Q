@@ -119,7 +119,7 @@ cors(req,res,()=>
 skedules.get('/checkin', (req, res) =>
     cors(req, res, () => {
         res.set('content-type', 'text/html');
-        res.render('checkin', { pid: 'req.query.id' }); //TO DO - pass appointment id here
+        res.render('checkin', { pid: req.query.id }); //TO DO - pass appointment id here
     }));
 
 

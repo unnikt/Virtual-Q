@@ -18,5 +18,35 @@ function getTime(date){
     return(hh+":"+mm);
 }
 
+function yesterday(today) {
+    var d = new Date(today);
+    d.setDate(d.getDate() - 1); 
+    return (getDate(d));
+}
+function tomorrow(today) {
+    var d = new Date(today);
+    d.setDate(d.getDate() + 1); 
+    return (getDate(d));
+}
+
+// Attaching a new function  toShortFormat()  to any instance of Date() class
+
+Date.prototype.toShortFormat = function () {
+
+    var month_names = ["Jan", "Feb", "Mar",
+        "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec"];
+
+    var day = this.getDate();
+    var month_index = this.getMonth();
+    var year = this.getFullYear();
+
+    return "" + day + "-" + month_names[month_index] + "-" + year;
+}
+
+// Now any Date object can be declared 
+var today = new Date();
+
 function padRight(d) { return (d < 10) ? d.toString() + '0' : d.toString();}
 function padLeft(d)  { return (d < 10) ? '0' + d.toString() : d.toString();}

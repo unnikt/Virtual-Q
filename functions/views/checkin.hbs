@@ -1,24 +1,27 @@
 <div class="grid">
-    <label>Select your current status</label>
+    <div style="display: grid; grid-template-columns: 90% 10%;">
+        <label>Select your current status</label>
+        <i class="material-icons" style="float:right;" onclick="window.location='skedules'">save</i>
+    </div>
     <select id="status">
         <option value="ontime">On my way</option>
         <option value="delayed">Wont make it</option>
         <option value="checkin">I have arrived</option>
         <option value="checkout">I am leaving</option>
     </select>
-    <div class="hide" id="qrdiv" data-pid="{{pid}}"><label>Scan your QR Code on arrival</label></div>
+    <div class="hide" id="qrdiv" data-pid="{{pid}}" style="margin:auto;"><label>Scan your QR Code on arrival</label></div>
     <div class="hide" id="delayed">
         <button style="width: 150px;">Reschedule</button>
         <button style="width: 150px;">Cancel</button>
     </div>
-    <div class="hide"><label>Scan your QR Code on arrival</label></div>
+    <div class="hide" style="margin: auto;"><label>Scan your QR Code on arrival</label></div>
 </div>
 <script type="text/javascript" src="js/qrcode.js"></script>
 <script>
     const qrdiv = document.getElementById('qrdiv');
     const delayed = document.getElementById('delayed');
     const optStatus = document.getElementById('status');
-    new QRCode("qrdiv", qrdiv.getAttribute('data-pid'));
+    new QRCode("qrdiv", { text: qrdiv.getAttribute('data-pid'), width: 200, height: 200 });
 
     optStatus.addEventListener('change', e => {
         switch (optStatus.value) {

@@ -147,7 +147,8 @@ i{  margin:0.1em; padding:.2em;
     box-shadow: 0px 8px 16px 0px hsla(0, 0%, 0%, 0.2);
     border-radius: 50%;
 }
-label { font-size: .9em; color: var(--accent-color);}
+label { font-size: .9em; color: var(--accent-color);margin: 12px;}
+h4{margin: 4px 0; color: var(--primary-color);}
 
 /* START: Accordion class */
 .acc {
@@ -171,9 +172,10 @@ label { font-size: .9em; color: var(--accent-color);}
 .grid-item{padding: 8px 0;}
 .tile {
     padding: 12px;
-    margin: 0 12px;  text-decoration: none;
+    margin: 8px;  text-decoration: none;
     color: var(--primary-color);
-    font-size: 2em;
+    font-size: 1.5em;
+    border: 1px solid white;
 }
 
 .tile > a:link, a:visited {
@@ -272,7 +274,7 @@ body{
 .hide {display: none;}
 .shdw{box-shadow: 1px 1px 8px 0px var(--shadow-color);}
 .nbdr {border: 1px solid var(--accent-color);}
-.bbdr {border-bottom: 2px solid var(--accent-color);}
+.bbdr {border-bottom: 1px solid var(--accent-color);}
 .tbdr {border-top: 2px solid var(--accent-color);}
 .abdr {border: 2px solid var(--accent-color);}
 .bbdr-12 {border-bottom: 12px solid var(--accent-color);}
@@ -283,4 +285,6 @@ body{
 .fnt-rboto{font-family: 'Roboto Slab', serif;}
 .fnt-acme{font-family: 'Acme', sans-serif;}
 .fnt-fredo{font-family: 'Fredoka One', cursive;}
+.valign{padding: 0 auto;}
+.pada-12{padding: 12px;}
 /* Generic Decorations */

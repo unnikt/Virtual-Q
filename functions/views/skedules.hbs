@@ -1,55 +1,89 @@
 <style>
-    .cus-name   { grid-area: 1 / 1 / span 1 / span 3; font-weight:bold; color: var(--accent-color);}
-    .status     { grid-area: 2 / 3 / span 1 / span 1; font-size: x-small; color: green;}
-    .date       { grid-area: 2 / 1 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
-    .time       { grid-area: 2 / 2 / span 1 / span 1; font-size: x-small; color: var(--primary-color);}
-    .svc_name   { grid-area: 3 / 1 / span 1 / span 3; font-size: smaller; background:#eaeef0fb;}
-    .svc_details{ grid-area: 4 / 1 / span 2 / span 3; font-size: smaller; padding: 12px 0; }
-    .gitem {padding: 8px 0;}
+    .cus-name {
+        grid-area: 1 / 1 / span 1 / span 3;
+        font-weight: bold;
+        color: var(--accent-color);
+    }
+
+    .status {
+        grid-area: 2 / 3 / span 1 / span 1;
+        font-size: x-small;
+        color: green;
+    }
+
+    .date {
+        grid-area: 2 / 1 / span 1 / span 1;
+        font-size: x-small;
+        color: var(--primary-color);
+    }
+
+    .time {
+        grid-area: 2 / 2 / span 1 / span 1;
+        font-size: x-small;
+        color: var(--primary-color);
+    }
+
+    .svc_name {
+        grid-area: 3 / 1 / span 1 / span 3;
+        font-size: smaller;
+        background: #eaeef0fb;
+    }
+
+    .svc_details {
+        grid-area: 4 / 1 / span 2 / span 3;
+        font-size: smaller;
+        padding: 12px 0;
+    }
+
+    .gitem {
+        padding: 8px 0;
+    }
 </style>
-{{#with dtrange}}
 <div class="icons-bar ">
-    <h3 style="color:var(--accent-color)">From: {{from}} ... To: {{to}}</h3>
+    <i class="material-icons" onclick="refresh('prev')">chevron_left</i>
+    <h2 id="dtHdr" style="margin: auto; color: var(--accent-color);">Today</h2>
+    <i class="material-icons" onclick="refresh('next')">chevron_right</i>
     <i class="material-icons" onclick="toggle('cont1')">event</i>
     <i class="material-icons" id="btnAdd" onclick="window.location='newslot';">add</i>
 </div>
 
+{{#with dtrange}}
 <div class="acc-cntnt bbdr" id="cont1">
-    <label for="dtto">From</label>
-    <input type="date" id="dtfrom" value='{{from}}'>
-    <label for="dtto">To</label>
-    <input type="date" id="dtto" value='{{to}}'>
-    <button id="btnAdd" onclick="loadslots()">Reload</button>
+    <label for="dtto">Pick a date</label>
+    <input type="date" id="dtfrom" value='{{from}}' style="width: fit-content">
+    <i class="material-icons" onclick="refresh('default')">autorenew</i>
 </div>
 {{/with}}
-{{#each skeds}}
-<div class="grid bbdr shdw" data-tstamp="{{tstamp}}">
-    <div class="cus-name gitem">{{cusname}}
-        <i class="item material-icons" style="float:right;" onclick="window.location='editslot?id={{id}}'">edit</i>
+
+<div class="grid">
+    {{#each skeds}}
+    <div class="bbdr pada-12" onclick="window.location='checkin?id={{id}}'">
+        <label>{{from}}</label>
+        <label style="display: inline;">{{svcname}}</h4>
+            <i class="material-icons" style=" font-size: 1em; float:right;">more_vert</i>
     </div>
-    <div class="date gitem">{{date}}</div>
-    <div class="status gitem">Checked in</div>
-    <div class="time gitem">{{from}}</div>
-    <div class="svc_name gitem">{{svcname}}</div>
-    <div class="svc_details gitem">Instructor: Kevin Warrel, Aircraft: LJL</div>
+    {{/each}}
 </div>
-{{/each}}
+
 <script src="./js/app.js"></script>
 <script src="./js/dates.js"></script>
 <script>
-var dtfrom = document.getElementById('dtfrom');
-var dtto = document.getElementById('dtto');
-dtto.min = dtfrom.value;
-dtfrom.addEventListener('change', function(e){
-    dtto.value=dtfrom.value;
-    dtto.min = dtfrom.value;
-})
-function loadslots(){
-    spinner();
-    window.location="skedules?from=" + dtfrom.value + "&to=" + dtto.value ;
-}
-function toggle(divid) {
-    var divx = document.getElementById(divid);
-    (divx.style.display != 'block') ? divx.style.display = 'block' : divx.style.display = 'none';
-}
+    var txtHdr
+    if (dtfrom.value === getDate(Date())) txtHdr = "Today";
+    else txtHdr = new Date(dtfrom.value).toShortFormat();
+    document.getElementById('dtHdr').innerHTML = txtHdr;
+
+    function refresh(val) {
+        spinner();
+        switch (val) {
+            case "prev":window.location = "skedules?from=" + yesterday(document.getElementById('dtfrom').value); break;
+            case "next":window.location = "skedules?from=" + tomorrow(document.getElementById('dtfrom').value); break;
+            default:window.location = "skedules?from=" + dtfrom.value;// + "&to=" + dtto.value;
+        }
+    }
+
+    function toggle(divid) {
+        var divx = document.getElementById(divid);
+        (divx.style.display != 'block') ? divx.style.display = 'block' : divx.style.display = 'none';
+    }
 </script>
