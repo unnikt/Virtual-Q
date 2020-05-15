@@ -56,21 +56,28 @@ exports.dbstore = functions.https.onRequest(dbstore);
 
 //Create a record in the users collection
 exports.registerUser = functions.auth.user().onCreate(user => {
-  return admin.firestore().collection('users').doc(user.uid).set({
+    return admin.firestore().collection('users').doc(user.uid).set({
         email: user.email,
-        provider: false,
-        pid: ""
+        business: false,
     });
 })
 
 //Firestore trigger that creates a default walk in service when the user registers as a service provider
 exports.createDefaultService = functions.firestore.document('/providers/{doc_id}')
     .onCreate((snap, context) => {
+        const pid = context.params.doc_id;
+        const pdata = snap.data();
+        const default_Services = { sname: 'Walk in', desc: 'Default Walk in service' }
+        
+        let uid: string = "";
+        if (pdata) uid = pdata.uid;
+
         //Create the default service for the new provider created
-        const doc_id = context.params.doc_id;
-        const default_Services = {
-            sname: 'Walk in',
-            desc: 'Default Walk in service'
-        }
-        return db.collection('/providers/' + doc_id + '/services').doc(doc_id).set(default_Services);
+        return db.collection('/providers/' + pid + '/services').doc(pid).set(default_Services)
+            .then(result_svc => {
+                // update the user doc - set business flag to true
+                const user = db.collection('users').doc(uid);
+                return user.update({ business: true })
+            })
+            .catch(err => console.log("CreateDefaultService (User update):-" + err))
     });

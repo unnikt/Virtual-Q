@@ -1,16 +1,26 @@
 <div class="grid">
-    <h3>Manage</h3>
-    <p class="acc bbdr ">User Profile</p>
-    <div>
-        <p class="acc bbdr " onclick="toggle('div01')">Service Provider Accounts</p>
-        <div class="acc-cntnt" id="div01">
-        {{#each orgs}}
-            <a class="a-settings" href="services?pid={{id}}">{{orgname}}</a>
-        {{/each}}
-        <a class="a-settings" href="createsp">Create new...</a>
-        </div>
+    <div class="acc" onclick="toggle('icn00','div00')">
+        <p>User Profile</p>
+        <i id="icn00" class="material-icons">expand_more</i>
     </div>
-    <p class="acc bbdr " onclick="toggle('div02')">Payment Options</p>
+    <div class="acc-cntnt" id="div00">
+        <a class="a-settings" href="#">Change Password</a>
+    </div>
+    <div class="acc" onclick="toggle('icn01','div01')">
+        <p>Business Accounts</p>
+        <i id="icn01" class="material-icons">expand_more</i>
+    </div>
+    <div class="acc-cntnt" id="div01">
+        <a class="a-settings" href="createsp">Set up a new Business...</a>
+        {{#if business}}
+        <a class="a-settings" href="configstore">Configure Store</a>
+        <a class="a-settings" href="services">Configure Services</a>
+        {{/if}}
+    </div>
+    <div class="acc" onclick="toggle('icn02','div02')">
+        <p>Payment Options</p>
+        <i id="icn02" class="material-icons">expand_more</i>
+    </div>
     <div class="acc-cntnt" id="div02">
         <button style="width: 80%;">Google pay</button>
         <button style="width: 80%;">Paypal</button>
@@ -19,8 +29,10 @@
     </div>
 </div>
 <script>
-    function toggle(divid) {
+    function toggle(icnid,divid) {
         var divx = document.getElementById(divid);
         (divx.style.display != 'block') ? divx.style.display = 'block' : divx.style.display = 'none';
+        var icnx = document.getElementById(icnid);
+        (icnx.innerText== 'expand_more') ? icnx.innerText = 'expand_less' : icnx.innerText = 'expand_more';
     }
 </script>
