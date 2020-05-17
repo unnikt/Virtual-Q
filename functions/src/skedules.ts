@@ -116,10 +116,19 @@ cors(req,res,()=>
     .catch(error =>{res.send("Deletion failed..." + error);})
 }));
 
-skedules.get('/checkin', (req, res) =>
-    cors(req, res, () => {
-        res.set('content-type', 'text/html');
-        res.render('checkin', { pid: req.query.id }); //TO DO - pass appointment id here
+skedules.get('/checkin', (request, response) =>
+    cors(request, response, () => {
+        const aid: string = request.query.aid.toString();
+        // response.set('content-type', 'text/html');
+        if (aid === null)
+            response.render('error', { title: "ErrorError[SK01]", msg: "No such booking found..!" });
+        db.collection('appointments').doc(aid).get()
+            .then(doc => {
+                const data = doc.data();
+                if (data)
+                    response.render('checkin', { aid: aid, bname: data.pid, when: data.from.toDate()});
+            })
+            .catch(err => response.render('error', { title: "Error[SK02]", msg: "No such booking found..!" }))
     }));
 
 

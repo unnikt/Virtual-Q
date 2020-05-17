@@ -1,7 +1,23 @@
 <div class="grid">
+    <div class="icons-bar bbdr">
+        <p style="font-weight: 800; color: var(--accent-color); width: 70%;">{{bname}}</p>
+        <i id="icn01" class="material-icons">place</i>
+        <i id="icn02" class="material-icons">call</i>
+        <i id="icn03" class="material-icons">email</i>
+        <i id="icn04" class="material-icons">public</i>
+    </div>
+    <h4 style="margin: 0 12px;">{{when}}</h4>
+    <div class="grid" id="QRdiv" style="margin: auto;">
+        <label style="margin: 12px auto;">Scan your QR Code on arrival</label>
+        <div id="qrdiv" data-pid="{{aid}}"></div>
+    </div>
+    <div class="hide" id="delayed">
+        <button style="width: 150px;">Reschedule</button>
+        <button style="width: 150px;">Cancel</button>
+    </div>
     <div style="display: grid; grid-template-columns: 90% 10%;">
-        <label>Select your current status</label>
-        <i class="material-icons" style="float:right;" onclick="window.location='skedules'">save</i>
+        <label>Update your current status</label>
+        <i class="material-icons" style="float:right;" onclick="window.location='skedules'">send</i>
     </div>
     <select id="status">
         <option value="ontime">On my way</option>
@@ -9,31 +25,21 @@
         <option value="checkin">I have arrived</option>
         <option value="checkout">I am leaving</option>
     </select>
-    <div class="hide" id="qrdiv" data-pid="{{pid}}" style="margin:auto;"><label>Scan your QR Code on arrival</label></div>
-    <div class="hide" id="delayed">
-        <button style="width: 150px;">Reschedule</button>
-        <button style="width: 150px;">Cancel</button>
-    </div>
-    <div class="hide" style="margin: auto;"><label>Scan your QR Code on arrival</label></div>
 </div>
 <script type="text/javascript" src="js/qrcode.js"></script>
 <script>
     const qrdiv = document.getElementById('qrdiv');
     const delayed = document.getElementById('delayed');
     const optStatus = document.getElementById('status');
-    new QRCode("qrdiv", { text: qrdiv.getAttribute('data-pid'), width: 200, height: 200 });
+    new QRCode("qrdiv", { text: qrdiv.getAttribute('data-pid'), width: 250, height: 250 });
 
     optStatus.addEventListener('change', e => {
         switch (optStatus.value) {
-            case 'checkin':
-                hide('delayed'); show('qrdiv');
-                break;
             case 'delayed':
                 hide('qrdiv'); show('delayed');
                 break;
-            case 'ontime':
             default:
-                hide('qrdiv'); hide('delayed');
+                hide('delayed'); show('qrdiv');
                 break;
         }
     });
