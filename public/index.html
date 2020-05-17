@@ -25,7 +25,7 @@
   <script type="text/javascript">
     // FirebaseUI config.
     var uiConfig = {
-      signInSuccessUrl: '/',
+      signInSuccessUrl: '#',
       signInOptions: [
         // Authentication using either Google or Email
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -42,7 +42,7 @@
     };
 
     const auth = firebase.auth();
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    var ui = new firebaseui.auth.AuthUI(auth);
     var mainNav = document.getElementById('mainNav');
 
     auth.onAuthStateChanged(user => {

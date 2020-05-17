@@ -19,39 +19,35 @@ services.engine('hbs', hbEngine({
 const cors = corsMod({ origin: true });
 
 // This function returns the services collection for a given provide 
-services.get('/services', (request, response) => {
+services.get('/services', (request, response) => 
     cors(request, response, () => {
         // Get the provider id and create path to services collection
-        const pid = request.query.pid;
-        const location = "/providers/" + pid + "/services/";
+        const pid:string = request.query.pid.toString();
         if (pid === null) response.send("No pid specified...");
-        // Get the services collection from firestore and store it in an array
-        db.collection(location).get()
-            .then(querysnapshot => {
-                const arrServices: { sid: string; name: string; desc: string; }[] = [];
-                querysnapshot.forEach(doc => {
-                    arrServices.push({ sid: doc.id, name: doc.data().sname, desc: doc.data().desc });
-                });
-                response.render('services', { arrServices: arrServices });
+        // Get the providers with matching uid        
+        const params: { sid: string, sname: string }[] = [];
+        db.collection('providers').doc(pid).collection('services').get()
+            .then(svcs => {
+                svcs.forEach(svc => params.push({ sid: svc.id, sname: svc.data().sname }));
+                response.render('services', { svcs: params });
             })
-            .catch(error => {
-                response.send(error);
-            })
-    });
-});
+        .catch(err => response.render('error',{title:"Get Services",msg:err}))
+        
+}));
+
 
 // Add a service to under a provider
 // Inputs: pid, doc
-services.post('/addservice', (request, response) => {
+services.post('/addservice', (req, res) => {
 
-    cors(request, response, () => {
-        console.log(request.body);
-        const data = request.body;
+    cors(req, res, () => {
+        console.log(req.body);
+        const data = req.body;
 
         // Get the service to be deleted and create the path to the service
         const pid = data.pid;
-        if (data.pid === null) response.send(-1);
-        if (data.doc === null) response.send(-2);
+        if (data.pid === null) res.send(-1);
+        if (data.doc === null) res.send(-2);
 
         const colPath = "/providers/" + pid + "/services/";
 
@@ -59,11 +55,11 @@ services.post('/addservice', (request, response) => {
         db.collection(colPath).add(data.doc)
             .then(result => {
                 console.log("New service created...");
-                response.send(1);
+                res.send(1);
             })
             .catch(err => {
                 console.log(err);
-                response.send("/addService failed: " + err);
+                res.send("/addService failed: " + err);
             });
     });
 });

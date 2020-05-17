@@ -12,27 +12,40 @@
     </div>
     <div class="acc-cntnt" id="div01">
         <a class="a-settings" href="createsp">Set up a new Business...</a>
-        {{#if business}}
-        <a class="a-settings" href="configstore">Configure Store</a>
-        <a class="a-settings" href="services">Configure Services</a>
+        {{#if isBusiness}}
+        <a class="a-settings" href="javascript:selBusiness('services?pid=')">Configure Services</a>
+        <a class="a-settings" href="/store.html">Configure Store</a>
         {{/if}}
     </div>
     <div class="acc" onclick="toggle('icn02','div02')">
         <p>Payment Options</p>
         <i id="icn02" class="material-icons">expand_more</i>
     </div>
-    <div class="acc-cntnt" id="div02">
-        <button style="width: 80%;">Google pay</button>
-        <button style="width: 80%;">Paypal</button>
-        <button style="width: 80%;">Credit Card</button>
-        <button style="width: 80%;">Direct Debit</button>
+    {{!-- TO DO: Link payment options --}}
+    <div class="acc-cntnt" id="div02"> 
+        <a class="a-settings" href="#">Google pay</a>
+        <a class="a-settings" href="#">Paypal</a>
+        <a class="a-settings" href="#">Credit Card</a>
+        <a class="a-settings" href="#">Direct Debit</a>
+    </div>
+</div>
+<div class="mod-container" id="selBusiness">
+    <div class="mod-content">
+        <h4>Select a Business</h4>
+        {{#each business}}
+        <div class="btnSelect" onclick="redirect('{{bid}}')">{{bname}}</div>
+        {{/each}}
+        <i class="material-icons" onclick="document.getElementById('selBusiness').style.display='none'">arrow_back</i>
     </div>
 </div>
 <script>
-    function toggle(icnid,divid) {
+    var murl = "";
+    function selBusiness(url) { murl = url; document.getElementById('selBusiness').style.display = 'block'; }
+    function redirect(id) { window.location = murl + id; }
+    function toggle(icnid, divid) {
         var divx = document.getElementById(divid);
         (divx.style.display != 'block') ? divx.style.display = 'block' : divx.style.display = 'none';
         var icnx = document.getElementById(icnid);
-        (icnx.innerText== 'expand_more') ? icnx.innerText = 'expand_less' : icnx.innerText = 'expand_more';
+        (icnx.innerText == 'expand_more') ? icnx.innerText = 'expand_less' : icnx.innerText = 'expand_more';
     }
 </script>

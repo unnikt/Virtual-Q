@@ -45,14 +45,13 @@ body{
 }
 
 .a-settings {
-    align-items: center;
-    color: var(--accent-color);
-    display: flex;
-    font-size: .7em;
-    font-weight: 600;
-    margin-inline-end: 2px;
-    margin-inline-start: 1px;
-    padding: 12px;
+    margin: 4px;
+    display: inline-block;
+    background: var(--accent-color); color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: .9em;
+    padding: 8px;
 }
 
 @media screen and (max-height: 450px) {
@@ -98,6 +97,16 @@ input[type=button]:focus{
 }
 
 button:disabled{opacity: 50%;box-shadow: none;}
+.btnSelect{
+    padding: 12px; margin: 8px auto;
+    background: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 3px;
+    color: white; 
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: 500;
+}
 
 input[type=date],input[type=datetime-local],
 input[type=email],input[type=password],input[type=tel],  
@@ -148,7 +157,7 @@ i{  margin:0.1em; padding:.2em;
     border-radius: 50%;
 }
 label { font-size: .9em; color: var(--accent-color);margin: 12px;}
-h4{margin: 4px 0; color: var(--primary-color);}
+h4{margin: 4px 0; color: var(--accent-color);}
 
 /* START: Accordion class */
 .acc {
@@ -198,11 +207,11 @@ h4{margin: 4px 0; color: var(--primary-color);}
 }
 .mod-content,
 .modal-content{
-    position: relative;
-    margin: 1em; padding: .5em; 
-    top: 30%; 
+    position: absolute; top: 50%; left: 50%;
+    margin: auto; padding: 1em; width: 70%;
     background: white; overflow-y: auto;
-    box-shadow: 4px 8px 16px 0px var(--shadow-color)
+    box-shadow: 4px 8px 16px 0px var(--shadow-color);
+    transform: translate(-50%,-50%);
 }
 .mod-header {
     margin:8px 0; padding:8px 0; 
@@ -275,9 +284,10 @@ body{
 /* Generic Decorations */
 .hide {display: none;}
 .shdw{box-shadow: 1px 1px 8px 0px var(--shadow-color);}
+.nobdr {border: 0}
 .nbdr {border: 1px solid var(--accent-color);}
 .bbdr {border-bottom: 1px solid var(--accent-color);}
-.tbdr {border-top: 2px solid var(--accent-color);}
+.tbdr {border-top: 1px solid var(--accent-color);}
 .abdr {border: 2px solid var(--accent-color);}
 .bbdr-12 {border-bottom: 12px solid var(--accent-color);}
 .flxr {float: right;}
