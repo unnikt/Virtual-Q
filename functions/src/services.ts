@@ -65,5 +65,6 @@ services.post('/addservice', (req, res) => {
 });
 
 services.get('/createsp', (request, response) => response.render('createsp'));
+services.get('/vwservices', (request, response) => response.render('vwservices'));
 
 exports.services = functions.https.onRequest(services);

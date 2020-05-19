@@ -21,7 +21,7 @@
   <!-- Firebase Authentication UI -->
   <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
-
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Permanent+Marker&family=Piedra&display=swap" rel="stylesheet">
   <script type="text/javascript">
     // FirebaseUI config.
     var uiConfig = {
@@ -43,20 +43,53 @@
 
     const auth = firebase.auth();
     var ui = new firebaseui.auth.AuthUI(auth);
-    var mainNav = document.getElementById('mainNav');
-
+    // var mainNav = document.getElementById('mainNav');
+    function getEl(el) { return document.getElementById(el); }
     auth.onAuthStateChanged(user => {
       if (user) {
-        document.getElementById('mainNav').style.width = '100%';
+        getEl('firebaseui-auth-container').style.display = 'none';
+        getEl('mainNav').style.width='100%';
       }
       else {
         // Initialize the FirebaseUI Widget using Firebase.
         // The start method will wait until the DOM is loaded.
-        document.getElementById('mainNav').style.width='0%';
+        // document.getElementById('mainNav').style.width = '0%';
         ui.start('#firebaseui-auth-container', uiConfig);
+        getEl('firebaseui-auth-container').style.display = 'block';
+        getEl('mainNav').style.width='0%';
       }
     })
+    function redirect(page) { window.location = page + "uid=" + auth.currentUser.uid; }
   </script>
+  <style>
+    .signinoptions {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      border-radius: 5px;
+      padding: 48px 12px;
+      background: white;
+    }
+
+    .cards {
+      position:relative;
+      display: grid;
+    }
+    .cards > a, .cards > a:visited {
+      text-decoration: none;
+      border: 1px solid var(--shadow-color);
+      padding: 24px;
+      margin: 12px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 1em;
+      color: var(--primary-color);
+      transition: 0.3s;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -66,17 +99,17 @@
     <!-- <i class="material-icons gicon-regular">menu</i> -->
     <h3 class="apptitle"> Welcome to Vir.Q</h3>
   </div>
-  <div id="firebaseui-auth-container" ></div>
-
+  <div id="firebaseui-auth-container" class="signinoptions hide "></div>
   <div id="mainNav" class="overlay">
     <div class="overlay-content">
-      <a class="tile" href="checkin">Check in</a>
-      <a class="tile" href="skedules">Bookings</a>
+      <a class="tile" href="search.html">Search</a>
+      <a class="tile" href="javascript:redirect('skedules?')">Schedule</a>
       <a class="tile" href="settings">Settings</a>
       <a class="tile" href="javascript:auth.signOut();">Log out</a>
     </div>
     <p class="theme">Keep the distance - - - Save time</p>
   </div>
+
 </body>
 
 </html>

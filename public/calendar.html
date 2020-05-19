@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <script src="js/calendar.js" defer></script>
+</head>
+
+<body>
+    <div class="grid bbdr">
+        <i class="material-icons gicon-regular" onclick="openNav()">menu</i>
+        <h3 class="apptitle" style="grid-area: 1/2/span 1 / span 9;margin: 0;"> VirQ.app</h3>
+    </div>
+
+    <div class="cal-header">
+        <i id="prev-m" class="material-icons cal-icon">chevron_left</i>
+        <p id="month"></p>
+        <i id="next-m" class="material-icons cal-icon">chevron_right</i>
+        <i id="prev-y" class="material-icons cal-icon">chevron_left</i>
+        <p id="year"></p>
+        <i id="next-y" class="material-icons cal-icon">chevron_right</i>
+    </div>
+    <div id="cal-dates" class="cal-dates"></div>
+
+    <div id="mainNav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+            <a class="tile" href="checkin">Check in</a>
+            <a class="tile" href="javascript:redirect('skedules?')">Bookings</a>
+            <a class="tile" href="settings">Settings</a>
+        </div>
+        <p class="theme">Keep the distance - - - Save time</p>
+    </div>
+
+    <script>
+        function openNav() { document.getElementById("mainNav").style.width = "100%"; }
+        function closeNav() { document.getElementById("mainNav").style.width = "0%"; }
+    </script>
+</body>
+
+</html>

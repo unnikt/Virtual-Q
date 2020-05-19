@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="css/calendar.css">
 <style>
     input[type=date] {
         padding: 0 12px;
@@ -5,35 +6,36 @@
         font-size: 0.8em;
     }
 </style>
-<div class="icons-bar ">
-    <i class="material-icons" onclick="refresh('prev')">chevron_left</i>
-    <h2 id="dtHdr" style="margin: auto; color: var(--accent-color);">
-        {{#with dtrange}}
-        <input type="date" id="dtfrom" value='{{from}}' onchange="refresh('default')">
-        {{/with}}
-    </h2>
-    <i class="material-icons" onclick="refresh('next')">chevron_right</i>
-    <i class="material-icons" id="btnAdd" onclick="window.location='newslot';">add</i>
+<div class="cal-header">
+    <i id="prev-m" class="material-icons cal-icon">chevron_left</i>
+    <p id="month"></p>
+    <i id="next-m" class="material-icons cal-icon">chevron_right</i>
+    <i id="prev-y" class="material-icons cal-icon">chevron_left</i>
+    <p id="year"></p>
+    <i id="next-y" class="material-icons cal-icon">chevron_right</i>
 </div>
-<div class="grid">
-    {{#each skeds}}
-    <div class="bbdr pada-12" onclick="window.location='checkin?aid={{id}}'">
-        <label>{{from}}</label>
-        <label style="display: inline;">{{svcname}}</h4>
-            <i class="material-icons" style=" font-size: 1em; float:right;">more_vert</i>
-    </div>
-    {{/each}}
-</div>
+<div id="cal-dates" class="cal-dates"></div>
 
+<div class="grid">
+    <label id="day-hdr" class="cal-hdr">{{dtrange.from}}</label>
+    <div class="grid">
+        {{#each skeds}}
+        <div class="bbdr pada-12" onclick="window.location='checkin?aid={{id}}'">
+            <label>{{from}}</label>
+            <label style="display: inline;">{{svcname}}</h4>
+                <i class="material-icons" style=" font-size: 1em; float:right;">more_vert</i>
+        </div>
+        {{/each}}
+    </div>
+</div>
 <script src="./js/app.js"></script>
 <script src="./js/dates.js"></script>
+<script src="js/calendar.js"></script>
 <script>
-    function refresh(val) {
-        spinner();
-        switch (val) {
-            case "prev": window.location = "skedules?from=" + yesterday(document.getElementById('dtfrom').value); break;
-            case "next": window.location = "skedules?from=" + tomorrow(document.getElementById('dtfrom').value); break;
-            default: window.location = "skedules?from=" + dtfrom.value;// + "&to=" + dtto.value;
-        }
+    const busydays = ['12','13','17'];
+    busydays.forEach(date => setborder(date, velv));
+    function dateClicked(e) {
+        const d = selYear + "-" + (selMonth + 1) + "-" + selCell;
+        window.location = "skedules?uid="+auth.currentUser.uid + "&from=" + d;
     }
 </script>

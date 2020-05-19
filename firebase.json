@@ -25,6 +25,7 @@
       {"source": "/delslot","function": "skedules"},
       {"source": "/checkin","function": "skedules"},
       {"source": "/services","function": "services"},
+      {"source": "/vwservices","function": "services"},
       {"source": "/createsp","function": "services"},
       {"source": "/addservice","function": "services"},
       {"source": "/remservice","function": "services"},

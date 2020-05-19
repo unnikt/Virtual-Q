@@ -1,86 +1,56 @@
-var divGridContainer = document.getElementById('grid-calendar');
-var tmpRows = "1fr"; //First row has height of 2 fractions is the header row
-var tmpCols="100px"; //First Column displays time
+const green = "rgb(122, 190, 122)";
+const amber = "rgb(240, 196, 51)";
+const red = "rgb(255, 12, 12)";
+const velv = "rgb(240, 51, 234)";
+var today = new Date();
+var selMonth = today.getMonth();
+var selYear = today.getFullYear();
+var selDate = today.getDate();
 
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+drawCalendar();
 
+// setcolor('31', red);
+//previous next events~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+get('month').innerText = months[selMonth]; get('year').innerText = selYear;
+get('prev-m').addEventListener('click', (ev) => { get('month').innerText = months[(selMonth == 0) ? selMonth = 11 : --selMonth]; drawCalendar();})
+get('next-m').addEventListener('click', (ev) => { get('month').innerText = months[(selMonth == 11) ? selMonth = 0 : ++selMonth]; drawCalendar();})
+get('prev-y').addEventListener('click', (ev) => { get('year').innerText = --selYear; drawCalendar();})
+get('next-y').addEventListener('click', (ev) => { get('year').innerText = ++selYear; drawCalendar();})
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function getDate(date) {
-    var d = new Date(date),
-    month = '' + (d.getMonth() + 1),day = '' + d.getDate(), year = d.getFullYear();
-    return [year, padLeft(month), padLeft(day)].join('-');
+function drawCalendar() {
+    var cal = get('cal-dates'); cal.innerHTML = "";
+    days.forEach(day => cal.appendChild(newDay(day)))
+    const fd = firstday(selMonth, selYear); const dim = new Date(selYear, selMonth+1, 0).getDate();
+    for (i = 0; i < fd; i++) cal.appendChild(newDay(-1));
+    for (i = 1; i <= dim; i++)cal.appendChild(newDay(i, true));
 }
-function getDateTime(date) {
-    var d = new Date(date);
-    return [getDate(date),getTime(date)].join('T');
-}
-function getTime(date){
-    var dt = new Date();
-    var hh = ("0"+dt.getHours()).slice(-2);
-    var mm = ("0"+dt.getMinutes()).slice(-2);
-    // var ss = ("0"+dt.getSeconds()).slice(-2);
-    // var ap="AM: ";
-    // (hh>11) ? ap="PM: " : ap="AM: ";
-    // (hh>12) ? hh-12:hh=hh;
-    return(hh+":"+mm);
-}
-
-function update_cell(txt,row,col){
-    var gcols = parseInt(divGridContainer.getAttribute('data_cols'));
-    var gRows = parseInt(divGridContainer.getAttribute('data_rows'));
-
-    if (row>gRows) return;
-
-    if(col>gcols) {
-        col=gcols+1;
-        createNewCol(col); //Create new Column
+function newDay(val, clkable) {
+    const nday = create('div');
+    nday.setAttribute('class', 'cal-wday')
+    if (clkable) nday.addEventListener('click', (e) => selthis(e.target.id))
+    if (val != -1) {
+        nday.setAttribute('id', val);
+        nday.innerText = val;
     }
-    
-    var divID = 'div-'+ row + '-' + col;     
-    var divSlot = document.getElementById(divID)
-    divSlot.innerText =txt;
+    return nday;
 }
 
-function createNewCol(col){
-    if(col>1) tmpCols = tmpCols + " 150px";
-    divGridContainer.style.gridTemplateColumns = tmpCols;
-    divGridContainer.setAttribute('data_cols',col);
-    var nRows = divGridContainer.getAttribute('data_rows');
-    for (i=1;i<=nRows;i++){
-        var divSlot = document.createElement('div');
-        divSlot.setAttribute('id','div-'+ i + '-' + col);
-        divSlot.style.gridArea = i + '/' + col + '/ span 1 / span 1';
-        if(col>1)
-        {   divSlot.addEventListener('click', function(e){
-                // alert(this.id);
-                var txt_slot = document.getElementById('txt_slot')
-                txt_slot.setAttribute('data_div',this.id);
-                txt_slot.innerText =null;
-                document.getElementById('popup-slot').style.display ="block";
-            });
-        }
-        
-        // divSlot.innerHTML= '<i class="material-icons" style="float:right;font-size:4px">settings_ethernet</i>';
-        divGridContainer.appendChild(divSlot);        
-    }
+var selCell = null;
+var defColor = '#efefef';
+var selColor = '#a0b0ea';
+function selthis(el) {
+    if (selCell) setcolor(selCell, defColor);
+    setcolor(el, selColor);
+    selCell = el;
+    if(typeof dateClicked==="function") dateClicked(el); // custom function to do further processing
 }
 
-function draw_timeline(ts,tf,ti_mins){
-    //Create the first Column
-    divGridContainer.style.gridTemplateColumns = tmpCols;
-    divGridContainer.setAttribute('data_cols',1);
-
-    //Create rows - To plot 9am to 11am in 30min intervals will require (2 * (60/30) + 1) rows
-    var nRows = (tf-ts)*60/ti_mins; 
-    divGridContainer.setAttribute('data_rows',nRows+2);
-
-    var MM =0; var HH = ts; var ti = ti_mins/60;
-    createNewCol(1);   // Create a new column
-    update_cell('Time',1,1); // Set the header
-    for(i=0;i<=nRows;i++) {
-        MM = (ti_mins*i)%60; // Convert i to minutes
-        HH = (ts + Math.floor(i*ti)); // increment hour
-        update_cell(HH + ":" + padRight(MM),i+2,1); // update the cell
-    }
-}
-
+function firstday(m, y) { return (new Date(y, m, 1).getDay()) }
+function setborder(el, clr) { get(el).style.borderLeft = '4px solid ' + clr }
+function setcolor(el, clr) { get(el).style.background = clr }
+function create(el) { return document.createElement(el) }
+function get(el) { return document.getElementById(el) }

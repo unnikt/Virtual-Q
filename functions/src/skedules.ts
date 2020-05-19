@@ -19,30 +19,33 @@ const db = firebase.firestore();
 skedules.get("/skedules", (req,res) =>
 cors(req,res,() =>{
     const pid = req.query.pid;
-    
+    const uid = req.query.uid;
+
     let from = new Date();
     if (req.query.from) from = new Date(req.query.from.toString());
     let to = new Date();
-    if (req.query.to) to = new Date(req.query.to.toString());
+    if (req.query.to) to = new Date(req.query.to.toString())
+        else to = new Date(from.getFullYear(),from.getMonth(),from.getDate());
 
-    from.setHours(0, 0, 0, 0);
-    to.setHours(23, 59, 0, 0);
-    
-    const sfrom = from.getFullYear() + '-' + 
-                ('0' + (from.getMonth() + 1)).slice(-2) + '-' + ('0' + from.getDate()).slice(-2);
-    const sto = to.getFullYear() + '-' + 
-                ('0' + (to.getMonth() + 1)).slice(-2) + '-' + ('0' + to.getDate()).slice(-2);
+    from.setHours(0, 0, 0);
+    to.setHours(23, 59, 59);
 
-    const dtrange = {from:sfrom, to:sto};
+    console.log(uid);
+    console.log(from);
+    console.log(to);
+
+    const sfrom = from.getFullYear() + '-' + ('0' + (from.getMonth() + 1)).slice(-2) + '-' + ('0' + from.getDate()).slice(-2);
+    const sto = to.getFullYear() + '-' + ('0' + (to.getMonth() + 1)).slice(-2) + '-' + ('0' + to.getDate()).slice(-2);
+
+    const dtrange = { from: sfrom, to: sto };
     
     if(pid===null) 
         res.send("No pid specified...");
     else {
         db.collection('appointments')
-            .where('from','>=',from)
-            .where('from','<',to)
-            .orderBy('from')
-            .get()
+            .where('uid','==',uid)
+            .where('from','>=',from).where('from','<=',to)
+            .orderBy('from').get()
             .then(querySnapshot=>{
             const colSkeds:{id:string,tstamp:number, date:string,from:string,to:Date,cusname:string,
                             cusid:string,svcname:string,svcid:string,status:string}[] =[];
@@ -54,21 +57,23 @@ cors(req,res,() =>{
                 const mm = dt.toLocaleTimeString().slice(3,5);
                 let AP;(hh>12)?hh=hh-12:hh=hh; (hh>11)?AP="PM":AP="AM";
                 
-                colSkeds.push({id:sked.id, tstamp:dt.getTime(),
-                    date:dt.toDateString(),
-                    from:hh + ":" + mm + " " + AP,
-                    to:sked.to.toDate(),
-                    cusname:sked.cusname,
-                    cusid:sked.cusid,
-                    svcname:sked.svcname,
-                    svcid:sked.svcid,
-                    status:sked.status});
+                colSkeds.push({
+                    id: sked.id, tstamp: dt.getTime(),
+                    date: dt.toDateString(),
+                    from: hh + ":" + mm + " " + AP,
+                    to: sked.to.toDate(),
+                    cusname: sked.cusname,
+                    cusid: sked.cusid,
+                    svcname: sked.svcname,
+                    svcid: sked.svcid,
+                    status: sked.status
+                });
             });
             res.set('content-type', 'text/html');
-            res.render('skedules',{skeds:colSkeds,dtrange:dtrange});
+            res.render('skedules', { skeds: colSkeds, dtrange: dtrange});
         })
-        .catch(error=>{
-            res.send(error);
+        .catch(err=>{
+            res.render('error',{title:'Get Skedules ', msg:err});
         })
         }   
     }));
@@ -130,6 +135,17 @@ skedules.get('/checkin', (request, response) =>
             })
             .catch(err => response.render('error', { title: "Error[SK02]", msg: "No such booking found..!" }))
     }));
+
+// function getBusyDays(uid:string,year:number, month:number) {
+//     const dfirst = new Date(year, month, 1);
+//     const dlast = new Date(year, month + 1, 0);
+//     // const busydays:string [] = [];
+//     return db.collection('appointments')
+//         .where('uid', '==', uid)
+//         .where('from', '>=', dfirst)
+//         .where('from', '<=', dlast).get()
+// }
+
 
 
 exports.skedules = functions.https.onRequest(skedules);
