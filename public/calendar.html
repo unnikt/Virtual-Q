@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/calendar.css">
-    <script src="js/calendar.js" defer></script>
+    <script defer>
+        function redirect(page) { console.log(page); }
+    </script>
 </head>
 
 <body>
@@ -18,14 +22,19 @@
     </div>
 
     <div class="cal-header">
-        <i id="prev-m" class="material-icons cal-icon">chevron_left</i>
-        <p id="month"></p>
-        <i id="next-m" class="material-icons cal-icon">chevron_right</i>
-        <i id="prev-y" class="material-icons cal-icon">chevron_left</i>
-        <p id="year"></p>
-        <i id="next-y" class="material-icons cal-icon">chevron_right</i>
+        <!-- <i id="prev-m" class="material-icons cal-icon" onclick="minimise()">expand_less</i> -->
+        <i id="prev-m" class="material-icons " onclick="localCMY('mon', 'prev')">chevron_left</i>
+        <p id="month" style="margin:12px;"></p>
+        <i id="next-m" class="material-icons " onclick="localCMY('mon', 'next')">chevron_right</i>
+        <i id="prev-y" class="material-icons " onclick="localCMY('year', 'prev')">chevron_left</i>
+        <p id="year" style="margin:12px;"></p>
+        <i id="next-y" class="material-icons " onclick="localCMY('year', 'next')">chevron_right</i>
     </div>
     <div id="cal-dates" class="cal-dates"></div>
+
+    <div class="grid">
+        <div class="grid nopad" id="evnt-lst"></div>
+    </div>
 
     <div id="mainNav" class="overlay">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -36,10 +45,61 @@
         </div>
         <p class="theme">Keep the distance - - - Save time</p>
     </div>
+    <script src="js/calendar.js"></script>
 
     <script>
+        setCurrentDate('2020-05-21');
+        drawCalendar();
+        setcolor(currDate, blue);
+
+        // Fetch calendar mock up ****************************
+        // var events = []; var busydays = [];
+        // const data = [{ aid: "asajjjjssss", date: '12', start: '09:00 AM', end: '10:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
+        // { aid: "asajjjjssss", date: '12', start: '10:15 AM', end: '11:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
+        // { aid: "asajjjjssss", date: '25', start: '11:00 AM', end: '11:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
+        // { aid: "asajjjjssss", date: '29', start: '03:00 PM', end: '11:00 AM', bname: 'Curtis Av', sname: 'PPL Training' }];
+
+        // let promise = fetch("https://us-central1-virq-app.cloudfunctions.net/events/getevents");
+        // promise.then(response => response.json().then(data => {
+        //     showEvents(data);
+        // }));
+        fetchEvents();
+        function fetchEvents(){
+                //  fetch ('/getCalendar',params:{POST:}}) 
+                fetch("https://us-central1-virq-app.cloudfunctions.net/events/getevents", params)
+                    .then(response => response.json()
+                        .then(data => { showEvents(data.events,'evnt-lst'); }))
+                    .catch(err => console.log(err));
+        }
+        function localCMY(mon_year,prev_next){
+            changeMonthYear(mon_year,prev_next);
+            fetchEvents();
+        }
+
+        //***********************************************************************
+
+        // const busydays = ['12', '13', '17'];
+        // busydays.forEach(date => setborder(date, velv));
+
+        const calDates = get('cal-dates').children;
+        for (i = 7; i < calDates.length; i++) {
+            const date = calDates[i].innerText;
+            if (date != "") get(date).addEventListener('click', (e) => dateClicked(date));
+        }
+
+        function dateClicked(date) {
+            // const page = "skedules?from=" + currYear + "-" + (currMonth + 1) + "-" + date + "&";
+            // redirect(page);
+            if (events)
+                if (busydays.has(date))
+                    console.log(date);
+        }
+
         function openNav() { document.getElementById("mainNav").style.width = "100%"; }
         function closeNav() { document.getElementById("mainNav").style.width = "0%"; }
+
+
+
     </script>
 </body>
 

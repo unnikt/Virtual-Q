@@ -7,35 +7,48 @@
     }
 </style>
 <div class="cal-header">
-    <i id="prev-m" class="material-icons cal-icon">chevron_left</i>
-    <p id="month"></p>
-    <i id="next-m" class="material-icons cal-icon">chevron_right</i>
-    <i id="prev-y" class="material-icons cal-icon">chevron_left</i>
-    <p id="year"></p>
-    <i id="next-y" class="material-icons cal-icon">chevron_right</i>
+    <i id="prev-m" class="material-icons" onclick="localCMY('mon', 'prev')">chevron_left</i>
+    <p id="month" style="margin:12px;"></p>
+    <i id="next-m" class="material-icons" onclick="localCMY('mon', 'next')">chevron_right</i>
+    <i id="prev-y" class="material-icons" onclick="localCMY('year', 'prev')">chevron_left</i>
+    <p id="year" style="margin: 12px;"></p>
+    <i id="next-y" class="material-icons" onclick="localCMY('year', 'next')">chevron_right</i>
 </div>
 <div id="cal-dates" class="cal-dates"></div>
 
 <div class="grid">
-    <label id="day-hdr" class="cal-hdr">{{dtrange.from}}</label>
-    <div class="grid">
-        {{#each skeds}}
-        <div class="bbdr pada-12" onclick="window.location='checkin?aid={{id}}'">
-            <label>{{from}}</label>
-            <label style="display: inline;">{{svcname}}</h4>
-                <i class="material-icons" style=" font-size: 1em; float:right;">more_vert</i>
-        </div>
-        {{/each}}
-    </div>
+    <label id="day-hdr" class="hide">{{dtrange.from}}</label>
+    <div class="grid nopad" id="evnt-lst"></div>
 </div>
-<script src="./js/app.js"></script>
-<script src="./js/dates.js"></script>
+
+
 <script src="js/calendar.js"></script>
 <script>
-    const busydays = ['12','13','17'];
-    busydays.forEach(date => setborder(date, velv));
-    function dateClicked(e) {
-        const d = selYear + "-" + (selMonth + 1) + "-" + selCell;
-        window.location = "skedules?uid="+auth.currentUser.uid + "&from=" + d;
+
+    setCurrentDate([today.getFullYear(), today.getMonth() + 1, today.getDate()].join('-'));
+    drawCalendar();
+    setcolor(currDate, blue);
+
+    fetchEvents();
+    function fetchEvents() {
+
+        fetch("/getevents", params)
+            .then(response => response.json()
+                .then(data => { showEvents(data.events, 'evnt-lst'); }));
     }
+    function localCMY(mon_year, prev_next) {
+        changeMonthYear(mon_year, prev_next);
+        fetchEvents();
+    }
+    //attach click events to the calendar cells
+    /*const calDates = get('cal-dates').children;
+    for (i = 7; i < calDates.length; i++) {
+        const date = calDates[i].innerText;
+        if (date != "") get(date).addEventListener('click', (e) => dateClicked(date));
+    }
+
+    function dateClicked(date) {
+        const page = "skedules?from=" + currYear + "-" + (currMonth + 1) + "-" + date + "&";
+        redirect(page);
+    } */
 </script>

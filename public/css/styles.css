@@ -1,7 +1,7 @@
 :root{
-    --primary-color:#607d8b; 
-    --accent-color:#607d8b; /*#f44336;*/
+    --primary-color:#22945f; /*8d2294; /*#607d8b;*/ 
     --secondary-color: #f1cdcb;
+    --accent-color:#196944;/*#2f1b2d; /*607d8b; /*#f44336;*/
     --shadow-color:#b8b7b7;
     --light-background:#efefef;
     --lighter-text: #948888;
@@ -47,7 +47,7 @@ body{
 .a-settings {
     margin: 4px;
     display: inline-block;
-    background: var(--accent-color); color: white;
+    background: var(--primary-color); color: white;
     text-decoration: none;
     border-radius: 5px;
     font-size: .9em;
@@ -167,7 +167,7 @@ h4{margin: 12px; color: var(--accent-color);}
     margin: 4px 0; padding: 0 8px;
     font-size: .8em;
     cursor: pointer;
-    color: var(--accent-color);
+    color: var(--primary-color);
     font-weight: 600;
     border: 1px solid var(--shadow-color);
 }
@@ -302,4 +302,5 @@ body{
 .fnt-fredo{font-family: 'Fredoka One', cursive;}
 .valign{padding: 0 auto;}
 .pada-12{padding: 12px;}
+.nopad{padding: 0;}
 /* Generic Decorations */

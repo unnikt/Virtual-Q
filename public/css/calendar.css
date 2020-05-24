@@ -18,13 +18,10 @@
     padding: 2px 12px;
 }
 .cal-wday{
-    background: #efefef;
-    font-size: .8em;
     padding: 5px;
-    margin: 1px;
-    border: 2px solid #efefef;
+    border: 1px solid var(--light-background);
 }
-.cal-hdr{background: var(--light-background);padding: 12px;margin: 0;color:var(--primary-color);}
+.date-hdr{background: var(--light-background);padding: 12px;margin: 0;color:var(--primary-color);}
 
 .green {border-bottom: 8px solid rgb(122, 190, 122);}
 .amber {border-bottom: 8px solid rgb(240, 196, 51)}

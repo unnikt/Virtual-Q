@@ -29,7 +29,8 @@
       {"source": "/createsp","function": "services"},
       {"source": "/addservice","function": "services"},
       {"source": "/remservice","function": "services"},
-      {"source": "/editservice","function": "services"}
+      {"source": "/editservice","function": "services"},
+      {"source": "/getevents","function": "events"}
     ]
   },
   "emulators": {

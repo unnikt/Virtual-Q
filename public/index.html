@@ -21,7 +21,8 @@
   <!-- Firebase Authentication UI -->
   <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Permanent+Marker&family=Piedra&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Permanent+Marker&family=Piedra&display=swap"
+    rel="stylesheet">
   <script type="text/javascript">
     // FirebaseUI config.
     var uiConfig = {
@@ -48,7 +49,7 @@
     auth.onAuthStateChanged(user => {
       if (user) {
         getEl('firebaseui-auth-container').style.display = 'none';
-        getEl('mainNav').style.width='100%';
+        getEl('mainNav').style.width = '100%';
       }
       else {
         // Initialize the FirebaseUI Widget using Firebase.
@@ -56,7 +57,7 @@
         // document.getElementById('mainNav').style.width = '0%';
         ui.start('#firebaseui-auth-container', uiConfig);
         getEl('firebaseui-auth-container').style.display = 'block';
-        getEl('mainNav').style.width='0%';
+        getEl('mainNav').style.width = '0%';
       }
     })
     function redirect(page) { window.location = page + "uid=" + auth.currentUser.uid; }
@@ -74,10 +75,12 @@
     }
 
     .cards {
-      position:relative;
+      position: relative;
       display: grid;
     }
-    .cards > a, .cards > a:visited {
+
+    .cards>a,
+    .cards>a:visited {
       text-decoration: none;
       border: 1px solid var(--shadow-color);
       padding: 24px;
@@ -88,7 +91,6 @@
       color: var(--primary-color);
       transition: 0.3s;
     }
-
   </style>
 </head>
 
@@ -97,7 +99,7 @@
   Your app may use that space for branding, controls and other customizations.-->
   <div class="grid bbdr">
     <!-- <i class="material-icons gicon-regular">menu</i> -->
-    <h3 class="apptitle"> Welcome to Vir.Q</h3>
+    <h3 class="apptitle"> Welcome to VirQ.app</h3>
   </div>
   <div id="firebaseui-auth-container" class="signinoptions hide "></div>
   <div id="mainNav" class="overlay">
