@@ -4,9 +4,6 @@
 var gProviderID = "AUS-SYD-CAM-001";
 var gID = 0;
 
-const busybee = "<div style='display: flex;justify-content: center;'> \
-                    <div class='lds-dual-ring'></div> \
-                </div>";
 
 function spinner(action)
 {   var mod_Container = document.getElementById('busy-bee');
@@ -18,7 +15,7 @@ function spinner(action)
         mod_Container = document.createElement('div');
         mod_Container.setAttribute('class', "mod-container");
         mod_Container.setAttribute('id', "busy-bee");
-        mod_Container.innerHTML = busybee
+        mod_Container.innerHTML = "<div class='lds-dual-ring'>VirQ</div>"
         document.body.append(mod_Container);    
     } 
     mod_Container.style.display = "block";    

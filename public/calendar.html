@@ -45,6 +45,7 @@
         </div>
         <p class="theme">Keep the distance - - - Save time</p>
     </div>
+    <script src="js/app.js"></script>
     <script src="js/calendar.js"></script>
 
     <script>
@@ -65,17 +66,17 @@
         // }));
         fetchEvents();
         function fetchEvents(){
+                spinner();
                 //  fetch ('/getCalendar',params:{POST:}}) 
                 fetch("https://us-central1-virq-app.cloudfunctions.net/events/getevents", params)
                     .then(response => response.json()
-                        .then(data => { showEvents(data.events,'evnt-lst'); }))
+                        .then(data => { showEvents(data.events,'evnt-lst'); spinner('stop')}))
                     .catch(err => console.log(err));
         }
         function localCMY(mon_year,prev_next){
             changeMonthYear(mon_year,prev_next);
             fetchEvents();
         }
-
         //***********************************************************************
 
         // const busydays = ['12', '13', '17'];

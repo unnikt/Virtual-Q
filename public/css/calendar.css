@@ -20,6 +20,7 @@
 .cal-wday{
     padding: 5px;
     border: 1px solid var(--light-background);
+    font-size: 0.8em;
 }
 .date-hdr{background: var(--light-background);padding: 12px;margin: 0;color:var(--primary-color);}
 

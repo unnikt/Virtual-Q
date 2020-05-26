@@ -24,10 +24,10 @@ events.post("/getevents", (req, res) =>
         console.log(params);
         console.log("/getevents");
         const data = {
-            events: [{ aid: "asajjjjssss", date: '12', start: '09:00 AM', end: '10:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
-            { aid: "asajjjjssss", date: '12', start: '10:15 AM', end: '11:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
-            { aid: "asajjjjssss", date: '25', start: '11:00 AM', end: '11:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
-            { aid: "asajjjjssss", date: '29', start: '03:00 PM', end: '11:00 AM', bname: 'Curtis Av', sname: 'PPL Training' }]
+            events: [{ aid: "16lj9OVjVgEXxmacHG9j", date: '12', start: '09:00 AM', end: '10:00 AM', bname: 'Curtis Av', sname: 'PPL Training' },
+                { aid: "DxTGJjrzjUZrTqgnrvtp", date: '12', start: '10:15 AM', end: '11:00 AM', bname: 'Tonys haircut', sname: 'PPL Training' },
+                { aid: "KZpCjOJvxfe7dCkL29zO", date: '25', start: '11:00 AM', end: '11:00 AM', bname: 'Rekhas kitchen', sname: 'PPL Training' },
+                { aid: "p2DQEnHECwi9QF2OLTV5", date: '29', start: '03:00 PM', end: '11:00 AM', bname: 'Unnis boutique', sname: 'PPL Training' }]
         };
         res.json(data);
     }));

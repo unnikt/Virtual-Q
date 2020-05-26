@@ -98,7 +98,7 @@ function newDay(val, clkable) {
 function newEvent(params) {
     var div_event = create('div');
     div_event.setAttribute('class', 'bbdr pada-12');
-    div_event.setAttribute('onClick', "window.location='checkin?aid=" + params.aid);
+    div_event.setAttribute('onClick', "window.location='checkin?aid=" + params.aid +"'");
     const lbl_start = create('label'); lbl_start.innerText = params.start;
     const lbl_bname = create('label'); lbl_bname.innerText = params.bname; lbl_bname.style.display = 'inline';
     const icn = create('i'); icn.innerText = 'more_vert'; icn.setAttribute('class', 'material-icons');icn.setAttribute('style','font-size:1em;float:right;')
