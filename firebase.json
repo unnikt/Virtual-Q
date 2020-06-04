@@ -15,9 +15,12 @@
     ],
     "rewrites": [
       {"source": "/","function": "main"},
+      {"source": "/home","function": "home"},
       {"source": "/settings","function": "settings"},
       {"source": "/add","function": "dbstore"},
       {"source": "/delete","function": "dbstore"},
+      {"source": "/finduser","function": "dbstore"},
+      {"source": "/getbid","function": "dbstore"},
       {"source": "/skedules","function": "skedules"},
       {"source": "/saveslot","function": "skedules"},
       {"source": "/newslot","function": "skedules"},

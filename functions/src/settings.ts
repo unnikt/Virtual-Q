@@ -4,9 +4,6 @@ import * as corsMod from 'cors';
 import * as functions from 'firebase-functions';
 import admin = require('firebase-admin');
 
-//Initialise firebaseapp
-admin.initializeApp(functions.config().firebase);
-
 const settings = express();
 const cors = corsMod({ origin: true });
 const db = admin.firestore();

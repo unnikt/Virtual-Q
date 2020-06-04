@@ -3,10 +3,14 @@ const amber = "rgb(240, 196, 51)";
 const red = "rgb(255, 12, 12)";
 const velv = "rgb(240, 51, 234)";
 const blue = '#a0b0ea';
+const grey = 'lightgrey';
 const defColor = '#efefef';
 var selCell = null;
+var selDate = null;
 
-var today = new Date();
+const today = new Date();
+const thisM = today.getMonth(); const thisY = today.getFullYear(); const thisD = today.getDate();
+
 var currMonth = today.getMonth();
 var currYear = today.getFullYear();
 var currDate = today.getDate();
@@ -16,7 +20,7 @@ var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 
 //Parameters for fetchevents **********************************************************
-const inputs = { entity: 'user', month: currMonth+1, year: currYear };
+const inputs = { id:'',val:'', month: currMonth, year: currYear };
 const params = {
     method: 'POST',
     headers: {
@@ -24,20 +28,25 @@ const params = {
     },
     body: JSON.stringify(inputs)
 }
-
-function showEvents(events,divEvents) {
+var evnt;
+function ts2Date(ts) { return new Date(ts._seconds*1000);}
+function showEvents(events, divEvents) {
     //when promise fullfilled - then (cal_JSON = > { mark busydays })
     if (events.length == 0) return;
-    busydays = new Set(events.map(x => x.date));
+    evnt = events;
+    busydays = new Set(events.map(e => ts2Date(e.start).getDate()));
     busydays.forEach(date => markBusy(date, velv));
     var evnt_lst = get(divEvents); evnt_lst.innerHTML = "";
     const today = new Date().getDate();
     var dayhdr = "";
     events.forEach(evnt => {
-        if (evnt.date >= today) {
-            if (dayhdr != evnt.date) {
-                dayhdr = evnt.date;
-                const lbl_dt = create('label'); lbl_dt.setAttribute('class', 'date-hdr'); lbl_dt.innerText = [dayhdr, inputs.month, inputs.year].join('-');
+        const d = ts2Date(evnt.start).getDate();
+        const dStr = ts2Date(evnt.start).toDateString();
+        
+        if (d >= today) {
+            if (dayhdr != dStr) {
+                dayhdr = dStr;
+                const lbl_dt = create('label'); lbl_dt.setAttribute('class', 'date-hdr'); lbl_dt.innerText = dayhdr;
                 evnt_lst.appendChild(lbl_dt);
             }
             evnt_lst.appendChild(newEvent(evnt));
@@ -54,35 +63,51 @@ function showEvents(events,divEvents) {
 // get('next-y').addEventListener('click', changeMonthYear('year', 'next'));
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+var prevDate = "";
+function setDateClicks() {
+    for (i = 7; i < calDates.length; i++) {
+        const date = calDates[i].innerText;
+        if (date != "")
+            if ((currYear<=thisY)&&(currMonth<=thisM)&&(date <=thisD))
+                {setColor(date, grey);}
+            else
+                get(date).addEventListener('click', (e) => {
+                    selDate = new Date([currYear, currMonth + 1, date].join('-'));
+                    setParams('start', selDate); setParams('end', selDate);
+                    if (prevDate != "") setColor(prevDate, 'white');
+                    setColor(date, blue);
+                    prevDate = date;
+                })
+    }
+}
+
 function changeMonthYear(month_year, prev_next) {
     if (month_year == 'mon') {
-        if (prev_next === 'prev')
-            (currMonth == 0) ? currMonth = 11 : currMonth--;
-        else
-            (currMonth == 11) ? currMonth = 0 : currMonth++;
+        if (prev_next === 'prev') currMonth = (currMonth === 0) ? 11 : --currMonth;
+        if (prev_next === 'next') currMonth = (currMonth === 11) ? 0 : ++currMonth;
     }
     else
         (prev_next === 'prev') ? currYear-- : currYear++;
     drawCalendar();
-    inputs.month = currMonth+1; inputs.year = currYear;
+    inputs.month = currMonth; inputs.year = currYear;
 }
 
 function setCurrentDate(date) {
     const dt = new Date(date);
     currYear = dt.getFullYear();
-    currMonth = dt.getMonth(); 
+    currMonth = dt.getMonth();
     currDate = dt.getDate();
 }
 
 function drawCalendar() {
     var cal = get('cal-dates'); cal.innerHTML = "";
-    days.forEach(day => cal.appendChild(newDay(day))); 
+    days.forEach(day => cal.appendChild(newDay(day)));
     const fd = new Date(currYear, currMonth, 1).getDay(); //Note: month is 0 for Jan
-    const maxDate = new Date(currYear, currMonth+1, 0).getDate(); //Note: Date(2020,1,0) gives 31st Jan 2020; month 1 == Feb
+    const maxDate = new Date(currYear, currMonth + 1, 0).getDate(); //Note: Date(2020,1,0) gives 31st Jan 2020; month 1 == Feb
     for (i = 0; i < fd; i++) cal.appendChild(newDay(-1));
     for (i = 1; i <= maxDate; i++)cal.appendChild(newDay(i, true));
     get('month').innerText = months[currMonth]; get('year').innerText = currYear;
-    setDate(currDate);
+    if ((currMonth == thisM) && (currYear == thisY)) setDate(currDate);
 }
 function newDay(val, clkable) {
     const nday = create('div');
@@ -95,25 +120,17 @@ function newDay(val, clkable) {
     return nday;
 }
 
-function newEvent(params) {
+function newEvent(event) {
     var div_event = create('div');
     div_event.setAttribute('class', 'bbdr pada-12');
-    div_event.setAttribute('onClick', "window.location='checkin?aid=" + params.aid +"'");
-    const lbl_start = create('label'); lbl_start.innerText = params.start;
-    const lbl_bname = create('label'); lbl_bname.innerText = params.bname; lbl_bname.style.display = 'inline';
-    const icn = create('i'); icn.innerText = 'more_vert'; icn.setAttribute('class', 'material-icons');icn.setAttribute('style','font-size:1em;float:right;')
+    div_event.setAttribute('onClick', "window.location='checkin?aid=" + event.aid + "'");
+    const lbl_start = create('label'); lbl_start.innerText = ts2Date(event.start).toDateString();
+    const lbl_bname = create('label'); lbl_bname.innerText = event.bname; lbl_bname.style.display = 'inline';
+    const icn = create('i'); icn.innerText = 'more_vert'; icn.setAttribute('class', 'material-icons'); icn.setAttribute('style', 'font-size:1em;float:right;')
     div_event.appendChild(lbl_start); div_event.appendChild(lbl_bname); div_event.appendChild(icn);
     return div_event;
 }
 
-function setDate(el) {
-    if (selCell) setcolor(selCell, defColor);
-    setcolor(el, blue);
-    selCell = el;
-    // if(typeof dateClicked==="function") dateClicked(el); // custom function to do further processing
-}
-
+function setDate(el) { if (selCell) setColor(selCell, defColor); setColor(el, blue); selCell = el; }
 function markBusy(el, clr) { get(el).style.borderLeft = '4px solid ' + clr }
-function setcolor(el, clr) { get(el).style.background = clr }
-function create(el) { return document.createElement(el) }
-function get(el) { return document.getElementById(el) }
+function setColor(el, clr) { get(el).style.background = clr }

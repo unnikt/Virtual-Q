@@ -2,6 +2,11 @@ import express = require('express');
 import hbEngine = require('express-handlebars');
 import * as corsMod from 'cors';
 import * as functions from 'firebase-functions';
+import admin = require('firebase-admin');
+
+//Initialise firebaseapp
+admin.initializeApp(functions.config().firebase);
+
 
 const main = express();
 const cors = corsMod({ origin: true });

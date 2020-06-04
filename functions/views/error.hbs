@@ -1,71 +1,55 @@
 <style>
-        body {
-        background: linear-gradient(45deg, rgb(235, 225, 225), #23a6d5, #23d5ab);
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
-    }
-
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-
     .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: auto;
-        padding: 1em;
-        width: 70%;
-        background: white;
-        overflow-y: auto;
-        box-shadow: 4px 8px 16px 0px var(--shadow-color);
-        transform: translate(-50%, -50%);
-        border-radius: 5px;
-    }
-
-    .acc {
         display: grid;
-        grid-template-columns: 1fr 11fr;
-        margin: 4px 0;
-        padding: 0 8px;
-        cursor: pointer;
-        color: var(--accent-color);
-        font-weight: 600;
-        border: 1px solid var(--shadow-color);
+        color: white;
     }
 
-    .acc>a {
+    .icntxt {
+        padding: 16px;
+        cursor: pointer;
+        font-weight: 600;
+        border-bottom: 4px solid white;
+    }
+
+    i {
+        vertical-align: middle;
+    }
+
+    .icntxt>a {
         padding: 4px;
         text-decoration: none;
-        color: tomato;
-
+        vertical-align: middle;
+        color: white;
     }
 
-    .acc>i {
-        border-radius: 50%;
-        color: tomato;
+    .ecover {
+        display: block;
+        background: var(--light-background);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        height: 200px;
+        background-image: url("../img/undraw_donut_love_kau1.svg");
+        clip-path: circle(50% at 0% 0% );
+    }
+
+    body {
+        background: #3d4254;
+        font-family: 'Fredoka One', cursive;
+        text-align: center;
     }
 </style>
+
+<div class="ecover"></div>
 <div class="center">
-    <h2>Sorry something went wrong</h2>
-    <div class="acc" onclick="window.location='/'">
-        <i id="icn01" class="material-icons">house</i>
-        <a href="#">Take me home...</a>
+    <p>!!...You caught us eating donuts...!!</p>
+    <div class="icntxt" onclick="window.location='/'">
+        <i id="icn01" class="material-icons">pool</i>
+        <a href="#">Swim back home...</a>
     </div>
-    <h3>{{title}}</h3>
-    {{msg}}
-    {{!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ducimus quidem aspernatur nostrum accusantium,
-        repellendus eaque magni voluptatibus omnis, aliquid alias nesciunt aut iure ipsum? Iure ipsa ut dignissimos
-        aliquam!
-    </p> --}}
+    <div style="margin-top: 20px;">
+        <p id="errmsg" style="font-size: xx-small;">{{msg}}</p>
+    </div>
+</div>
 </div>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="/__/firebase/7.14.5/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+
+</head>
+
+<body>
+    <div id="mainNav" class="overlay" style="width: 100%;">
+        <div class="overlay-content">
+            <select name="" id="lstBus" onchange="setBid()"></select>
+            <a class="tile" href="javascript:redirect('booknew.html?bid=')">New Booking</a>
+            <a class="tile" href="javascript:redirect('skedules?bid=')">View Calendar</a>
+            <a class="tile" href="javascript:redirect('settings?bid=')">Settings</a>
+            <a class="tile" href="javascript:auth.signOut();">Log out</a>
+            <p class="theme">Keep the distance .. Save time</p>
+        </div>
+    </div>
+</body>
+</html>

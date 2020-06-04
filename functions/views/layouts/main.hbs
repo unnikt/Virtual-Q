@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{title}}</title>
+    <title>VirQ.app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -19,29 +19,19 @@
     <script>
         const auth = firebase.auth();
         auth.onAuthStateChanged(user => { if (!user) window.location = "/"; })
-        function redirect(page) {window.location = page + "uid=" + auth.currentUser.uid;}
+        function redirect(page) { window.location = page + "uid=" + auth.currentUser.uid; }
     </script>
 </head>
 
 <body>
-    <div class="grid bbdr">
+    <div class="grid bbdr" style="padding: 0;">
         <i onclick="openNav()" class="material-icons gicon-regular">menu</i>
         <h3 class="apptitle" style="grid-area: 1/2/span 1 / span 9;margin: 0;">VirQ.app</h3>
-        <div id="myNav" class="overlay">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div class="overlay-content">
-                <a class="tile" href="search.html">Search</a>
-                <a class="tile" href="javascript:redirect('skedules?')">Schedule</a>
-                <a class="tile" href="settings">Settings</a>
-                <a class="tile" href="javascript:auth.signOut();">Log out</a>
-            </div>
-            <p class="theme">Keep the distance - - - Save time</p>
-        </div>
     </div>
     {{{body}}}
     <script>
-        function openNav() { document.getElementById("myNav").style.width = "100%"; }
-        function closeNav() { document.getElementById("myNav").style.width = "0%"; }
+        function openNav() { document.getElementById("mainNav").style.width = "100%"; }
+        function closeNav() { document.getElementById("mainNav").style.width = "0%"; }
     </script>
 </body>
 

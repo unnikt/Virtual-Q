@@ -1,7 +1,7 @@
-import express = require('express');
-import hbEngine = require('express-handlebars');
+import * as express from 'express';
+import * as hbEngine from 'express-handlebars';
 import * as corsMod from 'cors';
-import admin = require('firebase-admin');
+import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 const dbstore = express();
@@ -30,24 +30,46 @@ dbstore.post('/add', (req, res) =>
 
 dbstore.get('/delete', (req, res) =>
     cors(req, res, () => {
-        const location = getlocation(req.query.type.toString());
+        const location = (req.query.type) ? getlocation(req.query.type.toString()) : null;
         const docid = req.query.id;
         res.set('content-type', 'text/html');
         if ((!location) || (!docid))
             res.send("doctype or docid is missing..");
-        db.doc(location + docid).delete()
+        else db.doc(location + docid).delete()
             .then(result => { res.send("Deletion succeeded.") })
             .catch(error => { res.send("Deletion failed..." + error); })
     }));
 
+dbstore.post('/finduser', (req, res) =>
+    cors(req, res, () => {
+        const inp = JSON.parse(req.body); //convert string to JSON
+        const data: { results: { fname: String, sname: String, email: String, phone: String, uid: String }[] } = { results: [] };
+        db.collection('/users').where(inp.field, "==", inp.value).get()
+            .then(results => {
+                results.forEach(doc => data.results.push({ fname: doc.data().fname, sname: doc.data().sname, email: doc.data().email, phone: doc.data().phone, uid: doc.id }));
+                res.json(data);
+            })
+            .catch(err => res.render('error', { title: 'Search user', msg: err }));
+    }))
+dbstore.get('/getbid', (req, res) =>
+    cors(req, res, () => {
+        const uid = req.query.uid;
+        const data: { bid: string, bname: string }[] = [];
+        if (uid)
+            db.collection('providers').where('uid', '==', uid).get()
+                .then(querySnaps => {
+                    querySnaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().orgname }))
+                    res.json(JSON.stringify(data));
+                }
+            )
+        .catch(err => res.render('error',{title:'dbstore/getbid:-',msg:err}))
+}))
+
 function getlocation(doctype: string) {
     switch (doctype) {
-        case ('appointment'):
-            return ("/appointments/");
-        case ('service'):
-            return ('/services/');
-        case ('provider'):
-            return ('/providers/');
+        case ('appointment'): return ("/appointments/");
+        case ('service'): return ('/services/');
+        case ('provider'): return ('/providers/');
     }
     return ("");
 }
@@ -56,11 +78,40 @@ exports.dbstore = functions.https.onRequest(dbstore);
 
 //Create a record in the users collection
 exports.registerUser = functions.auth.user().onCreate(user => {
-    return admin.firestore().collection('users').doc(user.uid).set({
+    return db.collection('users').doc(user.uid).set({
+        fname: 'First Name',
+        sname: 'Sur Name',
+        phone: 'First Name',
         email: user.email,
         business: false,
+        notify: 'email'
     });
 })
+
+//Create a record in the users collection when an appointment is created for a new customer
+// exports.createUser = functions.firestore.document('/appointments/{doc}').onCreate((snap, context) => {
+//     const data = snap.data();
+//     if (data)
+//         if (!data.uid) {
+//             db.collection('users').add({
+//                 fname: data.user.fname,
+//                 sname: data.user.sname,
+//                 phone: data.user.phone,
+//                 email: data.user.email,
+//                 business: false,
+//                 notify: data.user.notify
+//             })
+//                 .then(res => {
+//                     data.uid = res.id;
+//                     return db.collection('appointments').doc(snap.id).set(data.event);
+//                 })
+//                 .catch(err => console.log("dbstore/createUser:-", err));
+//         }
+//         else {
+//             return db.collection('appointments').doc(snap.id).set(data.event);            
+//     }
+    
+// });
 
 //Firestore trigger that creates a default walk in service when the user registers as a service provider
 exports.createDefaultService = functions.firestore.document('/providers/{doc_id}')
@@ -68,7 +119,7 @@ exports.createDefaultService = functions.firestore.document('/providers/{doc_id}
         const pid = context.params.doc_id;
         const pdata = snap.data();
         const default_Services = { sname: 'Walk in', desc: 'Default Walk in service' }
-        
+
         let uid: string = "";
         if (pdata) uid = pdata.uid;
 

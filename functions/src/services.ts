@@ -18,22 +18,28 @@ services.engine('hbs', hbEngine({
 }));
 const cors = corsMod({ origin: true });
 
-// This function returns the services collection for a given provide 
-services.get('/services', (request, response) => 
+// This function renders the services collection for a given provide 
+services.get('/services', (request, response) =>
     cors(request, response, () => {
         // Get the provider id and create path to services collection
-        const pid:string = request.query.pid.toString();
+        const pid = (request.query.pid) ? request.query.pid.toString() : "";
+        const mode = (request.query.mode) ? request.query.mode.toString() : "";
+
         if (pid === null) response.send("No pid specified...");
         // Get the providers with matching uid        
         const params: { sid: string, sname: string }[] = [];
         db.collection('providers').doc(pid).collection('services').get()
             .then(svcs => {
                 svcs.forEach(svc => params.push({ sid: svc.id, sname: svc.data().sname }));
-                response.render('services', { svcs: params });
+                if (mode === 'jsn') {
+                    response.setHeader('Access-Control-Allow-Origin','*')
+                    response.json(params);
+                }
+                else response.render('services', { svcs: params });
             })
-        .catch(err => response.render('error',{title:"Get Services",msg:err}))
-        
-}));
+            .catch(err => response.render('error', { title: "Get Services", msg: err }))
+
+    }));
 
 
 // Add a service to under a provider
