@@ -1,0 +1,32 @@
+.review {
+    font-size: 0.9em;
+    padding: 0;margin: 12px;
+    background: white;
+}
+
+.review label {
+    margin: 1px;
+    padding: 12px;
+    font-size: 1em;
+    background: var(--light-background);
+    color: black;
+}
+
+input[type=checkbox] {
+    margin: 12px 24px;
+    width: 20px;
+    height: 20px;
+}
+
+.results {
+    margin-top: 24px;
+}
+
+.results a {
+    text-decoration: underline;
+    padding: 12px;
+    margin: 2px;
+    width: 90%;
+    background: var(--light-background);
+    color: blue;
+}

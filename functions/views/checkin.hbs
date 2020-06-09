@@ -2,53 +2,81 @@
     .icons-bar>a {
         text-decoration: none;
         padding: 0.2em;
+        color: var(--primary-color);
     }
 </style>
 <div class="grid">
     <div class="icons-bar bbdr">
-        <p style="font-weight: 800; color: var(--accent-color); width: 70%;">{{bname}}</p>
+        <p style="color: var(--accent-color); width: 70%;">{{bname}}</p>
         <a id="icn01" class="material-icons" href="https://g.page/curtisaviation?share">place</a>
         <a id="icn01" class="material-icons" href="tel:0466149150"> call</a>
         <a id="icn01" class="material-icons" href="mailto:unnikt@gmail.com"> email</a>
         <a id="icn01" class="material-icons" href="https://curtisaviation.com.au/"> public</a>
     </div>
-    <h4 style="margin: 0 12px;">{{when}}</h4>
-    <div class="grid" id="QRdiv" style="margin: auto;">
-        <label style="margin: 12px auto;">Scan your QR Code on arrival</label>
-        <div id="qrdiv" data-pid="{{aid}}"></div>
+    <div>
+        <label id="start" style="color:var(--primary-color);font-weight: bold;">{{start}}</label>
+        <label id="sname" style="display: block;">{{sname}}</label>
     </div>
-    <div class="hide" id="delayed">
-        <button style="width: 150px;">Reschedule</button>
-        <button style="width: 150px;">Cancel</button>
+    <div style="display: grid; grid-template-columns: 11fr 1fr;">
+        <select id="status">
+            <option value="">Select your current status</option>
+            <option value="Ontime">On my way</option>
+            <option value="delayed">I am delayed</option>
+            <option value="arrived">I have arrived</option>
+            <option value="Completed">I am leaving</option>
+        </select>
+        {{!-- <i class="material-icons" style="padding: 12px; margin: 12px;" onclick="redirect('skedules?uid=')">send</i> --}}
+        <i class="material-icons" style="padding: 12px; margin: 12px;" id="icnSend">send</i>
     </div>
-    <div style="display: grid; grid-template-columns: 90% 10%;">
-        <label>Update your current status</label>
-        <i class="material-icons" style="float:right;" onclick="redirect('skedules?')">send</i>
+    <div id="arrived" hidden>
+        <label>Scan your QR Code to check in</label>
+        <div id="qrdiv" style="margin: 12px;" data-aid="{{aid}}"></div>
     </div>
-    <select id="status">
-        <option value="ontime">On my way</option>
-        <option value="delayed">Wont make it</option>
-        <option value="checkin">I have arrived</option>
-        <option value="checkout">I am leaving</option>
-    </select>
+    <div id="delayed" hidden>
+        <button id="btnResched" style="width: 110px;" id="btnResched">Reschedule</button>
+        <button id="btnCancel" style="width: 110px;" id="btnCancel">Cancel</button>
+    </div>
 </div>
+
+<div class="modal" id="modRemarks">
+    <div class="mod-content" style="display: grid; grid-template-columns: 10fr 1fr 1fr; ">
+        <textarea name="" id="" placeholder="Enter remarks" style="height: 100px; resize: none;"></textarea>
+        <i class="material-icons" style="margin: auto;" id="icnResched">send</i>
+        <i class="material-icons" style="margin: auto;" id="icnClose">close</i>
+    </div>
+</div>
+
 <script type="text/javascript" src="js/qrcode.js"></script>
 <script>
-    const qrdiv = document.getElementById('qrdiv');
-    const delayed = document.getElementById('delayed');
-    const optStatus = document.getElementById('status');
-    new QRCode("qrdiv", { text: qrdiv.getAttribute('data-pid'), width: 250, height: 250 });
+    const qrdiv = get('qrdiv'); const aid = qrdiv.getAttribute('data-aid');
+    const optStatus = get('status');
+    new QRCode("qrdiv", { text: aid, width: 200, height: 200 });
 
+    var visDiv = null;
     optStatus.addEventListener('change', e => {
-        switch (optStatus.value) {
-            case 'delayed':
-                hide('qrdiv'); show('delayed');
-                break;
-            default:
-                hide('delayed'); show('qrdiv');
-                break;
-        }
+        if (visDiv) visDiv.hidden = true;
+        visDiv = get(optStatus.value);
+        if (visDiv) visDiv.hidden = false;
     });
-    function show(eid) { document.getElementById(eid).style.display = 'block'; }
-    function hide(eid) { document.getElementById(eid).style.display = 'none'; }
+
+    get('icnSend').addEventListener('click', (e) => updStatus());
+    var tmpStat;
+    get('btnResched').addEventListener('click', e => { tmpStat = 'reschedule'; get('modRemarks').style.display = 'block'; })
+    get('btnCancel').addEventListener('click', e => { tmpStat = 'cancel'; get('modRemarks').style.display = 'block'; })
+    get('icnClose').addEventListener('click', e => { get('modRemarks').style.display = 'none'; })
+    get('icnResched').addEventListener('click', e => { updStatus(tmpStat); get('modRemarks').style.display = 'none'; })
+
+    function updStatus(status) {
+        //Status = On time,Delayed,Arrived,Cancelled,Reschedule,Completed
+        const payload = { aid: aid, status: get('status').value };
+        if (status) payload.status = status;
+        const params = { method: 'POST', headers: { 'Accept': 'application/json' }, body: JSON.stringify(payload) }
+        fetch('/evntstatus', params)
+            .then(response =>
+                response.text()
+                    .then(txt => console.log(txt))
+                    .catch(err => console.log(err)))
+            .catch(err => console.log(err));
+    }
+    function get(e) { return document.getElementById(e); }
 </script>

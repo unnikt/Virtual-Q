@@ -33,7 +33,8 @@
       {"source": "/addservice","function": "services"},
       {"source": "/remservice","function": "services"},
       {"source": "/editservice","function": "services"},
-      {"source": "/getevents","function": "events"}
+      {"source": "/getevents","function": "events"},
+      {"source": "/evntstatus","function": "events"}
     ]
   },
   "emulators": {

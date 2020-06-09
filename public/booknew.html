@@ -12,75 +12,22 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/booknew.css">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="/__/firebase/7.14.5/firebase-app.js"></script>
     <!-- Add Firebase products that you want to use -->
     <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
     <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
-    <style>
-        .review {
-            font-size: 1em;
-            padding: 0;
-            margin: 12px;
-        }
-
-        .review label {
-            margin: 1px;
-            padding: 12px;
-            font-size: 1em;
-            background: var(--light-background);
-            color: black;
-        }
-
-        input[type=checkbox] {
-            margin: 12px 24px;
-            width: 20px;
-            height: 20px;
-        }
-
-        .results {
-            margin-top: 24px;
-        }
-
-        .results a {
-            text-decoration: underline;
-            padding: 12px;
-            margin: 2px;
-            width: 90%;
-            background: var(--light-background);
-            color: blue;
-        }
-
-        .mod-Dialog {
-            padding: 12px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            position: absolute;
-            background: var(--light-background);
-        }
-
-        .mod-Dialog>p {
-            font-size: 18px;
-            padding: 12px;
-        }
-
-        .mod-Dialog>a {
-            width: 90%;
-            margin: 4px auto;
-        }
-    </style>
+    <script src="/__/firebase/init.js"></script>    
 </head>
 
 <body>
-    <div class="grid bbdr">
-        <i class="material-icons gicon-regular" onclick="openNav()">menu</i>
-        <h3 class="apptitle" style="grid-area: 1/2/span 1 / span 9;margin: 0;"> VirQ.app</h3>
+    <div class="bbdr" style="display: flex;">
+        <p class="apptitle"> VirQ.app</p>
+        <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu(this)">menu</i>
     </div>
     <div id="mainNav" class="overlay">
         <div class="overlay-content">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <select name="" id="lstBus" onchange="setBid()"></select>
             <a class="tile" href="javascript:redirect('booknew.html?bid=')">New Booking</a>
             <a class="tile" href="javascript:redirect('skedules?bid=')">View Calendar</a>
@@ -97,26 +44,26 @@
         <li id="tab4" onclick="showReview('divReview','tab4')">Review</li>
     </ul>
 
-    <div id="divCustomer" >
+    <div id="divCustomer">
         <div id="divSearch" class="grid" style="display: grid; grid-template-columns: 11fr 1fr;">
             <input id="inpSearch" type="text" class="searchbox" placeholder="Enter email / phone" tabindex="1"
-                style="border: 0;margin: 0;">
-            <i id="iSearch" class="material-icons" tabindex="2" onclick="searchCustomer()">search</i>
+                style="margin: 0;">
+            <i id="iSearch" class="material-icons" tabindex="2" onclick="searchCustomer('find')">search</i>
         </div>
         <div class="grid">
             <label for="">Or Add new Customer</label>
-            <form id="newuser" action="POST" class="show">
-                <input type="text" id="fname" placeholder="First Name" autocomplete="given-name">
-                <input type="text" id="sname" placeholder="Sur Name" autocomplete="family-name">
-                <input type="tel" id="phone" placeholder="Phone Name" autocomplete="tel">
+            <form id="newuser" onsubmit="return false;">
+                <input type="text" id="fname" placeholder="First Name" autocomplete="given-name" required>
+                <input type="text" id="sname" placeholder="Sur Name" autocomplete="family-name" required>
+                <input type="tel" id="phone" placeholder="Phone Name" autocomplete="tel" required>
                 <input type="email" id="email" placeholder="Emaid Id" autocomplete="email" required>
-                <input type="button" value="Next" onclick="getServices('divServices')">
+                <input type="button" value="Next" onclick="searchCustomer('create')">
             </form>
         </div>
     </div>
 
     <div id="divServices" hidden>
-    <div id="svcgrid" class="grid"></div>
+        <div id="svcgrid" class="grid"></div>
     </div>
 
     <div id="divCalendar" hidden>
@@ -130,11 +77,10 @@
             <i id="next-y" class="material-icons " onclick="localCMY('year', 'next')">chevron_right</i>
             <i id="icnfold" class="material-icons " onclick="fold('icnfold','cal-container')">expand_less</i>
         </div>
-        <div id="cal-container" style="display: block;">
+        <div id="cal-container" class="dates-container">
             <div id="cal-dates" class="cal-dates"></div>
         </div>
-        <!-- <input type="button" value="Next" onclick="showReview('divReview')"> -->
-
+        <button onclick="showReview('divReview','tab4')">Next</button>
         <div class="grid">
             <div class="grid nopad" id="evnt-lst"></div>
         </div>
@@ -157,7 +103,7 @@
             <label id="end">10:30 AM</label>
         </div>
 
-        <div class="grid" style="grid-template-columns: 8fr 1fr 1fr 1fr 1fr ; padding:0;margin: 12px;">
+        <div class="grid" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr ; padding:0;margin: 12px;">
             <label>Send notifications to</label>
             <input type="checkbox" placeholder="Notify" value="email" id="notem" onclick="setNotify('email')"><label
                 style="margin-left: 0;">Email</label>
@@ -169,14 +115,16 @@
         <button onclick="saveBooking()" id="submit" disabled>Confirm Booking</button>
     </div>
 
-    <div id="divfinal" class="mod-Dialog shdw" hidden>
-        <p class="fmont">Booking Saved successfully</p>
-        <a href="javascript:redirect('booknew.html?bid=')" class="a-settings">Make another booking</a>
-        <a href="javascript:redirect('skedules?bid=')" class="a-settings">View Calendar</a>
+    <div id="divfinal" class="modal" hidden>
+        <div class="mod-content" style="display: block;">
+            <p class="fmont">Booking Saved successfully</p>
+            <a href="javascript:redirect('booknew.html?bid=')" class="a-settings">Make another booking</a>
+            <a href="javascript:redirect('skedules?bid=')" class="a-settings">View Calendar</a>
+        </div>
     </div>
 
-    <div class="mod-container" id="selCustomer">
-        <div class="mod-content" style="overflow-y: scroll; height: 60%;">
+    <div class="modal" id="selCustomer">
+        <div class="mod-content" style="overflow-y: scroll; height: 60%;" >
             <div class="grid bbdr" style="grid-template-columns: 11fr 1fr;">
                 <h4>Search Results</h4>
                 <i class="material-icons" style="display: inline;"
@@ -185,8 +133,6 @@
             <div class="grid results" id="srchResult"></div>
         </div>
     </div>
-
-
 
     <script src="js/app.js"></script>
     <script src="js/calendar.js"></script>
@@ -203,7 +149,7 @@
         function fetchEvents() {
             spinner();
             //  fetch ('/getCalendar',params:{POST:}}) 
-            inputs.id='bid';inputs.val=bid;
+            inputs.id = 'bid'; inputs.val = bid;
             params.body = JSON.stringify(inputs)
             fetch("/getevents", params)
                 .then(response => response.json()
@@ -215,6 +161,11 @@
             fetchEvents();
             setDateClicks();
         }
+        function togmenu() {
+            if (mainNav.style.width == '100%') { mainNav.style.width = "0%"; mainIcn.style.color = 'var(--primary-color)'; mainIcn.innerText = 'menu'; }
+            else { mainNav.style.width = '100%'; mainIcn.style.color = 'white'; mainIcn.innerText = 'close'; }
+        }
+
         //***********************************************************************
         get('iSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
         get('inpSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });

@@ -24,23 +24,23 @@ events.post("/getevents", (req, res) =>
         const inp = JSON.parse(req.body);
         const id = inp.id; const val = inp.val;
         const start = new Date(inp.year, inp.month, 1);
-        const end = new Date(inp.year, inp.month+1, 0);
+        const end = new Date(inp.year, inp.month + 1, 0);
         start.setHours(0, 0, 0);
         end.setHours(23, 59, 59, 59);
-        
+
         // console.log("/getevents");
         const data: { events: { aid: string, start: string, end: string, bname: string, sname: string }[] } = { events: [] };
         if (id && val)
             db.collection('appointments')
-                .where(id, '==', val).where('start','>=',start).where('start','<=',end)
+                .where(id, '==', val).where('start', '>=', start).where('start', '<=', end)
                 .orderBy('start').get()
                 .then(results => {
                     results.forEach(doc => data.events.push({
                         aid: doc.id,
                         start: doc.data().start,
                         end: doc.data().end,
-                        bname: doc.data().bid,
-                        sname: doc.data().sid
+                        bname: doc.data().bname,
+                        sname: doc.data().svc
                     }));
                     res.json(data);
                 })
@@ -48,5 +48,25 @@ events.post("/getevents", (req, res) =>
         else
             res.json(data);
     }));
+
+events.post("/evntstatus", (req, res) =>
+    cors(req, res, () => {
+        console.log(req);
+        const frm = JSON.parse(req.body);
+        console.log(frm);
+        //Status = On time,Delayed,Arrived,Cancelled,Reschedule,Completed
+        if (frm.status === 'GET')         //if status is 'GET' then return status all others update status.
+            db.collection('appointments').doc(frm.aid).get()
+                .then(doc => {
+                    const data = doc.data();
+                    if (data) res.send(frm.aid + "status is " + data.status);
+                })
+                .catch(err => res.send("Status update failed " + err));
+        else
+            db.collection('appointments').doc(frm.aid).update({ status: frm.status })
+                .then(resp => res.send(frm.aid + ' Status set to ' + frm.status))
+                .catch(err => res.send("Status update failed " + err));
+    }));
+
 
 exports.events = functions.https.onRequest(events);

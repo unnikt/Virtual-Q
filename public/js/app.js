@@ -4,6 +4,13 @@
 var gProviderID = "AUS-SYD-CAM-001";
 var gID = 0;
 
+function toast(msg) {
+    var toast = get('toast');
+    if (toast == null) { toast = create('div'); toast.setAttribute('class', 'toast'); toast.id = 'toast'; }
+    toast.innerText = msg;
+    document.body.append(toast);
+    setTimeout(() => { toast.style.opacity = 0; }, 500);
+}
 
 function spinner(action) {
     var mod_Container = document.getElementById('busy-bee');
@@ -62,8 +69,5 @@ function fold(iid, eid) {
 function create(el) { return document.createElement(el) }
 function get(el) { return document.getElementById(el); }
 function disp(el, opt) { el.style.display = opt; }
-
-function openNav() { document.getElementById("mainNav").style.width = "100%"; }
-function closeNav() { document.getElementById("mainNav").style.width = "0%"; }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

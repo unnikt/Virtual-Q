@@ -22,23 +22,23 @@ const cors = corsMod({ origin: true });
 services.get('/services', (request, response) =>
     cors(request, response, () => {
         // Get the provider id and create path to services collection
-        const pid = (request.query.pid) ? request.query.pid.toString() : "";
+        const bid = (request.query.bid) ? request.query.bid.toString() : "";
         const mode = (request.query.mode) ? request.query.mode.toString() : "";
-
-        if (pid === null) response.send("No pid specified...");
-        // Get the providers with matching uid        
-        const params: { sid: string, sname: string }[] = [];
-        db.collection('providers').doc(pid).collection('services').get()
-            .then(svcs => {
-                svcs.forEach(svc => params.push({ sid: svc.id, sname: svc.data().sname }));
-                if (mode === 'jsn') {
-                    response.setHeader('Access-Control-Allow-Origin','*')
-                    response.json(params);
-                }
-                else response.render('services', { svcs: params });
-            })
-            .catch(err => response.render('error', { title: "Get Services", msg: err }))
-
+        if ((bid===null)||(bid==="")) response.send("No bid specified...");
+        else {
+            // Get the providers with matching uid        
+            const params: { sid: string, sname: string }[] = [];
+            db.collection('providers').doc(bid).collection('services').get()
+                .then(svcs => {
+                    svcs.forEach(svc => params.push({ sid: svc.id, sname: svc.data().sname }));
+                    if (mode === 'jsn') {
+                        response.setHeader('Access-Control-Allow-Origin', '*')
+                        response.json(params);
+                    }
+                    else response.render('services', { svcs: params });
+                })
+                .catch(err => response.render('error', { title: "Get Services", msg: err }))
+        }
     }));
 
 

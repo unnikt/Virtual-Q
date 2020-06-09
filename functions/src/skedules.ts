@@ -24,20 +24,10 @@ skedules.get("/skedules", (req, res) =>
         const bid = req.query.bid;
         const field = (uid) ? 'uid' : (bid) ? 'bid' : null;
         // const val = (uid) ? uid : (bid) ? bid : null;
-
         if (field === null)
             res.render('error', { title: "Can't get schedule", msg: "No uid or bid specified..." });
         else {
-            let start = new Date();
-            if (req.query.from) start = new Date(req.query.from.toString());
-            let end = new Date();
-            if (req.query.to) end = new Date(req.query.to.toString())
-            else end = new Date(start.getFullYear(), start.getMonth(), start.getDate());
-
-            start.setHours(0, 0, 0);
-            end.setHours(23, 59, 59);
-
-            res.render('skedules');
+            (bid) ? res.render('skedules', { layout: 'main' }) : res.render('skedules', { layout: 'main' });
         }
     }));
 
@@ -46,8 +36,8 @@ skedules.post('/saveslot', (req, res) =>
         const data = req.body;
         const ev = data.event;
         const ts = firebase.firestore.Timestamp;
-        const event = { bid: ev.bid, sid: ev.sid, uid: ev.uid, start: ts.fromDate(new Date(ev.start)), end: ts.fromDate(new Date(ev.end)) }
-        console.log(event);
+        const event = { bid: ev.bid, bname: ev.bname, sid: ev.sid, svc: ev.svc, uid: ev.uid, start: ts.fromDate(new Date(ev.start)), end: ts.fromDate(new Date(ev.end)), status: 'new' }
+
         if (data.event.uid)
             db.collection('appointments').add(event)
                 .then(result => { res.send(result); })
@@ -94,31 +84,27 @@ skedules.get('/delslot', (req, res) =>
             .catch(error => { res.send("Deletion failed..." + error); })
     }));
 
-skedules.get('/checkin', (request, response) =>
+skedules.post('/checkin', (request, response) =>
     cors(request, response, () => {
-        const aid: string = (request.query.aid) ? request.query.aid.toString() : "";
-        // response.set('content-type', 'text/html');
-        if (aid === null)
-            response.render('error', { title: "ErrorError[SK01]", msg: "No such booking found..!" });
-        db.collection('appointments').doc(aid).get()
-            .then(doc => {
-                const data = doc.data();
-                if (data)
-                    response.render('checkin', { aid: aid, bname: data.pid, when: data.from.toDate() });
-            })
-            .catch(err => response.render('error', { title: "Error[SK02]", msg: "No such booking found..!" }))
+        const form = request.body;
+        if (form) {
+            response.render('checkin', { aid: form.aid, bname: form.bname, sname: form.sname, start: form.start, end: form.end });
+        }
+        else
+            response.render('error', { title: "Checkin", msg: "No data found" });
     }));
 
-// function getBusyDays(uid:string,year:number, month:number) {
-//     const dfirst = new Date(year, month, 1);
-//     const dlast = new Date(year, month + 1, 0);
-//     // const busydays:string [] = [];
-//     return db.collection('appointments')
-//         .where('uid', '==', uid)
-//         .where('from', '>=', dfirst)
-//         .where('from', '<=', dlast).get()
+exports.skedules = functions.https.onRequest(skedules);
+
+// function ts2DateTime(ts: firebase.firestore.Timestamp) {
+//     const dt = new Date(ts.seconds * 1000);
+//     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+//     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+//     let dateTime = [days[dt.getDay()], months[dt.getMonth()], dt.getDate(), dt.getFullYear(), ' '].join(' ');
+//     dateTime = dateTime + [dt.getHours(), lpad(dt.getMinutes())].join(':');
+//     // dateTime = [dateTime, dt.getTimezoneOffset()].join(' ');
+//     return (dateTime);
 // }
 
-
-
-exports.skedules = functions.https.onRequest(skedules);
+// function lpad(num: number) { return (num < 10) ? '0' + num : num; }

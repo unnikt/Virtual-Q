@@ -14,7 +14,7 @@
 }
 body{
     overflow-x: hidden;
-    background: var(--accent-color);
+    background: var(--light-background);
     /* background:url(../img/undraw_stand_out_1oag.svg);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -25,11 +25,11 @@ body{
 /* Start - Full screen menu */
 .overlay {
     height: 100%;  width: 0%;
-    position: fixed; z-index: 3;
-    top: 0; left: 0;
+    position: fixed; z-index: 1;
+    top: 0; right: 0;
     background-color:var(--accent-color);
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: 500ms;
 }
 
 .overlay-content > select{
@@ -69,14 +69,6 @@ body{
     text-align: center;
 }
 
-@media screen and (max-height: 450px) {
-    .overlay a {font-size: 20px}
-    .overlay .closebtn {
-        font-size: 40px;
-        top: 15px;
-        right: 35px;
-    }
-}
 .theme {
      padding: 1em;
     color: white; 
@@ -232,6 +224,7 @@ h4{margin: 12px; color: var(--primary-color);}
     color: white;
 }
 
+.modal,
 .mod-container,
 .modal-form{
     display: none; /* Hidden by default */
@@ -249,6 +242,7 @@ h4{margin: 12px; color: var(--primary-color);}
     margin: auto; padding: 1em; width: 70%;
     background: white; overflow-y: auto;
     box-shadow: 4px 8px 16px 0px var(--shadow-color);
+    border-radius: 10px;
     transform: translate(-50%,-50%);
 }
 .mod-header {
@@ -268,8 +262,28 @@ h4{margin: 12px; color: var(--primary-color);}
     background: var(--accent-color);
     padding: 0;
     z-index: 1;  }
-@media only screen and (min-width: 600px) {
+.toast {
+    position: fixed; opacity: 100%;
+    bottom: 50px; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--accent-color);
+    padding: 16px;color: white; 
+    border-radius: 5px;
+    font-size: small; width: fit-content;
+    transition: opacity 2s;
+}
 
+/* media query */
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+
+@media only screen and (min-width: 600px) {
 body{
     width: 70%;
     margin: auto;

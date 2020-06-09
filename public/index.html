@@ -37,6 +37,7 @@
       callbacks: {
         signInSuccess: function (currentUser, credential, redirectUrl) {
           document.getElementById('firebaseui-auth-container').hidden = true;
+          document.getElementById('dvBusy').hidden = false;
           const userId = currentUser.uid;
           window.location.assign(`/home?uid=${userId}`);
           return false
@@ -50,9 +51,13 @@
         window.location.assign('<your-privacy-policy-url>');
       }
     };
-    
+
     auth.onAuthStateChanged(user => {
-      if (user) window.location = '/home?uid=' + user.uid;
+      if (user) {
+        document.getElementById('firebaseui-auth-container').hidden = true;
+        document.getElementById('dvBusy').hidden = false;
+        window.location = '/home?uid=' + user.uid;
+      }
       else {
         var ui = new firebaseui.auth.AuthUI(auth);
         ui.start('#firebaseui-auth-container', uiConfig);
@@ -88,6 +93,19 @@
       height: 50vh;
       background-image: url("img/undraw_snow_games_ohkc.svg");
     }
+
+    /* body {
+      background: var(--accent-color);
+    } */
+
+    .busy {
+      margin: auto;
+      display: block;
+      width: 100px;
+      padding: 24px;
+      z-index: 2;
+      
+    }
   </style>
 </head>
 
@@ -97,6 +115,7 @@
     <h3 class="apptitle"> Welcome to VirQ.app</h3>
   </div>
   <div id="firebaseui-auth-container"></div>
+  <div id="dvBusy" hidden><img class="busy" src="../public/img/bars.svg" alt=""></div>
 </body>
 
 </html>

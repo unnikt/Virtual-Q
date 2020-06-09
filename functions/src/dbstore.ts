@@ -42,15 +42,32 @@ dbstore.get('/delete', (req, res) =>
 
 dbstore.post('/finduser', (req, res) =>
     cors(req, res, () => {
-        const inp = JSON.parse(req.body); //convert string to JSON
-        const data: { results: { fname: String, sname: String, email: String, phone: String, uid: String }[] } = { results: [] };
-        db.collection('/users').where(inp.field, "==", inp.value).get()
-            .then(results => {
-                results.forEach(doc => data.results.push({ fname: doc.data().fname, sname: doc.data().sname, email: doc.data().email, phone: doc.data().phone, uid: doc.id }));
-                res.json(data);
-            })
-            .catch(err => res.render('error', { title: 'Search user', msg: err }));
-    }))
+        const payload = JSON.parse(req.body); //convert string to JSON
+        if (payload.mode === 'find') {
+            const data: { results: { fname: String, sname: String, email: String, phone: String, uid: String }[] } = { results: [] };
+            db.collection('/users').where(payload.field, "==", payload.value).get()
+                .then(results => {
+                    results.forEach(doc => data.results.push({ fname: doc.data().fname, sname: doc.data().sname, email: doc.data().email, phone: doc.data().phone, uid: doc.id }));
+                    res.json(data);
+                })
+                .catch(err => res.render('error', { title: 'Search user', msg: err }));
+        }
+        else if (payload.mode === 'create')
+            db.collection('users').where('email', '==', payload.email).get()
+                .then(qEmail => {
+                    if (qEmail.size > 0) res.json({ code: 0, msg: 'User with the same email exists..Please use search..' });
+                    else db.collection('users').where('phone', '==', payload.phone).get()
+                        .then(qPhone => {
+                            if (qPhone.size > 0) res.json({ code: 0, err: 'User with the same number exisits..Please use search..' })
+                            else res.json({ code: 1, err: 'No user found..' })
+                        })
+                        .catch(err => res.json({ err: err }));
+                })
+                .catch(err => res.json({ err: 'Create failed while validating...' + err }));
+        else
+            res.json({ code: -1, err: 'Invalid request...' });
+    }));
+
 dbstore.get('/getbid', (req, res) =>
     cors(req, res, () => {
         const uid = req.query.uid;
@@ -61,9 +78,9 @@ dbstore.get('/getbid', (req, res) =>
                     querySnaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().orgname }))
                     res.json(JSON.stringify(data));
                 }
-            )
-        .catch(err => res.render('error',{title:'dbstore/getbid:-',msg:err}))
-}))
+                )
+                .catch(err => res.render('error', { title: 'dbstore/getbid:-', msg: err }))
+    }))
 
 function getlocation(doctype: string) {
     switch (doctype) {
@@ -110,7 +127,7 @@ exports.registerUser = functions.auth.user().onCreate(user => {
 //         else {
 //             return db.collection('appointments').doc(snap.id).set(data.event);            
 //     }
-    
+
 // });
 
 //Firestore trigger that creates a default walk in service when the user registers as a service provider

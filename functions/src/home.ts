@@ -29,7 +29,7 @@ home.get("/home", (req, res) =>
                 .then(snaps => {
                     snaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().orgname }));
                     if (data.length > 0)
-                        res.render('homeb', { bus:data });
+                        res.render('homeb', {layout:'mainb', bus:data });
                     else
                         res.redirect('skedules?uid=' + uid);
                 })

@@ -18,6 +18,7 @@ function getTime(date){
     return(hh+":"+mm);
 }
 
+
 function yesterday(today) {
     var d = new Date(today);
     d.setDate(d.getDate() - 1); 

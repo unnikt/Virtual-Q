@@ -17,11 +17,19 @@
         <i id="next-y" class="material-icons " onclick="localCMY('year', 'next')">chevron_right</i>
         <i id="icnfold" class="material-icons " onclick="fold('icnfold','cal-container')">expand_less</i>
     </div>
-    <div id="cal-container" style="display: block;">
+    <div id="cal-container" >
         <div id="cal-dates" class="cal-dates" hidden></div>
     </div>
     <div class="grid nopad" id="evnt-lst"></div>
 </div>
+
+<form id="frmcheckin" action="/checkin" method="POST" hidden>
+    <input type="text" name="aid">
+    <input type="text" name="bname">
+    <input type="text" name="sname">
+    <input type="text" name="start">
+    <input type="text" name="end">
+</form>
 
 <script src="js/app.js"></script>
 <script src="js/calendar.js"></script>

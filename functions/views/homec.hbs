@@ -1,20 +1,13 @@
 <div id="mainNav" class="overlay">
     <div class="overlay-content">
-        <select name="" id="lstBus" onchange="setBid()">
-            {{#each bus}}
-            <option value="{{bid}}">{{bname}}</option>
-            {{/each}}
-        </select>
-        <a class="tile" href="javascript:redirect('booknew.html?bid=')">New Booking</a>
-        <a class="tile" href="javascript:redirect('skedules?bid=')">View Calendar</a>
-        <a class="tile" href="javascript:redirect('settings?bid=')">Settings</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a class="tile" href="javascript:redirect('skedules?uid=')">View Calendar</a>
+        <a class="tile" href="javascript:redirect('settings?uid=')">Settings</a>
         <a class="tile" href="javascript:auth.signOut();">Log out</a>
         <p class="theme">Keep the distance - Save time</p>
     </div>
 </div>
 <script>
     var bid = null;
-    setBid();
-    function setBid() { bid = get('lstBus').value; }
-    function redirect(page) { window.location = page + bid; }
+    function redirect(page) { window.location = page + uid; }
 </script>
