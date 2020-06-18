@@ -9,6 +9,7 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const today = new Date();
 const thisM = today.getMonth(); const thisY = today.getFullYear(); const thisD = today.getDate();
+var mode = 'cus'; //Options are 'bus','cus' and 'res'
 
 var selCell = null;
 var selDate = null;
@@ -18,14 +19,14 @@ var currYear = today.getFullYear();
 var currDate = today.getDate();
 
 //Parameters for fetchevents **********************************************************
-const inputs = { id:'',val:'', month: currMonth, year: currYear };
+const payload = { id: '', val: '', month: currMonth, year: currYear };
 const params = {
     method: 'POST',
-    headers: {'Accept': 'application/json'},
-    body: JSON.stringify(inputs)
+    headers: { 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
 }
-var mEvents; 
-function showEvents(events, divEvents) {
+var mEvents;
+function showEvents(events, divEvents, mode) {
     if (events.length == 0) return;
     mEvents = events; markBusyDays();
     var evnt_lst = get(divEvents); evnt_lst.innerHTML = "";
@@ -56,9 +57,10 @@ function newEvent(event) {
         get('frmcheckin').submit();
     })
     const lbl_start = create('label'); lbl_start.innerText = ts2LocalTime(event.start);
-    const lbl_bname = create('label'); lbl_bname.innerText = event.bname; lbl_bname.style.display = 'inline';
-    const icn = create('i'); icn.innerText = 'more_vert'; icn.setAttribute('class', 'material-icons'); icn.setAttribute('style', 'font-size:1em;float:right;')
-    div_event.appendChild(lbl_start); div_event.appendChild(lbl_bname); div_event.appendChild(icn);
+    const lbl_bname = create('label'); lbl_bname.innerText = (mode === 'cus') ? event.bname : event.uname;
+    const lbl_svc = create('label'); lbl_svc.innerText = event.sname;
+    const lbl_status = create('label'); lbl_status.innerText = event.status;
+    div_event.appendChild(lbl_start); div_event.appendChild(lbl_bname); div_event.appendChild(lbl_svc); div_event.appendChild(lbl_status);
     return div_event;
 }
 //*********************************************************************************/
@@ -68,8 +70,7 @@ function setDateClicks() {
     for (i = 7; i < calDates.length; i++) {
         const date = calDates[i].innerText;
         if (date != "")
-            if ((currYear<=thisY)&&(currMonth<=thisM)&&(date <thisD))
-                {setColor(date, grey);}
+            if ((currYear <= thisY) && (currMonth <= thisM) && (date < thisD)) { setColor(date, grey); }
             else
                 get(date).addEventListener('click', (e) => {
                     selDate = new Date([currYear, currMonth + 1, date].join('-'));
@@ -94,7 +95,7 @@ function changeMonthYear(month_year, prev_next) {
     else
         (prev_next === 'prev') ? currYear-- : currYear++;
     drawCalendar();
-    inputs.month = currMonth; inputs.year = currYear;
+    payload.month = currMonth; payload.year = currYear;
 }
 
 function setCurrentDate(date) { const dt = new Date(date); currYear = dt.getFullYear(); currMonth = dt.getMonth(); currDate = dt.getDate(); }
@@ -111,7 +112,7 @@ function drawCalendar() {
 function newDay(val) {
     const nday = create('div');
     nday.setAttribute('class', 'cal-wday')
-    if (val != -1) {nday.setAttribute('id', val);nday.innerText = val;}
+    if (val != -1) { nday.setAttribute('id', val); nday.innerText = val; }
     return nday;
 }
 
@@ -123,4 +124,4 @@ function markBusyDays() {
 function setDate(el) { if (selCell) setColor(selCell, defColor); setColor(el, blue); selCell = el; }
 function setColor(el, clr) { get(el).style.background = clr }
 function ts2Date(ts) { return new Date(ts._seconds * 1000); }
-function ts2LocalTime(ts) {return ts2Date(ts).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
+function ts2LocalTime(ts) { return ts2Date(ts).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) }

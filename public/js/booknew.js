@@ -26,6 +26,11 @@ function getParams(field) {
     }
 }
 
+function showCalendar(div, tab) {
+    get('dvTimePicker').style.display = 'grid';
+    setTab(div, tab);
+}
+
 function showReview(val) {
     validate();
     if (SAVE_READY) {
@@ -33,8 +38,8 @@ function showReview(val) {
         get('mail').innerText = getParams('email');
         get('tel').innerText = getParams('phone');
         get('svc').innerText = get(getParams('sid')).innerText;
-        get('start').innerText = getParams('start').toDateString();
-        get('end').innerText = getParams('end').toDateString();
+        get('start').innerText = new Date(getParams('start')).toString().slice(0,21);
+        get('end').innerText = new Date(getParams('end')).toString().slice(0, 21);
         setTab(val);
     }
     else alert(msg);
@@ -59,6 +64,7 @@ function validate() {
 
     msg = "No Service selected"; if (event.sid == "") { SAVE_READY = false; return }
     // msg = "No Service selected"; if (event.sname == "") { SAVE_READY = false; return }
+    event.start = Number(tp_SelectedTime_ms); event.end = Number(tp_SelectedTime_ms) + Number(tp_time_scale_min * millSecond);
     msg = "Start time is not selected"; if (event.start == "") { SAVE_READY = false; return }
     msg = "End time is not selected"; if (event.end == "") { SAVE_READY = false; return }
     msg = null; SAVE_READY = true;
@@ -70,7 +76,6 @@ function searchCustomer(mode) {
         mode: mode, type: 'cus', field: '', value: '',
         fname: '', sname: '', phone: '', email: ''
     };
-    console.log(mode,bCreateUser); 
     if (mode == 'find') {
         const srchText = get('inpSearch').value;
         if (srchText.length < 8) { toast("Please enter a valid email id or Phone number!"); return; }
@@ -139,12 +144,15 @@ var SVC_RELOAD = true;
 function log(val) { console.log(val); }
 function getServices(div, tab) {
     if ((SVC_RELOAD) || (event.bid != lstBus.value)) {
-        spinner(); setParams('bid', lstBus.value);
-        fetch('/services?mode=jsn&bid=' + event.bid)
-            .then(response => response.json()
-                .then(data => { loadSvcs(data); spinner('stop'); })
-                .catch(err => { log(err); spinner('stop') }))
-            .catch(err => { log(err); spinner('stop') })
+        setParams('bid', lstBus.value);
+        if (event.bid) {
+            spinner();
+            fetch('/services?mode=jsn&bid=' + event.bid)
+                .then(response => response.json()
+                    .then(data => { loadSvcs(data); spinner('stop'); })
+                    .catch(err => { log(err); spinner('stop') }))
+                .catch(err => { log(err); spinner('stop') });
+        }
     }
     setTab(div);
 }

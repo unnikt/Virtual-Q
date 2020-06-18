@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/timepicker.js" defer></script>
+</head>
+
+<body>
+    <div class="grid" >
+        <div>
+            <div id="divRes" class="slots">
+                <div onclick="showAvail(this)">LJL</div>
+                <div>Res1</div>
+                <div>Res1</div>
+                <div>Res1</div>
+            </div>
+            <label for="fader">Duration</label>
+
+
+            <div class="slider" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr ;">
+                <div id="div1" onclick="setDuration(1,15)">15</div>
+                <div id="div2" onclick="setDuration(2,30)">30</div>
+                <div id="div3" onclick="setDuration(3,45)">45</div>
+                <div id="div4" onclick="setDuration(4,60)">1 hr</div>
+                <div id="div5" onclick="setDuration(5,90)">1.5 hr</div>
+                <div id="div6" onclick="setDuration(6,120)">2 hr</div>
+            </div>
+            <div id="dvTimeline" class="timeline"></div>
+        </div>
+</body>
+
+</html>

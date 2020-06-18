@@ -38,12 +38,12 @@
     </div>
     {{{body}}}
     <script>
-        function get(el){return document.getElementById(el)}
-        const mainNav = get('mainNav');
+        function get(el) { return document.getElementById(el) }
+        const mainNav = get('mainNav').style;
         const mainIcn = get('mainIcn');
         function togmenu() {
-            if (mainNav.style.width == '100%') { mainNav.style.width = "0%"; mainIcn.style.color = 'var(--primary-color)'; mainIcn.innerText='menu';}
-            else { mainNav.style.width = '100%'; mainIcn.style.color = 'white'; mainIcn.innerText = 'close';}
+            if (mainNav.height == '100%') { mainNav.height = "0%"; mainIcn.innerText = 'menu'; }
+            else { mainNav.height = '100%'; mainIcn.innerText = 'close'; }
         }
     </script>
 </body>

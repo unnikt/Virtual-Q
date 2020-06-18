@@ -18,7 +18,7 @@
     <!-- Add Firebase products that you want to use -->
     <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
     <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>    
+    <script src="/__/firebase/init.js"></script>
 </head>
 
 <body>
@@ -40,7 +40,7 @@
     <ul class="tabs" id="tabs">
         <li id="tab1" onclick="setTab('divCustomer','tab1')">Customer</li>
         <li id="tab2" onclick="getServices('divServices','tab2')">Services</li>
-        <li id="tab3" onclick="setTab('divCalendar','tab3')">Date & Time</li>
+        <li id="tab3" onclick="showCalendar('divCalendar','tab3')">Date & Time</li>
         <li id="tab4" onclick="showReview('divReview','tab4')">Review</li>
     </ul>
 
@@ -84,8 +84,31 @@
         <div class="grid">
             <div class="grid nopad" id="evnt-lst"></div>
         </div>
-    </div>
+        <!-- Time Picker -->
+        <div id="dvTimePicker">
+            <div>
+                <div id="divRes" class="slots">
+                    <div onclick="showAvail(this,'LJL')">LJL</div>
+                    <div>Res1</div>
+                    <div>Res1</div>
+                    <div>Res1</div>
+                </div>
+                <label for="fader">Duration</label>
+                <div class="slider" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr ;">
+                    <div id="div1" onclick="setDuration(1,15)">15</div>
+                    <div id="div2" onclick="setDuration(2,30)">30</div>
+                    <div id="div3" onclick="setDuration(3,45)">45</div>
+                    <div id="div4" onclick="setDuration(4,60)">1 hr</div>
+                    <div id="div5" onclick="setDuration(5,90)">1.5 hr</div>
+                    <div id="div6" onclick="setDuration(6,120)">2 hr</div>
+                </div>
+                <div id="dvTimeline" class="timeline"></div>
+            </div>
 
+            <script src="js/timepicker.js" defer></script>
+        </div>
+        <!-- end Date Picker -->
+    </div>
     <div id="divReview" hidden>
         <h3 class="bbdr">Review and Confirm Booking</h3>
         <div class="grid review" style="grid-template-columns: 4fr 7fr;">
@@ -124,7 +147,7 @@
     </div>
 
     <div class="modal" id="selCustomer">
-        <div class="mod-content" style="overflow-y: scroll; height: 60%;" >
+        <div class="mod-content" style="overflow-y: scroll; height: 60%;">
             <div class="grid bbdr" style="grid-template-columns: 11fr 1fr;">
                 <h4>Search Results</h4>
                 <i class="material-icons" style="display: inline;"
@@ -161,15 +184,19 @@
             fetchEvents();
             setDateClicks();
         }
+        var mainNav = get('mainNav');
+        var mainIcn = get('mainIcn');
         function togmenu() {
-            if (mainNav.style.width == '100%') { mainNav.style.width = "0%"; mainIcn.style.color = 'var(--primary-color)'; mainIcn.innerText = 'menu'; }
-            else { mainNav.style.width = '100%'; mainIcn.style.color = 'white'; mainIcn.innerText = 'close'; }
+            if (mainNav.style.height == '100%') { mainNav.style.height = "0%"; mainIcn.innerText = 'menu'; }
+            else { mainNav.style.height = '100%'; mainIcn.innerText = 'close'; }
         }
 
         //***********************************************************************
         get('iSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
         get('inpSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
     </script>
+
+
 </body>
 
 </html>

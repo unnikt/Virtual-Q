@@ -1,9 +1,9 @@
 :root{
-    --primary-color:#ab47bc; /*30d488; /*#607d8b;*/
+    --primary-color:blueviolet; /*30d488; /*#607d8b;*/
     --primary-dark:#790e8b;
     --secondary-color: #df78ef;
     --faded-text: #8A7692;
-    --accent-color: #3d4254; /*#7a93ea; ;/*#438868; /*607d8b; /*#f44336;*/
+    --accent-color: darkslategray;
     --shadow-color:#b8b7b7;
     --light-background:#efefef;
     --lighter-text: #948888;
@@ -15,21 +15,22 @@
 body{
     overflow-x: hidden;
     background: var(--light-background);
+    margin: 0;
+    padding: 0 12px;
     /* background:url(../img/undraw_stand_out_1oag.svg);
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-attachment: fixed; */
+    background-attachment: fixed;  */
 }
 
 
 /* Start - Full screen menu */
 .overlay {
-    height: 100%;  width: 0%;
-    position: fixed; z-index: 1;
-    top: 0; right: 0;
+    height: 0;  margin: auto; z-index: 1;
     background-color:var(--accent-color);
     overflow-x: hidden;
     transition: 500ms;
+    position: absolute;
 }
 
 .overlay-content > select{
@@ -206,7 +207,8 @@ h4{margin: 12px; color: var(--primary-color);}
 
 .tabs {
     display: block;
-    margin-bottom: 24px;
+    margin: 12px 0;
+    padding: 12px;
 }
 .tabs > li {
     display: inline;
@@ -214,7 +216,7 @@ h4{margin: 12px; color: var(--primary-color);}
     border-bottom: 4px solid var(--shadow-color);
     font-size: .8em;
     font-weight: 600;
-    padding: 8px 12px;
+    padding: 8px 4px;
     cursor: pointer;
     border-top-right-radius: 10px;
 }
@@ -298,6 +300,7 @@ body{
     background: white; overflow-y: auto;
     box-shadow: 4px 8px 16px 0px var(--shadow-color)
 }
+.overlay {width: 70%; margin: auto;}
 .avatar-small{width: 60px;}       
 .div-signin{ width: 60%;    position: absolute; display: block; top: 100px;}
 }

@@ -27,15 +27,27 @@
         <p class="apptitle"> VirQ.app</p>
         <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu()">menu</i>
     </div>
+    <div id="mainNav" class="overlay">
+        <div class="overlay-content">
+            <select name="" id="lstBus" onchange="setBid()"></select>
+            <a class="tile" href="javascript:redirect('booknew.html?bid=')">New Booking</a>
+            <a class="tile" href="javascript:redirect('skedules?bid=')">Calendar</a>
+            <a class="tile" href="javascript:redirect('settings?bid=')">Settings</a>
+            <a class="tile" href="javascript:auth.signOut();">Log out</a>
+            <p class="theme">Keep the distance .. Save time</p>
+        </div>
+    </div>
     {{{body}}}
     <script>
-        function get(el) { return document.getElementById(el) }
-        const mainNav = get('mainNav');
-        const mainIcn = get('mainIcn');
+        const mainNav = get('mainNav').style; const mainIcn = get('mainIcn');
         function togmenu() {
-            if (mainNav.style.width == '100%') { mainNav.style.width = "0%"; mainIcn.style.color = 'var(--primary-color)'; mainIcn.innerText = 'menu'; }
-            else { mainNav.style.width = '100%'; mainIcn.style.color = 'white'; mainIcn.innerText = 'close'; }
+            if (mainNav.height == '100%') { mainNav.height = "0%"; mainIcn.innerText = 'menu'; }
+            else { mainNav.height = '100%'; mainIcn.innerText = 'close'; }
         }
+        if (typeof bid === "undefined") bid = document.getElementById('lstBus').value;
+        function redirect(page) { window.location = page + bid; }
+        function get(el) { return document.getElementById(el) }
+
     </script>
 </body>
 

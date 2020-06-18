@@ -29,10 +29,16 @@ events.post("/getevents", (req, res) =>
         end.setHours(23, 59, 59, 59);
 
         // console.log("/getevents");
-        const data: { events: { aid: string, start: string, end: string, bname: string, sname: string }[] } = { events: [] };
+        const data: {
+            events: {
+                aid: string, start: string, end: string, status: string,
+                bname: string, sname: string, uname: string
+            }[]
+        } = { events: [] };
         if (id && val)
             db.collection('appointments')
                 .where(id, '==', val).where('start', '>=', start).where('start', '<=', end)
+                // .where('status', 'in', ['On time','Delayed','Arrived','Reschedule'])         //Status = On time,Delayed,Arrived,Cancelled,Reschedule,Completed
                 .orderBy('start').get()
                 .then(results => {
                     results.forEach(doc => data.events.push({
@@ -40,11 +46,13 @@ events.post("/getevents", (req, res) =>
                         start: doc.data().start,
                         end: doc.data().end,
                         bname: doc.data().bname,
-                        sname: doc.data().svc
+                        sname: doc.data().svc,
+                        uname: doc.data().uname,
+                        status: doc.data().status
                     }));
                     res.json(data);
                 })
-                .catch(err => res.render('error', { title: 'getevents', msg: err }));
+                .catch(err => res.json({ title: 'getevents', msg: err }));
         else
             res.json(data);
     }));

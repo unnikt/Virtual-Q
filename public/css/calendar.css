@@ -19,11 +19,70 @@
     border: 2px solid var(--light-background);
     font-size: 0.8em;
 }
+.cal-container{
+    background: var(--light-background); 
+    transition: 500ms;}
 .date-hdr{padding: 12px;margin: 0;color:var(--primary-color);border-bottom: 1px solid var(--primary-color);}
 .dates-container {
     border-bottom: 1px solid var(--primary-color);
 }
-.event{padding: 12px 0;border-bottom: 2px solid white;}
-.green {border-bottom: 8px solid rgb(122, 190, 122);}
-.amber {border-bottom: 8px solid rgb(240, 196, 51)}
-.red {border-bottom: 8px solid rgb(255, 12, 12)}
+.event{padding: 8px 0;border-bottom: 2px solid white;
+display: grid; grid-template-columns: 1fr 5fr 5fr 1fr;}
+.event >label{
+    margin: 2px 8px; display: inline; padding: 4px;
+}
+
+/* Timeslot picker...................................*/
+.slots{
+    border: 1px solid lightgray;
+    padding: 12px;
+    border-radius: 5px;
+    margin: 12px 0;
+}
+.slots > div{
+    display: inline-block;
+    border: 1px solid var(--primary-color);
+    background-color: white;
+    padding: 8px; margin: 4px;
+    border-radius: 5px;
+    font-size: smaller;
+    cursor: pointer;
+}
+
+.timeline{
+    background-color: white;
+    padding: 8px; margin: 4px;
+    overflow-y: scroll;
+    height: 300px;
+}
+.timeline > div {
+    background-color: var(--light-background);
+    font-size: small;
+    margin: 2px; padding: 8px;
+        font-family: monospace;
+
+}
+.timeline > div:hover {
+    background-color: var(--primary-color);
+}
+
+.slider {
+    display: grid;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 12px 0;
+}
+.slider > div {
+    padding: 4px;
+    border-bottom: 3px solid white;
+    border-right: 1px solid lightgrey;
+    text-align: center;
+    font-size: 12px;
+}
+/* Timeslot picker...................................*/
+
+
+
+.green {border-right: 4px solid rgb(122, 190, 122);}
+.amber {border-right: 4px solid rgb(240, 196, 51)}
+.red {border-right: 4px solid rgb(255, 12, 12)}

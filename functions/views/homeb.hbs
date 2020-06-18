@@ -1,4 +1,4 @@
-<div id="mainNav" class="overlay" style="width: 100%;">
+<div id="mainNav" class="overlay" style="height: 100%;">
     <div class="overlay-content">
         <select name="" id="lstBus" onchange="setBid()">
             {{#each bus}}
@@ -12,8 +12,3 @@
         <p class="theme">Keep the distance - Save time</p>
     </div>
 </div>
-<script>
-    setBid();
-    function setBid() { bid = document.getElementById('lstBus').value; }
-    function redirect(page) { window.location = page + bid; }
-</script>

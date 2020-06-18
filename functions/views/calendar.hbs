@@ -17,7 +17,7 @@
         <i id="next-y" class="material-icons " onclick="localCMY('year', 'next')">chevron_right</i>
         <i id="icnfold" class="material-icons " onclick="fold('icnfold','cal-container')">expand_less</i>
     </div>
-    <div id="cal-container" >
+    <div id="cal-container">
         <div id="cal-dates" class="cal-dates" hidden></div>
     </div>
     <div class="grid nopad" id="evnt-lst"></div>
@@ -44,13 +44,16 @@
     fetchEvents();
     function fetchEvents() {
         spinner();
-        inputs.id = (uid) ? 'uid' : (bid) ? 'bid' : null; 
-        inputs.val = (uid) ? uid : (bid) ? bid : null; 
+        payload.id = (uid) ? 'uid' : (bid) ? 'bid' : null;
+        payload.val = (uid) ? uid : (bid) ? bid : null;
+        mode = (uid) ? 'cus' : (bid) ? 'bus' : null;
 
-        params.body = JSON.stringify(inputs);
+        params.body = JSON.stringify(payload);
         fetch("/getevents", params)
             .then(response => response.json()
-                .then(data => {showEvents(data.events, 'evnt-lst'); spinner('stop'); }));
+                .then(data => { showEvents(data.events, 'evnt-lst'); spinner('stop'); })
+                .catch(err => console.log(err)))
+            .catch(err => console.log(err));
     }
     function localCMY(mon_year, prev_next) {
         changeMonthYear(mon_year, prev_next);
