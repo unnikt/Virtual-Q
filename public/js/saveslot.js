@@ -22,7 +22,7 @@ function saveSlot() {
 
     fetch('/saveslot', options)
         .then(res => {
-            if (res.status == 200) window.location = "/skedules";
+            if (res.status == 200) window.location = "/calendar";
             else console.log(res.status);
             return;
         })

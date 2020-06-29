@@ -18,17 +18,12 @@ calendar.use(express.json({ limit: '1mb' })); //set up to receive data in JSON f
 const cors = corsMod({ origin: true });
 const db = firebase.firestore();
 
-calendar.get("/skedules", (req, res) =>
+calendar.get("/calendar", (req, res) =>
     cors(req, res, () => {
-        const uid = req.query.uid;
-        const bid = req.query.bid;
-        const field = (uid) ? 'uid' : (bid) ? 'bid' : null;
-        // const val = (uid) ? uid : (bid) ? bid : null;
-        if (field === null)
-            res.render('error', { title: "Can't get schedule", msg: "No uid or bid specified..." });
-        else {
-            (bid) ? res.render('calendar', { layout: 'mainb' }) : res.render('calendar', { layout: 'main' });
-        }
+        const uid = req.query.uid; const bid = req.query.bid; const sid = req.query.sid;
+        const field = (uid) ? 'uid' : (bid) ? 'bid' : (sid) ? 'sid' : null;
+        if (field === null) res.render('error', { title: "Can't get schedule", msg: "Missing parameters..." });
+        else ((bid) || (sid)) ? res.render('calendar', { layout: 'mainb', bid: bid, sid: sid }) : res.render('calendar', { layout: 'main', uid: uid });
     }));
 
 calendar.post('/saveslot', (req, res) =>

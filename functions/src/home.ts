@@ -22,19 +22,17 @@ const cors = corsMod({ origin: true });
 home.get("/home", (req, res) =>
     cors(req, res, () => {
         const uid = req.query.uid;
-        if (!uid) res.render('error', { title: '/home - ', msg: 'No user ID.. Please sign in' })
-        else {
+        if (uid) {
             const data: { bid: string, bname: string }[] = [];
-            db.collection('providers').where('uid', '==', uid).get()
+            db.collection('business').where('uid', '==', uid).get()
                 .then(snaps => {
-                    snaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().orgname }));
-                    if (data.length > 0)
-                        res.render('homeb', {layout:'mainb', bus:data });
-                    else
-                        res.redirect('skedules?uid=' + uid);
+                    snaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().bname }));
+                    if (data.length > 0) res.render('homeb', { layout: 'mainb', bus: data });
+                    else res.redirect('calendar?uid=' + uid);
                 })
                 .catch(err => res.render('error', { title: '/home - ', msg: err }));
         }
+        else res.render('error', { title: '/home - ', msg: 'No user ID.. Please sign in' })
     }));
 
 exports.home = functions.https.onRequest(home);

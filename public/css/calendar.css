@@ -1,14 +1,21 @@
 .cal-header{
     display: grid; 
-    grid-template-columns: 1fr 3fr 1fr 1fr 3fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr 1fr 2fr 1fr 3fr 1fr;
     text-align: center;
     color: var(--primary-color);
     border-bottom: 1px solid var(--primary-color);
+    font-size: 0.8em;
+    padding: 0;
+}
+.cal-header > p {
+    padding: 12px 0; margin: 0;
+}
+.cal-header > i {
+    padding: 8px 0;
 }
 .cal-icon{
     padding: 12px;
 }
-
 .cal-dates{
     display: grid;
     grid-template-columns: repeat(7,1fr);
@@ -22,9 +29,10 @@
 .cal-container{
     background: var(--light-background); 
     transition: 500ms;}
-.date-hdr{padding: 12px;margin: 0;color:var(--primary-color);border-bottom: 1px solid var(--primary-color);}
+.date-hdr{padding: 12px;margin: 0;color:var(--secondary-color);border-bottom: 1px solid var(--light-background);}
 .dates-container {
     border-bottom: 1px solid var(--primary-color);
+    padding: 12px;
 }
 .event{padding: 8px 0;border-bottom: 2px solid white;
 display: grid; grid-template-columns: 1fr 5fr 5fr 1fr;}
@@ -34,40 +42,74 @@ display: grid; grid-template-columns: 1fr 5fr 5fr 1fr;}
 
 /* Timeslot picker...................................*/
 .slots{
-    border: 1px solid lightgray;
+    border: 1px solid var(--border-color);
     padding: 12px;
     border-radius: 5px;
     margin: 12px 0;
+    min-height: 50px;
 }
 .slots > div{
     display: inline-block;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--border-color);
     background-color: white;
     padding: 8px; margin: 4px;
     border-radius: 5px;
     font-size: smaller;
     cursor: pointer;
 }
+.timeline-container{
+    margin: 12px 0;
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    font-size: 12px;
+}
 
 .timeline{
-    background-color: white;
-    padding: 8px; margin: 4px;
-    overflow-y: scroll;
-    height: 300px;
-}
-.timeline > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 2px;
+    overflow-x: scroll;
+    text-align: center;
+    width: fit-content;
     background-color: var(--light-background);
-    font-size: small;
-    margin: 2px; padding: 8px;
-        font-family: monospace;
+    border: 1px solid var(--shadow-color);
+    max-width: 98%;
+}
 
+.timeline > div {
+    padding: 8px;
+    width: 60px;margin: 1px;
+    font-size: small;
 }
-.timeline > div:hover {
-    background-color: var(--primary-color);
+.timeHeader {
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 16px;
+    border-bottom: 1px solid;
 }
+.time{
+    grid-column: 1; text-align: right;
+    background: white; 
+    color: var(--primary-color); font-weight: 700;
+}
+.timeline > div >label{
+    text-align: center;
+    padding: 0;
+}
+.avlbl {
+    background-color:var(--primary-color);
+    opacity: 50%;
+    transition: 0.3s ease-in-out;
+}
+
+/* @media only screen and (min-width: 600px) {
+    .timeline {
+        width: 60vw;
+    }
+} */
 
 .slider {
-    display: grid;
+    display: none;
     border-radius: 5px;
     padding: 3px;
     margin: 12px 0;

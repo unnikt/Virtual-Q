@@ -1,8 +1,6 @@
-// Version 9:14
-
-//To be set after user authentication
-var gProviderID = "AUS-SYD-CAM-001";
-var gID = 0;
+// Global Query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const uid = urlParams.get('uid'); const bid = urlParams.get('bid'); const sid = urlParams.get('sid');
 
 function toast(msg) {
     var toast = get('toast');
@@ -14,18 +12,17 @@ function toast(msg) {
 
 function spinner(action) {
     var mod_Container = document.getElementById('busy-bee');
-    if (action == "stop") {
-        if (mod_Container != null) mod_Container.parentNode.removeChild(mod_Container);
-        return;
+    if ((action == "stop") && (mod_Container != null)) mod_Container.parentNode.removeChild(mod_Container);
+    else {
+        if (mod_Container == null) {
+            mod_Container = document.createElement('div');
+            mod_Container.setAttribute('class', "mod-container");
+            mod_Container.setAttribute('id', "busy-bee");
+            mod_Container.innerHTML = "<div class='lds-dual-ring'></div>"
+            document.body.append(mod_Container);
+        }
+        mod_Container.style.display = "block";
     }
-    if (mod_Container == null) {
-        mod_Container = document.createElement('div');
-        mod_Container.setAttribute('class', "mod-container");
-        mod_Container.setAttribute('id', "busy-bee");
-        mod_Container.innerHTML = "<div class='lds-dual-ring'></div>"
-        document.body.append(mod_Container);
-    }
-    mod_Container.style.display = "block";
 }
 
 function showError(title, msg) {

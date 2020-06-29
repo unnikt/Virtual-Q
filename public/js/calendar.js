@@ -20,34 +20,32 @@ var currDate = today.getDate();
 
 //Parameters for fetchevents **********************************************************
 const payload = { id: '', val: '', month: currMonth, year: currYear };
-const params = {
-    method: 'POST',
-    headers: { 'Accept': 'application/json' },
-    body: JSON.stringify(payload)
-}
+const params = { method: 'POST', headers: { 'Accept': 'application/json' }, body: JSON.stringify(payload) }
+
 var mEvents;
-function showEvents(events, divEvents, mode) {
-    if (events.length == 0) return;
-    mEvents = events; markBusyDays();
-    var evnt_lst = get(divEvents); evnt_lst.innerHTML = "";
-    var dayhdr = "";
-    mEvents.forEach(evnt => {
-        const d = ts2Date(evnt.start).getDate();
-        const dStr = ts2Date(evnt.start).toDateString();
-        if (d >= thisD) {
-            if (dayhdr != dStr) {
-                dayhdr = dStr;
-                const lbl_dt = create('label'); lbl_dt.setAttribute('class', 'date-hdr'); lbl_dt.innerText = dayhdr;
-                evnt_lst.appendChild(lbl_dt);
+function showEvents(events, divEvents) {
+    if (events) {
+        mEvents = events; markBusyDays();
+        var evnt_lst = get(divEvents); evnt_lst.innerHTML = "";
+        var dayhdr = "";
+        mEvents.forEach(e => {
+            const d = ts2Date(e.start).getDate();
+            const dStr = ts2Date(e.start).toDateString();
+            if (d >= thisD) {
+                if (dayhdr != dStr) {
+                    dayhdr = dStr;
+                    const lbl_dt = create('label'); lbl_dt.setAttribute('class', 'date-hdr'); lbl_dt.innerText = dayhdr;
+                    evnt_lst.appendChild(lbl_dt);
+                }
+                evnt_lst.appendChild(newEvent(e));
             }
-            evnt_lst.appendChild(newEvent(evnt));
-        }
-    });
+        });
+    }
 }
 function newEvent(event) {
     var div_event = create('div');
     div_event.setAttribute('class', 'event');
-    div_event.addEventListener('click', ev => {
+    div_event.addEventListener('click', () => {
         const frmEl = get('frmcheckin').elements;
         frmEl['aid'].value = event.aid;
         frmEl['bname'].value = event.bname;
@@ -66,25 +64,24 @@ function newEvent(event) {
 //*********************************************************************************/
 
 var prevDate = "";
+const calDates = get('cal-dates').children;
 function setDateClicks() {
     for (i = 7; i < calDates.length; i++) {
-        const date = calDates[i].innerText;
-        if (date != "")
-            if ((currYear <= thisY) && (currMonth <= thisM) && (date < thisD)) { setColor(date, grey); }
-            else
-                get(date).addEventListener('click', (e) => {
-                    selDate = new Date([currYear, currMonth + 1, date].join('-'));
-                    //TODO to be removed........................................
-                    var d = new Date();
-                    selDate.setHours(d.getHours());
-                    selDate.setMinutes(d.getMinutes());
-                    //...........................................................
-                    setParams('start', selDate); setParams('end', selDate);
-                    if (prevDate != "") setColor(prevDate, "var(--light-background)");
-                    setColor(date, blue);
-                    prevDate = date;
-                })
+        const dt = calDates[i].innerText;
+        if (dt)
+            if ((currYear <= thisY) && (currMonth <= thisM) && (dt < thisD)) { setColor(dt, grey); }
+            else get(dt).addEventListener('click', () => clickDate(dt))
     }
+
+}
+
+function clickDate(date) {
+    selDate = new Date([currYear, currMonth + 1, date].join('-'));
+    setParams('start', selDate); setParams('end', selDate);
+    if (prevDate != "") setColor(prevDate, "var(--light-background)");
+    setColor(date, blue);
+    get('date').innerText = [date, months[currMonth], currYear].join('-');
+    prevDate = date;
 }
 
 function changeMonthYear(month_year, prev_next) {
@@ -121,7 +118,25 @@ function markBusyDays() {
     busydays.forEach(date => get(date).style.borderLeft = '2px solid ' + velv)
 }
 
-function setDate(el) { if (selCell) setColor(selCell, defColor); setColor(el, blue); selCell = el; }
+function fetchEvents() {
+    spinner();
+    payload.id = (uid) ? 'uid' : (bid) ? 'bid' : (sid) ? 'sid' : null;
+    payload.val = (uid) ? uid : (bid) ? bid : (sid) ? sid : null;
+    mode = (uid) ? 'cus' : (bid) ? 'bus' : (sid) ? 'svc' : null;
+
+    params.body = JSON.stringify(payload);
+    fetch("/getevents", params)
+        .then(response => response.json()
+            .then(data => { showEvents(data.events, 'evnt-lst'); spinner('stop'); })
+            .catch(err => console.log(err)))
+        .catch(err => console.log(err));
+}
+
+function localCMY(mon_year, prev_next) { changeMonthYear(mon_year, prev_next); fetchEvents(); }
+function setDate(date) { if (selCell) setColor(selCell, defColor); setColor(date, blue); selCell = date; selDate = new Date(currYear, currMonth, date); }
 function setColor(el, clr) { get(el).style.background = clr }
 function ts2Date(ts) { return new Date(ts._seconds * 1000); }
 function ts2LocalTime(ts) { return ts2Date(ts).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) }
+
+setCurrentDate([today.getFullYear(), today.getMonth() + 1, today.getDate()].join('-'));
+drawCalendar(); setColor(currDate, blue);

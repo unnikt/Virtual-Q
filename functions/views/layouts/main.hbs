@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="shortcut icon" href="">
+    <link rel="shortcut icon" href="#">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="/__/firebase/7.14.5/firebase-app.js"></script>
     <!-- Add Firebase products that you want to use -->
@@ -28,12 +28,28 @@
         <p class="apptitle"> VirQ.app</p>
         <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu()">menu</i>
     </div>
-    <div id="mainNav" class="overlay">
+    {{!-- <div id="mainNav" class="overlay">
         <div class="overlay-content">
-            <a class="tile" href="javascript:redirect('skedules?uid=')">Calendar</a>
+            <a class="tile" href="javascript:redirect('calendar?uid=')">Calendar</a>
             <a class="tile" href="javascript:redirect('settings?uid=')">Settings</a>
             <a class="tile" href="javascript:auth.signOut();">Log out</a>
             <p class="theme">Keep the distance - Save time</p>
+        </div>
+    </div> --}}
+    <div id="mainNav" class="mainMenu">    
+        <div class="gridicons">
+            <div class="icontiles" onclick="redirect('calendar?uid=')">
+                <i class="material-icons gicon-regular">event</i>
+                <h4>Calendar</h4>
+            </div>
+            <div class="icontiles" onclick="redirect('settings?uid=')">
+                <i class="material-icons gicon-regular">settings</i>
+                <h4>Settings</h4>
+            </div>
+            <div class="icontiles" onclick="auth.signOut()">
+                <i class="material-icons gicon-regular">double_arrow</i>
+                <h4>Log out</h4>
+            </div>
         </div>
     </div>
     {{{body}}}
@@ -42,7 +58,7 @@
         const mainNav = get('mainNav').style;
         const mainIcn = get('mainIcn');
         function togmenu() {
-            if (mainNav.height == '100%') { mainNav.height = "0%"; mainIcn.innerText = 'menu'; }
+            if (mainNav.height == '100%') { mainNav.height = "0"; mainIcn.innerText = 'menu'; }
             else { mainNav.height = '100%'; mainIcn.innerText = 'close'; }
         }
     </script>

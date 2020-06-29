@@ -5,33 +5,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="stylesheet" href="css/calendar.css">
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/timepicker.js" defer></script>
 </head>
 
 <body>
-    <div class="grid" >
-        <div>
-            <div id="divRes" class="slots">
-                <div onclick="showAvail(this)">LJL</div>
-                <div>Res1</div>
-                <div>Res1</div>
-                <div>Res1</div>
-            </div>
-            <label for="fader">Duration</label>
-
-
-            <div class="slider" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr ;">
-                <div id="div1" onclick="setDuration(1,15)">15</div>
-                <div id="div2" onclick="setDuration(2,30)">30</div>
-                <div id="div3" onclick="setDuration(3,45)">45</div>
-                <div id="div4" onclick="setDuration(4,60)">1 hr</div>
-                <div id="div5" onclick="setDuration(5,90)">1.5 hr</div>
-                <div id="div6" onclick="setDuration(6,120)">2 hr</div>
+    <div id="dvTimePicker">
+        <div class="timeline-container">
+            <div style="display: grid; grid-template-columns: 1fr 4fr 1fr 4fr 1fr;">
+                <label>Start</label><label id="lblStart">--:-- AM</label>
+                <label>End</label><label id="lblEnd">--:-- AM</label>
+                <i id="icnClearTime" class="material-icons" onclick="clearTime()">cached</i>
             </div>
             <div id="dvTimeline" class="timeline"></div>
+            <div id="dvResources" class="timeline"></div>
         </div>
+        <div>
+            <label>Find Availabile resources</label>
+            <i id="icnClearTime" class="material-icons" onclick="findResources()">search</i>
+        </div>
+        <div id="divRes" class="slots">
+            <div onclick="showAvail(this,'LJL')">LJL</div>
+            <div onclick="addRes(1593043200000, 60, 'JAZ',2)">JAZ</div>
+            <div onclick="addRes(1593046800000, 120, 'PBS',3)">PBS</div>
+            <div onclick="addRes(1593043200000, 30, 'WKM',4)">WKM</div>
+            <div onclick="addRes(1593043200000, 30, 'WKM',5)">WKM</div>
+            <div onclick="addRes(1593043200000, 30, 'WKM',6)">WKM</div>
+            <div onclick="addRes(1593043200000, 30, 'WKM',7)">WKM</div>
+            <div onclick="addRes(1593043200000, 30, 'WKM',8)">WKM</div>
+            <div onclick="addRes(1593043200000, 30, 'WKM',9)">WKM</div>
+            <div onclick="drawResTimeline()">Res1</div>
+            <div>Res1</div>
+        </div>
+        <button onclick="showReview('divReview','tab4')">Next</button>
+    </div>
 </body>
+
+<style>
+</style>
+
+<script defer>
+    function drawResTimeline() {
+        const dvT = get('dvTimeline');
+        dvT.style.gridTemplateColumns = "1fr 1fr";
+
+        var tl_len = dvTimeline.children.length;
+        var dvResources = get('dvResources');
+        for (i = 0; i < tl_len; i++) {
+            var newGrid = create('div');
+            newGrid.setAttribute('class', 'resGrid');
+            newGrid.innerText = "LJL";
+            dvT.appendChild(newGrid);
+        }
+    }
+
+    function create(el) { return document.createElement(el) }
+    function get(el) { return document.getElementById(el) }
+</script>
 
 </html>

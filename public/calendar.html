@@ -40,7 +40,7 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <div class="overlay-content">
             <a class="tile" href="checkin">Check in</a>
-            <a class="tile" href="javascript:redirect('skedules?')">Bookings</a>
+            <a class="tile" href="javascript:redirect('calendar?')">Bookings</a>
             <a class="tile" href="settings">Settings</a>
         </div>
         <p class="theme">Keep the distance - - - Save time</p>
@@ -89,7 +89,7 @@
         }
 
         function dateClicked(date) {
-            // const page = "skedules?from=" + currYear + "-" + (currMonth + 1) + "-" + date + "&";
+            // const page = "calendar?from=" + currYear + "-" + (currMonth + 1) + "-" + date + "&";
             // redirect(page);
             if (events)
                 if (busydays.has(date))

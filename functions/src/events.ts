@@ -26,9 +26,9 @@ events.post("/getevents", (req, res) =>
         const start = new Date(inp.year, inp.month, 1);
         const end = new Date(inp.year, inp.month + 1, 0);
         start.setHours(0, 0, 0);
-        end.setHours(23, 59, 59, 59);
+        end.setHours(23, 59, 59);
 
-        // console.log("/getevents");
+        console.log(inp, start.getTime(),end.getTime());
         const data: {
             events: {
                 aid: string, start: string, end: string, status: string,
@@ -41,6 +41,7 @@ events.post("/getevents", (req, res) =>
                 // .where('status', 'in', ['On time','Delayed','Arrived','Reschedule'])         //Status = On time,Delayed,Arrived,Cancelled,Reschedule,Completed
                 .orderBy('start').get()
                 .then(results => {
+                    console.log(results);
                     results.forEach(doc => data.events.push({
                         aid: doc.id,
                         start: doc.data().start,

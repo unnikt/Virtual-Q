@@ -14,24 +14,78 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-      {"source": "/","function": "main"},
-      {"source": "/home","function": "home"},
-      {"source": "/settings","function": "settings"},
-      {"source": "/add","function": "dbstore"},
-      {"source": "/delete","function": "dbstore"},
-      {"source": "/finduser","function": "dbstore"},
-      {"source": "/getbid","function": "dbstore"},
-      {"source": "/skedules","function": "calendar"},
-      {"source": "/saveslot","function": "calendar"},
-      {"source": "/checkin","function": "calendar"},
-      {"source": "/services","function": "services"},
-      {"source": "/vwservices","function": "services"},
-      {"source": "/createsp","function": "services"},
-      {"source": "/addservice","function": "services"},
-      {"source": "/remservice","function": "services"},
-      {"source": "/editservice","function": "services"},
-      {"source": "/getevents","function": "events"},
-      {"source": "/evntstatus","function": "events"}
+      {
+        "source": "/",
+        "function": "main"
+      },
+      {
+        "source": "/home",
+        "function": "home"
+      },
+      {
+        "source": "/settings",
+        "function": "settings"
+      },
+      {
+        "source": "/add",
+        "function": "dbstore"
+      },
+      {
+        "source": "/delete",
+        "function": "dbstore"
+      },
+      {
+        "source": "/finduser",
+        "function": "dbstore"
+      },
+      {
+        "source": "/getbid",
+        "function": "dbstore"
+      },
+      {
+        "source": "/calendar",
+        "function": "calendar"
+      },
+      {
+        "source": "/saveslot",
+        "function": "calendar"
+      },
+      {
+        "source": "/checkin",
+        "function": "calendar"
+      },
+      {
+        "source": "/services",
+        "function": "services"
+      },
+      {
+        "source": "/vwservices",
+        "function": "services"
+      },
+      {
+        "source": "/createsp",
+        "function": "services"
+      },
+      {
+        "source": "/addservice",
+        "function": "services"
+      },
+      {
+        "source": "/remservice",
+        "function": "services"
+      },
+      {
+        "source": "/editservice",
+        "function": "services"
+      },
+      {
+        "source": "/getevents",
+        "function": "events"
+      },
+      {
+        "source": "/evntstatus",
+        "function": "events"
+      }
     ]
   },
   "emulators": {

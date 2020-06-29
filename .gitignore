@@ -64,10 +64,10 @@ node_modules/
 # dotenv environment variables file
 .env
 public/checkin.html
-public/skedules.html
+public/calendar.html
 public/settings.html
 public/services.html
 public/store.html
-functions/views/skedules_old.hbs
+functions/views/calendar_old.hbs
 public/js/calendar_old.js
 public/treeview.html

@@ -19,6 +19,35 @@
     <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
+    <!-- <script>
+        const auth = firebase.auth();
+        auth.onAuthStateChanged(user => (user) ? fetchBusiness() : window.location = "/");
+    </script> -->
+    <script src="js/app.js"></script>
+    <script src="js/business.js" defer></script>
+    <style>
+        .slide {
+            position: relative;
+            right: -700px;
+            transition: 0.4s ease;
+        }
+
+        .grid-review {
+            display: grid;
+            grid-template-columns: 1fr 9fr 2fr;
+            margin-top: 4px;
+            background-color: var(--light-background);
+            row-gap: 2px;
+        }
+
+        .grid-review>i,
+        label,
+        button {
+            padding: 8px;
+            margin: 8px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -26,25 +55,43 @@
         <p class="apptitle"> VirQ.app</p>
         <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu(this)">menu</i>
     </div>
-    <div id="mainNav" class="overlay">
-        <div class="overlay-content">
-            <select name="" id="lstBus" onchange="setBid()"></select>
-            <a class="tile" href="javascript:redirect('booknew.html?bid=')">New Booking</a>
-            <a class="tile" href="javascript:redirect('skedules?bid=')">View Calendar</a>
-            <a class="tile" href="javascript:redirect('settings?bid=')">Settings</a>
-            <a class="tile" href="javascript:auth.signOut();">Log out</a>
-            <p class="theme">Keep the distance .. Save time</p>
+    <div id="mainNav" class="mainMenu">
+        <select name="" id="lstBus" onchange="setBid()">
+            <option value="A03kpawiQBURtJ58HlQ6">Curtis Aviation</option>
+        </select>
+        <div class="gridicons">
+            <div class="icontiles" onclick="redirect('booknew.html?bid=')">
+                <i class="material-icons gicon-regular">assignment</i>
+                <h4>Booking</h4>
+            </div>
+            <div class="icontiles" onclick="redirect('calendar?bid=')">
+                <i class="material-icons gicon-regular">event</i>
+                <h4>Calendar</h4>
+            </div>
+            <div class="icontiles" onclick="redirect('vwservices?bid=')">
+                <i class="material-icons gicon-regular">widgets</i>
+                <h4>Services</h4>
+            </div>
+            <div class="icontiles" onclick="redirect('vwservices?bid=')">
+                <i class="material-icons gicon-regular">business_center</i>
+                <h4>Resources</h4>
+            </div>
+            <div class="icontiles" onclick="redirect('settings?bid=')">
+                <i class="material-icons gicon-regular">settings</i>
+                <h4>Settings</h4>
+            </div>
+            <div class="icontiles" onclick="auth.signOut()">
+                <i class="material-icons gicon-regular">double_arrow</i>
+                <h4>Log out</h4>
+            </div>
         </div>
     </div>
-
-    <ul class="tabs" id="tabs">
-        <li id="tab1" onclick="setTab('divCustomer','tab1')">Customer</li>
-        <li id="tab2" onclick="getServices('divServices','tab2')">Services</li>
-        <li id="tab3" onclick="showCalendar('divCalendar','tab3')">Date & Time</li>
-        <li id="tab4" onclick="showReview('divReview','tab4')">Review</li>
-    </ul>
-
-    <div id="divCustomer">
+    <div class="grid-review">
+        <i class="material-icons" onclick="setTab('divCustomer')"> person</i>
+        <label id="lblCustomer" onclick="setTab('divCustomer')">Customer Details</label>
+        <i class="material-icons " onclick="searchCustomer('create')">check</i>
+    </div>
+    <div class="grid" id="divCustomer">
         <div id="divSearch" class="grid" style="display: grid; grid-template-columns: 11fr 1fr;">
             <input id="inpSearch" type="text" class="searchbox" placeholder="Enter email / phone" tabindex="1"
                 style="margin: 0;">
@@ -61,88 +108,67 @@
             </form>
         </div>
     </div>
-
-    <div id="divServices" hidden>
+    <div class="grid-review">
+        <i class="material-icons" onclick="getServices('divServices','tab2')">widgets</i>
+        <label id="lblService" onclick="getServices('divServices','tab2')">Select a Service</label>
+        <i class="material-icons " onclick="showCal()">check</i>
+    </div>
+    <div class="grid hide" id="divServices">
         <div id="svcgrid" class="grid"></div>
     </div>
-
-    <div id="divCalendar" hidden>
+    <div class="grid-review">
+        <i class="material-icons" onclick="showCal()">event</i>
+        <label id="lblDate" onclick="showCal()">Select a date</label>
+        <i class="material-icons" onclick="showTimePicker()">check</i>
+    </div>
+    <div class="grid hide" id="divCalendar">
         <div class="cal-header">
             <!-- <i id="prev-m" class="material-icons cal-icon" onclick="minimise()">expand_less</i> -->
             <i id="prev-m" class="material-icons " onclick="localCMY('mon', 'prev')">chevron_left</i>
-            <p id="month" style="margin:12px;"></p>
+            <p id="month"></p>
             <i id="next-m" class="material-icons " onclick="localCMY('mon', 'next')">chevron_right</i>
             <i id="prev-y" class="material-icons " onclick="localCMY('year', 'prev')">chevron_left</i>
-            <p id="year" style="margin:12px;"></p>
+            <p id="year"></p>
             <i id="next-y" class="material-icons " onclick="localCMY('year', 'next')">chevron_right</i>
+            <p id="date">12-Jun-2020</p>
             <i id="icnfold" class="material-icons " onclick="fold('icnfold','cal-container')">expand_less</i>
         </div>
         <div id="cal-container" class="dates-container">
             <div id="cal-dates" class="cal-dates"></div>
         </div>
-        <button onclick="showReview('divReview','tab4')">Next</button>
-        <div class="grid">
-            <div class="grid nopad" id="evnt-lst"></div>
-        </div>
-        <!-- Time Picker -->
-        <div id="dvTimePicker">
-            <div>
-                <div id="divRes" class="slots">
-                    <div onclick="showAvail(this,'LJL')">LJL</div>
-                    <div>Res1</div>
-                    <div>Res1</div>
-                    <div>Res1</div>
-                </div>
-                <label for="fader">Duration</label>
-                <div class="slider" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr ;">
-                    <div id="div1" onclick="setDuration(1,15)">15</div>
-                    <div id="div2" onclick="setDuration(2,30)">30</div>
-                    <div id="div3" onclick="setDuration(3,45)">45</div>
-                    <div id="div4" onclick="setDuration(4,60)">1 hr</div>
-                    <div id="div5" onclick="setDuration(5,90)">1.5 hr</div>
-                    <div id="div6" onclick="setDuration(6,120)">2 hr</div>
-                </div>
-                <div id="dvTimeline" class="timeline"></div>
-            </div>
-
-            <script src="js/timepicker.js" defer></script>
-        </div>
-        <!-- end Date Picker -->
+        <input type="button" value="Next" onclick="showTimePicker()">
     </div>
-    <div id="divReview" hidden>
-        <h3 class="bbdr">Review and Confirm Booking</h3>
-        <div class="grid review" style="grid-template-columns: 4fr 7fr;">
-            <label>Name</label>
-            <label id="name">Name</label>
-            <label>Email</label>
-            <label id="mail">@email.com</label>
-            <label>Phone</label>
-            <label id="tel">000 000 00 00 </label>
-            <label>Service</label>
-            <label id="svc">Service ID</label>
-            <label>Start</label>
-            <label id="start">10:30 AM</label>
-            <label>End</label>
-            <label id="end">10:30 AM</label>
-        </div>
-
-        <div class="grid" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr ; padding:0;margin: 12px;">
-            <label>Send notifications to</label>
+    <div class="grid-review">
+        <i class="material-icons" onclick="setTab('dvTimePicker')">schedule</i>
+        <div id="divRes" class="slots" onclick="setTab('dvTimePicker')"></div>
+        <i class="material-icons" onclick="hide('dvTimePicker')">check</i>
+    </div>
+    <!-- Time Picker -->
+    <div class="grid hide" id="dvTimePicker">
+            <div id="dvTimeline" class="timeline"></div>
+    </div>
+    <!-- end Date Picker -->
+    <div class="grid-review">
+        <i class="material-icons" onclick="setTab('divReview')">save</i>
+        <label for="" onclick="setTab('divReview')">Save Booking</label>
+        <i class="material-icons" onclick="hide('divReview')">check</i>
+    </div>
+    <div class="grid" id="divReview">
+        <label>Send notifications to</label>
+        <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1fr; margin-bottom: 0;">
             <input type="checkbox" placeholder="Notify" value="email" id="notem" onclick="setNotify('email')"><label
                 style="margin-left: 0;">Email</label>
             <input type="checkbox" placeholder="Notify" value="phone" id="nottel" onclick="setNotify('phone')"><label
                 style="margin-left: 0;">Phone</label>
-
         </div>
-
         <button onclick="saveBooking()" id="submit" disabled>Confirm Booking</button>
     </div>
 
-    <div id="divfinal" class="modal" hidden>
+    <div id="divfinal" class="modal grid shdw">
         <div class="mod-content" style="display: block;">
             <p class="fmont">Booking Saved successfully</p>
             <a href="javascript:redirect('booknew.html?bid=')" class="a-settings">Make another booking</a>
-            <a href="javascript:redirect('skedules?bid=')" class="a-settings">View Calendar</a>
+            <a href="javascript:redirect('calendar?bid=')" class="a-settings">View Calendar</a>
         </div>
     </div>
 
@@ -157,46 +183,27 @@
         </div>
     </div>
 
-    <script src="js/app.js"></script>
     <script src="js/calendar.js"></script>
-    <script src="js/business.js"></script>
+    <script src="js/timepicker.js"></script>
     <script src="js/booknew.js" defer></script>
 
     <script>
+        drawTimeScale('dvTimeline', event.start, event.end);
+        function hide(el){get(el).style.display ='none';}
         //***********************************************************************
-        const calDates = get('cal-dates').children;
-        drawCalendar();
-        // fetchEvents();
         setDateClicks();
-
-        function fetchEvents() {
-            spinner();
-            //  fetch ('/getCalendar',params:{POST:}}) 
-            inputs.id = 'bid'; inputs.val = bid;
-            params.body = JSON.stringify(inputs)
-            fetch("/getevents", params)
-                .then(response => response.json()
-                    .then(data => { showEvents(data.events, 'evnt-lst'); spinner('stop') }))
-                .catch(err => { console.log(err); spinner('stop'); });
-        }
         function localCMY(mon_year, prev_next) {
             changeMonthYear(mon_year, prev_next);
-            fetchEvents();
             setDateClicks();
         }
         var mainNav = get('mainNav');
         var mainIcn = get('mainIcn');
         function togmenu() {
-            if (mainNav.style.height == '100%') { mainNav.style.height = "0%"; mainIcn.innerText = 'menu'; }
+            if (mainNav.style.height == '100%') { mainNav.style.height = "0"; mainIcn.innerText = 'menu'; }
             else { mainNav.style.height = '100%'; mainIcn.innerText = 'close'; }
         }
-
         //***********************************************************************
-        get('iSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
-        get('inpSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
     </script>
-
-
 </body>
 
 </html>

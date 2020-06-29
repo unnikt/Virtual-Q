@@ -24,12 +24,12 @@ settings.get('/settings', (request, response) => cors(request, response, () => {
         = { isBusiness: false, business: [] };
 
     // Get Business records for the user if available
-    db.collection('providers').where('uid', '==', uid).get()
+    db.collection('business').where('uid', '==', uid).get()
         .then(qresults => {
             if (qresults) {
                 params.isBusiness = true;
                 qresults.forEach(business => {
-                    params.business.push({ bid: business.id, bname: business.data().orgname })
+                    params.business.push({ bid: business.id, bname: business.data().bname })
                 })
                 response.render('settings', params);
             }

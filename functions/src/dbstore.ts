@@ -73,9 +73,9 @@ dbstore.get('/getbid', (req, res) =>
         const uid = req.query.uid;
         const data: { bid: string, bname: string }[] = [];
         if (uid)
-            db.collection('providers').where('uid', '==', uid).get()
+            db.collection('business').where('uid', '==', uid).get()
                 .then(querySnaps => {
-                    querySnaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().orgname }))
+                    querySnaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().bname }))
                     res.json(JSON.stringify(data));
                 }
                 )
@@ -86,7 +86,7 @@ function getlocation(doctype: string) {
     switch (doctype) {
         case ('appointment'): return ("/appointments/");
         case ('service'): return ('/services/');
-        case ('provider'): return ('/providers/');
+        case ('business'): return ('/business/');
     }
     return ("");
 }
@@ -131,19 +131,20 @@ exports.registerUser = functions.auth.user().onCreate(user => {
 // });
 
 //Firestore trigger that creates a default walk in service when the user registers as a service provider
-exports.createDefaultService = functions.firestore.document('/providers/{doc_id}')
+exports.createDefaultService = functions.firestore.document('/business/{doc_id}')
     .onCreate((snap, context) => {
-        const pid = context.params.doc_id;
+        const bid = context.params.doc_id;
         const pdata = snap.data();
         const default_Services = { sname: 'Walk in', desc: 'Default Walk in service' }
 
         let uid: string = "";
         if (pdata) uid = pdata.uid;
 
-        //Create the default service for the new provider created
-        return db.collection('/providers/' + pid + '/services').doc(pid).set(default_Services)
+        //Create the default service for the new Business created
+        return db.collection('/business/' + bid +"/services/").add(default_Services)
             .then(result_svc => {
                 // update the user doc - set business flag to true
+                console.log()
                 const user = db.collection('users').doc(uid);
                 return user.update({ business: true })
             })

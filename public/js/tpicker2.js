@@ -33,3 +33,18 @@ const tSlider = get('slider'); const lblDuration = get('lblDuration');
 tSlider.addEventListener('change', (ev) => {
     lblDuration.innerText = tSlider.value + " mins";
 })
+function setDuration(div, d) {
+    tp_time_scale_min = d;
+    for (i = 1; i <= 6; i++)style(get('div' + i)).borderBottom = (div >= i) ? "3px solid var(--primary-color)" : "3px solid white";
+    drawSlots();
+}
+setDuration(1, tp_time_scale_min);
+    // < label for= "fader" hidden > Duration & Start time</label >
+    //     <div class="slider" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr ;">
+    //         <div id="div1" onclick="setDuration(1,15)">15</div>
+    //         <div id="div2" onclick="setDuration(2,30)">30</div>
+    //         <div id="div3" onclick="setDuration(3,45)">45</div>
+    //         <div id="div4" onclick="setDuration(4,60)">1 hr</div>
+    //         <div id="div5" onclick="setDuration(5,90)">1.5 hr</div>
+    //         <div id="div6" onclick="setDuration(6,120)">2 hr</div>
+    //     </div>

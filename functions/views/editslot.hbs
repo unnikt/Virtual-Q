@@ -6,7 +6,7 @@
     <i class="material-icons gicon-regular" >search</i>    
     <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='block'">delete</i>
     <i class="material-icons gicon-regular" >save</i>    
-    <i class="material-icons gicon-regular" onclick="window.location='skedules'">chevron_left</i>    
+    <i class="material-icons gicon-regular" onclick="window.location='calendar'">chevron_left</i>    
 </div>  
 <form class="grid-default" style="border:1px solid var(--shadow-color);">
     <input type="text" id="cus-name" placeholder="Customer Name">
@@ -23,7 +23,7 @@
     <div class="mod-content" style="text-align: center; width: 80%;">
         <span style='display:block;padding:2em 1em; color:var(--accent-color); '>Please confirm deletion</span>
         <hr>
-        <i class="material-icons gicon-regular" onclick="deldoc('appointment','{{sid}}','skedules')">check</i>    
+        <i class="material-icons gicon-regular" onclick="deldoc('appointment','{{sid}}','calendar')">check</i>    
         <i class="material-icons gicon-regular" onclick="document.getElementById('confirm').style.display='none'">close</i>    
     </div>
 </div>

@@ -33,7 +33,7 @@
     <div class="mod-content">
         <h4>Select a Business</h4>
         {{#each business}}
-        <div class="btnSelect" onclick="redirect('{{bid}}')">{{bname}}</div>
+        <a class="a-settings block" href="/vwservices?bid={{bid}}">{{bname}}</a>
         {{/each}}
         <i class="material-icons" onclick="document.getElementById('selBusiness').style.display='none'">arrow_back</i>
     </div>

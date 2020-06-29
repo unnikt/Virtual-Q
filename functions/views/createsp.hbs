@@ -1,13 +1,13 @@
 <form>
   <div class="grid">
-    <h3 style="margin-top: 0;">Set up as an Organisation</h2>
-    <input type="text" placeholder="Organisation Name" id="orgname" required autocomplete="organization">
+    <h3>Set up as an Organisation</h2>
+    <input type="text" placeholder="Organisation Name" id="bname" required autocomplete="organization">
     <input type="text" placeholder="Registration Number" id="rego" required autocomplete="billing">
     <input type="email" placeholder="Admin email id" id="email" required autocomplete="email">
     <input type="tel" placeholder="Admin Phone Number" id="phone" required autocomplete="tel-local">
     <label>
       <input type="checkbox" id="accept" onclick="fnaccept()">I accept the Terms and Privacy Conditions at the link below
-      <p style="margin-top: 0;margin-bottom: 0;"><a href="#" style="color:dodgerblue">Terms & Privacy conditions</a></p>
+      <p><a href="#" style="color:dodgerblue">Terms & Privacy conditions</a></p>
     </label>  
     <div style="display: flex;">
       <button onclick="window.location='/settings'">Cancel</button>
@@ -27,9 +27,9 @@ function fnaccept() {
 function createProvider(){
   spinner("start");
   var newDoc = {
-    "type":"provider",
+    "type":"business",
     "doc": {"uid":auth.currentUser.uid,
-            "orgname": document.getElementById("orgname").value,
+            "bname": document.getElementById("bname").value,
             "email": document.getElementById("email").value,
             "phone": document.getElementById("phone").value,
             "rego" : document.getElementById("rego").value}};

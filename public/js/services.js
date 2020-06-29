@@ -1,54 +1,21 @@
-var btnAdd = document.getElementById('btnAdd');
-var btnClose = document.getElementById('btnClose');
-var btnSave = document.getElementById('btnSave')
-var modform = document.getElementById('modalform');
+var actvTab = get('btnAdd');
+var actvDiv = get('dvNewService');
+const dvServices = get('dvServices');
+const lstSvcs = get('lstSvcs');
 
-btnAdd.addEventListener('click', showForm);
-btnClose.addEventListener('click',hideform);
-btnSave.addEventListener('click',addService);
+// btnAdd.addEventListener('click', (ev) => { actvDiv.style.display = "block"; setTab(ev.target,'dvNewService') });
+// btnClose.addEventListener('click', () => { actvDiv.style.display = "none"; })
+lstSvcs.addEventListener('change', () => {
+    if (lstSvcs.value) {
+        fetchEvents('dvEvents', 'sid', lstSvcs.value);
+        get('divEvnts-container').hidden = false;
+    }
+});
 
-function showForm() {
-modform.style.display="block"; btnAdd.style.display="none"; btnClose.style.display="block";}
-
-function hideform() {
-modform.style.display="none"; btnAdd.style.display="block"; btnClose.style.display="none";}
-
-function addService(){
-//Get values from the form
-var zName = document.getElementById('Name').value;
-var zDesc = document.getElementById('Desc').value;
-var zPrice = document.getElementById('Price').value;
-
-if(zName==""){
-    document.getElementById("Name").setAttribute("value","Cannot be empty..");
-    return;
-}
-
-// create the doc JSON object  ;
-var data = {"pid":'AUS-SYD-CAM-001',
-            doc:{"ServiceID":0,
-            "ServiceName":zName,
-            "ServiceDescription":zDesc,
-            "Price":zPrice}
-        };
-
-console.log(JSON.stringify(data));
-const options = {
-    method:"POST",
-    headers:{"content-type":"application/json"},
-    body:JSON.stringify(data)
-};
-
-fetch("addService",options)
-.then(response =>{
-    console.log(response.status);
-    if (response.status!==200)
-        console.log(response.status);
-    else
-        response.text().then(result=>{
-            console.log(result);
-        })
-    })
-.catch(err=>console.log(err));
-window.location.href="services";
+setTab(actvTab, 'dvNewService');
+function setTab(el, dv) {
+    actvTab.style.border = "none"; actvTab = el;
+    el.style.borderBottom = "2px solid var(--secondary-color)";
+    actvDiv.hidden = true; actvDiv = get(dv); actvDiv.hidden = false;
+    dvServices.hidden = (dv === 'dvNewService') ? true : false; 
 }

@@ -1,14 +1,3 @@
-<div id="mainNav" class="overlay" style="height: 100%;">
-    <div class="overlay-content">
-        <select name="" id="lstBus" onchange="setBid()">
-            {{#each bus}}
-            <option value="{{bid}}">{{bname}}</option>
-            {{/each}}
-        </select>
-        <a class="tile" href="javascript:redirect('booknew.html?bid=')">New Booking</a>
-        <a class="tile" href="javascript:redirect('skedules?bid=')">View Calendar</a>
-        <a class="tile" href="javascript:redirect('settings?bid=')">Settings</a>
-        <a class="tile" href="javascript:auth.signOut();">Log out</a>
-        <p class="theme">Keep the distance - Save time</p>
-    </div>
-</div>
+<script>
+    document.getElementById('mainNav').style.height='100%';
+</script>
