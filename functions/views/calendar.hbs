@@ -16,9 +16,9 @@
         <p id="year"></p>
         <i id="next-y" class="material-icons " onclick="localCMY('year', 'next')">chevron_right</i>
         <p id="date"></p>
-        <i id="icnfold" class="material-icons " onclick="fold('icnfold','cal-container')">expand_less</i>
+        <i id="icnfold" class="material-icons " onclick="fold('icnfold','cal-container')">expand_more</i>
     </div>
-    <div id="cal-container" class="dates-container">
+    <div id="cal-container" class="dates-container" hidden>
         <div id="cal-dates" class="cal-dates" hidden></div>
     </div>
     <div class="grid nopad" id="evnt-lst"></div>
@@ -31,6 +31,8 @@
     <input type="text" name="start">
     <input type="text" name="end">
 </form>
-<script src="js/app.js"></script>
+<script src="js/pops.js"></script>
 <script src="js/calendar.js"></script>
-<script>fetchEvents()</script>
+<script>
+    fetchEvents()
+</script>

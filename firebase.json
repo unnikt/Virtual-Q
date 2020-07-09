@@ -15,10 +15,6 @@
     ],
     "rewrites": [
       {
-        "source": "/",
-        "function": "main"
-      },
-      {
         "source": "/home",
         "function": "home"
       },
@@ -88,6 +84,26 @@
       },
       {
         "source": "/addResType",
+        "function": "resources"
+      },
+      {
+        "source": "/getResTypes",
+        "function": "resources"
+      },
+      {
+        "source": "/delResType",
+        "function": "resources"
+      },
+      {
+        "source": "/addResource",
+        "function": "resources"
+      },
+      {
+        "source": "/getResources",
+        "function": "resources"
+      },
+      {
+        "source": "/delResource",
         "function": "resources"
       }
     ]

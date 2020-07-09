@@ -28,14 +28,6 @@
         <p class="apptitle"> VirQ.app</p>
         <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu()">menu</i>
     </div>
-    {{!-- <div id="mainNav" class="overlay">
-        <div class="overlay-content">
-            <a class="tile" href="javascript:redirect('calendar?uid=')">Calendar</a>
-            <a class="tile" href="javascript:redirect('settings?uid=')">Settings</a>
-            <a class="tile" href="javascript:auth.signOut();">Log out</a>
-            <p class="theme">Keep the distance - Save time</p>
-        </div>
-    </div> --}}
     <div id="mainNav" class="mainMenu">    
         <div class="gridicons">
             <div class="icontiles" onclick="redirect('calendar?uid=')">
@@ -59,7 +51,7 @@
         const mainIcn = get('mainIcn');
         function togmenu() {
             if (mainNav.height == '100%') { mainNav.height = "0"; mainIcn.innerText = 'menu'; }
-            else { mainNav.height = '100%'; mainIcn.innerText = 'close'; }
+            else { mainNav.height = '100%'; mainIcn.innerText = 'expand_less'; }
         }
     </script>
 </body>

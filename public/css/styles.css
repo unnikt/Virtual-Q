@@ -55,7 +55,7 @@ body{
     margin: auto;
     z-index: 10;
     overflow-x: hidden;
-    transition: 500ms;
+    transition: 0.5s ease-in-out;
     height: 0;
 }
 .mainMenu > select{
@@ -208,6 +208,13 @@ h3{margin: 12px; color: var(--primary-color);}
 h4{margin: 12px; color: var(--primary-color);}
 
 /* START: Accordion class */
+.acc-3cell {
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    margin-top: 4px;
+    background-color: var(--light-background);
+}
+
 .acc {
     display: grid; grid-template-columns: 11fr 1fr;
     margin: 4px 0; padding: 0 8px;
@@ -219,7 +226,7 @@ h4{margin: 12px; color: var(--primary-color);}
 .acc-cntnt {
     display: none;
     padding: 12px;
-    margin-bottom: ;
+    margin-bottom: 0 ;
 }
 
 /* END: Accordion class */
@@ -262,6 +269,23 @@ h4{margin: 12px; color: var(--primary-color);}
 .tabs>li:hover {
     background-color: var(--primary-color);
     color: white;
+}
+.tabs-type-2 {
+    display: grid;
+    grid-auto-flow: column;
+    background-color: var(--light-background);
+    padding: 4px;
+    margin: 12px 0;
+    border-radius: 5px;
+}
+
+.tabs-type-2 > a {
+    color: var(--primary-color);
+    padding: 8px;
+    margin: 0 1px;
+    text-align: center;
+    font-size: smaller;
+    font-weight: 600;
 }
 
 .modal,
@@ -381,7 +405,7 @@ body{
 .abdr {border: 2px solid var(--accent-color);}
 .bbdr-12 {border-bottom: 12px solid var(--primary-color);}
 .bbdr-10 {border-bottom: 12px solid var(--primary-color);}
-.flxr {float: right;}
+.flxr , .fltr {float: right;}
 .flxm {justify-content:center;}
 .flxr {justify-content: flex-end;}
 .fmont,.fnt-msrtt{font-family: 'Montserrat';}
@@ -391,5 +415,6 @@ body{
 .valign{padding: 0 auto;}
 .pada-12{padding: 12px;}
 .nopad{padding: 0;}
+.nomgn{margin: 0;}
 .block{display: block;}
 /* Generic Decorations */

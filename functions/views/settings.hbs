@@ -13,8 +13,8 @@
     <div class="acc-cntnt" id="div01">
         <a class="a-settings" href="createsp">Set up a new Business...</a>
         {{#if isBusiness}}
-        <a class="a-settings" href="javascript:selBusiness('services?pid=')">Configure Services</a>
-        <a class="a-settings" href="/store.html">Configure Store</a>
+        <a class="a-settings" href="vwservices?bid={{bid}}">Configure Services</a>
+        <a class="a-settings" href="store.html?bid={{bid}}">Configure Store</a>
         {{/if}}
     </div>
     <div class="acc" onclick="toggle('icn02','div02')">
@@ -29,18 +29,7 @@
         <a class="a-settings" href="#">Direct Debit</a>
     </div>
 </div>
-<div class="mod-container" id="selBusiness">
-    <div class="mod-content">
-        <h4>Select a Business</h4>
-        {{#each business}}
-        <a class="a-settings block" href="/vwservices?bid={{bid}}">{{bname}}</a>
-        {{/each}}
-        <i class="material-icons" onclick="document.getElementById('selBusiness').style.display='none'">arrow_back</i>
-    </div>
-</div>
 <script>
-    var murl = "";
-    function selBusiness(url) { murl = url; document.getElementById('selBusiness').style.display = 'block'; }
     function toggle(icnid, divid) {
         var divx = document.getElementById(divid);
         (divx.style.display != 'block') ? divx.style.display = 'block' : divx.style.display = 'none';

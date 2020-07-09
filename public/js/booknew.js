@@ -74,6 +74,7 @@ function validate() {
     msg = "End time is not selected"; if (event.end == "") { SAVE_READY = false; return }
     msg = null; SAVE_READY = true;
 }
+
 var bCreateUser = true;
 function searchCustomer(mode) {
     //Validate values - Mode = find / create; 
@@ -165,16 +166,17 @@ function getServices(div, tab) {
 var services;
 function loadSvcs(data) {
     services = data;
-    const svcGrid = get('svcgrid');
-    svcGrid.innerHTML = "";
+    const svcGrid = get('svcgrid'); svcGrid.innerHTML = "";
+    const dvServices = create('div'); 
     services.forEach(element => {
         const alink = create('a');
         alink.setAttribute('class', 'a-settings');
         alink.setAttribute('id', element.sid);
         alink.href = "javascript:saveService('" + element.sid + "','" + element.sname + "')";
         alink.innerText = element.sname;
-        svcGrid.append(alink);
+        dvServices.append(alink);
     });
+    svcGrid.append(dvServices);
     const btnnext = create('button');
     btnnext.innerText = 'Next';
     btnnext.addEventListener('click', (e) => setTab('divCalendar'));

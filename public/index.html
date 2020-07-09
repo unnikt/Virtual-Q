@@ -54,11 +54,13 @@
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        document.getElementById('firebaseui-auth-container').hidden = true;
-        document.getElementById('dvBusy').hidden = false;
+        // document.getElementById('firebaseui-auth-container').hidden = true;
         window.location = '/home?uid=' + user.uid;
       }
       else {
+        document.getElementById('txtwelcome').hidden = true;
+        document.getElementById('firebaseui-auth-container').hidden = false;
+
         var ui = new firebaseui.auth.AuthUI(auth);
         ui.start('#firebaseui-auth-container', uiConfig);
       }
@@ -66,56 +68,78 @@
   </script>
 
   <style>
-    .cards {
-      position: relative;
-      display: grid;
-    }
-
-    .cards>a,
-    .cards>a:visited {
-      text-decoration: none;
-      border: 1px solid var(--shadow-color);
-      padding: 24px;
-      margin: 12px;
-      text-align: center;
-      border-radius: 10px;
-      font-size: 1em;
-      color: var(--primary-color);
-      transition: 0.3s;
-    }
-
     .cover {
       background: var(--light-background);
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       position: relative;
-      height: 50vh;
-      background-image: url("img/undraw_snow_games_ohkc.svg");
+      height: 100vh;
+      top: 0;
+      left: 0;
     }
 
-    /* body {
-      background: var(--accent-color);
-    } */
+    .cover>h3 {
+      position: fixed;
+      z-index: 3;
+      top: 50%;
+      left: 45%;
+      transform: translate(-50%, -50%);
+      background-color: transparent;
+      color: var(--primary-color);
+      padding: 20px;
+      /* border-radius: 10px; */
+      width: max-content;
+      /* animation: animwelcome 5s ease infinite; */
+      animation: zoomin 1s ease-in-out;
+      font-size: 40px;
+      border-bottom: 4px solid var(--secondary-color);
+    }
 
-    .busy {
-      margin: auto;
-      display: block;
-      width: 100px;
-      padding: 24px;
-      z-index: 2;
-      
+    #firebaseui-auth-container {
+      position: fixed;
+      top: 50%;
+      left: 45%;
+      transform: translate(-50%, -50%);
+      box-shadow: 2px 2px 8px 4px var(--shadow-color);
+      padding: 20px 0;
+    }
+
+    /* Copy this @keyframes block to your CSS*/
+    @keyframes zoomin {
+      0% {font-size: 4px;}
+      50% {font-size: 80px;}
+      100% {font-size: 40px;}
+    }
+    @keyframes animwelcome {
+      0% {
+        box-shadow: -20px -20px 8px 4px lightgrey;
+      }
+
+      25% {
+        box-shadow: -20px 20px 8px 4px lightgrey;
+      }
+
+      50% {
+        box-shadow: 20px 20px 8px 4px lightgrey;
+      }
+
+      75% {
+        box-shadow: 20px -20px 8px 4px lightgrey;
+      }
+
+      100% {
+        box-shadow: -20px -20px 8px 4px lightgrey;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="cover"></div>
-  <div class="grid bbdr">
-    <h3 class="apptitle"> Welcome to VirQ.app</h3>
+  <div class="cover">
+    <h3 class="fnt-fredo" id="txtwelcome"> VirQ.app</h3>
+    <div id="firebaseui-auth-container" hidden></div>
   </div>
-  <div id="firebaseui-auth-container"></div>
-  <div id="dvBusy" hidden><img class="busy" src="../public/img/bars.svg" alt=""></div>
 </body>
 
 </html>

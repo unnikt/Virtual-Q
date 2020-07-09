@@ -10,7 +10,7 @@ function fetchEvents(divEvents, id, val) {
     mode = id;
     payload.id = id; payload.val = val;
     params.body = JSON.stringify(payload);
-    fetch("https://virq-app.web.app/getevents", params)
+    fetch("getevents", params)
         .then(response => response.json()
             .then(data => { showEvents(data.events); spinner('stop'); })
             .catch(err => console.log(err)))

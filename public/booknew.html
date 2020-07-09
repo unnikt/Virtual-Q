@@ -19,35 +19,16 @@
     <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
-    <!-- <script>
-        const auth = firebase.auth();
-        auth.onAuthStateChanged(user => (user) ? fetchBusiness() : window.location = "/");
-    </script> -->
     <script src="js/app.js"></script>
-    <script src="js/business.js" defer></script>
+    <script src="js/business.js"></script>
     <style>
-        .slide {
-            position: relative;
-            right: -700px;
-            transition: 0.4s ease;
-        }
-
-        .grid-review {
-            display: grid;
-            grid-template-columns: 1fr 9fr 2fr;
-            margin-top: 4px;
-            background-color: var(--light-background);
-            row-gap: 2px;
-        }
-
-        .grid-review>i,
+        .acc-3cell>i,
         label,
         button {
             padding: 8px;
             margin: 8px;
         }
     </style>
-
 </head>
 
 <body>
@@ -86,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="grid-review">
+    <div class="acc-3cell">
         <i class="material-icons" onclick="setTab('divCustomer')"> person</i>
         <label id="lblCustomer" onclick="setTab('divCustomer')">Customer Details</label>
         <i class="material-icons " onclick="searchCustomer('create')">check</i>
@@ -108,7 +89,7 @@
             </form>
         </div>
     </div>
-    <div class="grid-review">
+    <div class="acc-3cell">
         <i class="material-icons" onclick="getServices('divServices','tab2')">widgets</i>
         <label id="lblService" onclick="getServices('divServices','tab2')">Select a Service</label>
         <i class="material-icons " onclick="showCal()">check</i>
@@ -116,14 +97,13 @@
     <div class="grid hide" id="divServices">
         <div id="svcgrid" class="grid"></div>
     </div>
-    <div class="grid-review">
+    <div class="acc-3cell">
         <i class="material-icons" onclick="showCal()">event</i>
         <label id="lblDate" onclick="showCal()">Select a date</label>
         <i class="material-icons" onclick="showTimePicker()">check</i>
     </div>
     <div class="grid hide" id="divCalendar">
         <div class="cal-header">
-            <!-- <i id="prev-m" class="material-icons cal-icon" onclick="minimise()">expand_less</i> -->
             <i id="prev-m" class="material-icons " onclick="localCMY('mon', 'prev')">chevron_left</i>
             <p id="month"></p>
             <i id="next-m" class="material-icons " onclick="localCMY('mon', 'next')">chevron_right</i>
@@ -138,20 +118,20 @@
         </div>
         <input type="button" value="Next" onclick="showTimePicker()">
     </div>
-    <div class="grid-review">
+    <div class="acc-3cell">
         <i class="material-icons" onclick="setTab('dvTimePicker')">schedule</i>
         <div id="divRes" class="slots" onclick="setTab('dvTimePicker')"></div>
         <i class="material-icons" onclick="hide('dvTimePicker')">check</i>
     </div>
     <!-- Time Picker -->
     <div class="grid hide" id="dvTimePicker">
-            <div id="dvTimeline" class="timeline"></div>
+        <div id="dvTimeline" class="timeline"></div>
     </div>
     <!-- end Date Picker -->
-    <div class="grid-review">
+    <div class="acc-3cell">
         <i class="material-icons" onclick="setTab('divReview')">save</i>
         <label for="" onclick="setTab('divReview')">Save Booking</label>
-        <i class="material-icons" onclick="hide('divReview')">check</i>
+        <i class="material-icons"></i>
     </div>
     <div class="grid" id="divReview">
         <label>Send notifications to</label>
@@ -182,25 +162,18 @@
             <div class="grid results" id="srchResult"></div>
         </div>
     </div>
-
     <script src="js/calendar.js"></script>
     <script src="js/timepicker.js"></script>
-    <script src="js/booknew.js" defer></script>
+    <script src="js/booknew.js"></script>
 
-    <script>
+    <script defer>
         drawTimeScale('dvTimeline', event.start, event.end);
-        function hide(el){get(el).style.display ='none';}
+        function hide(el) { get(el).style.display = 'none'; }
         //***********************************************************************
         setDateClicks();
         function localCMY(mon_year, prev_next) {
             changeMonthYear(mon_year, prev_next);
             setDateClicks();
-        }
-        var mainNav = get('mainNav');
-        var mainIcn = get('mainIcn');
-        function togmenu() {
-            if (mainNav.style.height == '100%') { mainNav.style.height = "0"; mainIcn.innerText = 'menu'; }
-            else { mainNav.style.height = '100%'; mainIcn.innerText = 'close'; }
         }
         //***********************************************************************
     </script>

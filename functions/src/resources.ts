@@ -17,61 +17,76 @@ resources.engine('hbs', hbEngine({
     layoutsDir: './views/layouts'
 }));
 const cors = corsMod({ origin: true });
+
 resources.post('/addResType', (req, res) =>
     cors(req, res, () => {
-        console.log(req.body);
         const data = req.body; const bid = data.bid; const resType = data.resType;
         if ((bid) && (resType))
-            db.collection('resources/' + bid + "/types").add(resType)
-                .then(snap => res.redirect('/resources.htmls?bid=' + bid))
+            db.collection('business').doc(bid).collection('restypes').doc().set({ rtype: resType })
+                .then(snap => res.redirect('/resources.html?bid=' + bid))
                 .catch(err => res.json({ code: 0, msg: err }))
         else res.json({ code: -1, msg: 'Missing Data...' });
     }));
 
-// // This function renders the services collection for a given provide 
-// resources.get('/services', (request, response) =>
-//     cors(request, response, () => {
-//         // Get the provider id and create path to services collection
-//         const bid = (request.query.bid) ? request.query.bid.toString() : "";
-//         const mode = (request.query.mode) ? request.query.mode.toString() : "";
-//         if ((bid === null) || (bid === "")) response.send("No bid specified...");
-//         else {
-//             // Get the providers with matching uid        
-//             const params: { sid: string, sname: string }[] = [];
-//             db.collection('business').doc(bid).collection('services').get()
-//                 .then(svcs => {
-//                     svcs.forEach(svc => params.push({ sid: svc.id, sname: svc.data().sname }));
-//                     if (mode === 'jsn') {
-//                         response.setHeader('Access-Control-Allow-Origin', '*')
-//                         response.json(params);
-//                     }
-//                     else response.render('services', { svcs: params });
-//                 })
-//                 .catch(err => response.render('error', { title: "Get Services", msg: err }))
-//         }
-//     }));
+resources.post('/delResType', (req, res) =>
+    cors(req, res, () => {
+        const data = req.body; const bid = data.bid; const tid = data.tid;
+        if ((bid) && (tid))
+            db.collection('business').doc(bid).collection('restypes').doc(tid).delete()
+                .then(snap => res.redirect('/resources.html?bid=' + bid))
+                .catch(err => res.json({ code: 0, msg: err }))
+        else res.json({ code: -1, msg: 'Missing Data...' });
+    }));
 
+resources.get('/getResTypes', (request, response) =>
+    cors(request, response, () => {
+        const bid = (request.query.bid) ? request.query.bid.toString() : "";
+        if (bid) {
+            const payload: { tid: string, rtype: string }[] = [];
+            db.collection('business').doc(bid).collection('restypes').get()
+                .then(snaps => {
+                    snaps.forEach(doc => payload.push({ tid: doc.id, rtype: doc.data().rtype }));
+                    response.json(payload);
+                })
+                .catch(err => response.json({ title: "Get resTypes - ", err: err }))
+        }
+        else response.json({ title: "Get resTypes - ", err: 'No bid received' });
+    }));
 
+resources.post('/addResource', (req, res) =>
+    cors(req, res, () => {
+        const data = req.body; const bid = data.bid;
+        const resource = { rcode: data.code, rname: data.name, rtype: data.type };
+        if ((bid) && (resource))
+            db.collection('business').doc(bid).collection('resources').doc().set(resource)
+                .then(snap => res.redirect('/resources.html?bid=' + bid))
+                .catch(err => res.json({ code: 0, msg: err }))
+        else res.json({ code: -1, msg: 'Missing Data...' });
+    }));
 
-// resources.post('findResources', (req, res) =>
-//     cors(req, res, () => {
-//         const data = req.body;
-//         console.log(data);
-//         //1. Get resources for the SID
-//         //2. Search resource table for availability
-//     }));
+resources.get('/getResources', (request, response) =>
+    cors(request, response, () => {
+        const bid = (request.query.bid) ? request.query.bid.toString() : "";
+        if (bid) {
+            const payload: { rid: string, rcode:string, rname: string, rtype: string }[] = [];
+            db.collection('business').doc(bid).collection('resources').get()
+                .then(snaps => {
+                    snaps.forEach(doc => payload.push({ rid: doc.id,rcode:doc.data().rcode, rname: doc.data().rname, rtype: doc.data().rtype }));
+                    response.json(payload);
+                })
+                .catch(err => response.json({ title: "Get resTypes - ", err: err }))
+        }
+        else response.json({ title: "Get resTypes - ", err: 'No bid received' });
+    }));
 
-// resources.get('/createsp', (request, response) => response.render('createsp'));
-// resources.get('/vwservices', (req, res) =>
-//     cors(req, res, () => {
-//         const bid = req.query.bid;
-//         const svcs: { sid: string, sname: string }[] = [];
-//         if (bid) db.collection('business/' + bid + '/services').get()
-//             .then(snaps => {
-//                 snaps.forEach(doc => svcs.push({ sid: doc.id, sname: doc.data().sname }));
-//                 res.render('vwservices', { bid: bid, svcs: svcs })
-//             })
-//             .catch(err => res.render('error', { title: 'vwservices', msg: err }))
-//     }));
+resources.post('/delResource', (req, res) =>
+    cors(req, res, () => {
+        const data = req.body; const bid = data.bid; const rid = data.rid;
+        if ((bid) && (rid))
+            db.collection('business').doc(bid).collection('resources').doc(rid).delete()
+                .then(snap => res.redirect('/resources.html?bid=' + bid))
+                .catch(err => res.json({ code: 0, msg: err }))
+        else res.json({ code: -1, msg: 'Missing Data...' });
+    }));
 
-exports.services = functions.https.onRequest(resources);
+exports.resources = functions.https.onRequest(resources);

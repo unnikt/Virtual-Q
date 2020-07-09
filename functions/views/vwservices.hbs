@@ -1,67 +1,100 @@
 <link rel="stylesheet" href="css/calendar.css">
 <style>
-    .icons-grid {
-        display: grid;
-        grid-auto-flow: column;
-        background-color: var(--light-background);
-        padding: 4px;
-        margin: 12px 0;
-        border-radius: 5px;
-    }
-
-    .icons-grid>a {
-        color: var(--primary-color);
-        padding: 8px;
-        margin: 0 1px;
-        text-align: center;
-        font-size: smaller;
-        font-weight: 600;
-        width: fit-content;
-    }
-
     select {
         padding: 12px;
         border-radius: 5px;
         border: 1px solid var(--shadow-color);
     }
+
+    .list {
+        border-radius: 5px;
+        padding: 4px;
+        min-height: 50px;
+        margin: 12px 0;
+    }
+
+    .list > div {
+        display: grid;
+        grid-template-columns: 1fr 10fr 1fr;
+        margin: 4px 0;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: small;
+        background-color: white
+    }
+
+    .list > div >i {
+        padding: 10px;
+    }
+
+    .list>div>label {
+        font-size: large;
+        font-weight: 800;
+    }
 </style>
 <div class="grid nopad">
-    <div class="icons-grid" id="dvIcons">
-        <a onclick="setTab(this,'dvNewService')" id="btnAdd">Add new service</a>
-        <a onclick="setTab(this,'divEvnts-container')">View Calendar</a>
+    <div class="tabs-type-2" id="dvIcons">
+        <a onclick="setTab(this,'dvViewServices')" id="tab1">View services</a>
         <a onclick="setTab(this,'divResources')">Attach Resources</a>
-        <a onclick="setTab(this,'divRemove')">Remove Service</a>
     </div>
-    <div id="dvNewService" hidden>
-        <form action="/addservice" method="POST">
-            <h3 class="mod-header">Create a new service</h3>
-            <input type="text" name="bid" value="A03kpawiQBURtJ58HlQ6" style="display: none;">
-            <input type="text" id="Name" name="sname" placeholder="Service Name" autofocus="" required="">
-            <textarea id="Desc" name="sdesc" placeholder="Description" required=""></textarea>
-            <input type="text" id="Price" name="sprice" placeholder="Price">
-            <div class="grid" style="grid-template-columns: 1fr 1fr;">
-                <input class="btn" type="submit" id="btnSave" value="Create" style="width:100px; margin:12px">
-            </div>
-        </form>
+    <div id="dvViewServices">
+        <div id="addService" class="bbdr" style="display: grid; grid-template-columns: 11fr 1fr;">
+            <h4>Add a new Service</h4>
+            <i id="icnNewSvc" class="material-icons" style="display:inline-block;">add</i>
+        </div>
+        <div id="dvNewService" hidden>
+            <form action="/addservice" method="POST">
+                <input type="text" name="bid" value="A03kpawiQBURtJ58HlQ6" style="display: none;">
+                <input type="text" id="Name" name="sname" placeholder="Service Name" required autocomplete="off">
+                <textarea id="Desc" name="sdesc" placeholder="Description" required></textarea>
+                <input type="text" id="Price" name="sprice" placeholder="Price" autocomplete="off">
+                <input class="btn" type="submit" id="btnSave" value="Create">
+            </form>
+        </div>
+        <div id="dvServices" hidden>
+            <select name="" id="lstSvcs">
+                <option value="">Pick a service</option>
+                {{#each svcs}}
+                <option value="{{sid}}">{{sname}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="" id="divEvnts-container" hidden>
+            <div class="grid nopad" id="dvEvents"></div>
+        </div>
     </div>
-    <div id="dvServices" hidden>
-        <select name="" id="lstSvcs">
+    <div class="" id="divResources" hidden>
+        <select name="" id="lstSvcs2">
             <option value="">Pick a service</option>
             {{#each svcs}}
             <option value="{{sid}}">{{sname}}</option>
             {{/each}}
         </select>
-    </div>
-    <div class="" id="divEvnts-container" hidden>
-        <input type="date" id="date">
-        <div class="grid nopad" id="dvEvents"></div>
-    </div>
-    <div class="" id="divResources" hidden>
-        <h1>Attach resources</h1>
+        <h4>Attached resources</h4>
+        <div id="lstAttached" class="list"></div>
+        <h4>Un-attached resources</h4>
+        <div id="lstUnAttached" class="list">
+            <div id="div1">
+                <i id="icnNewSvc" class="material-icons">push_pin</i>
+                <label>Res1</label>
+                <i onclick="addremove(this)" class="material-icons">add</i>
+            </div>
+            <div id="div2">
+                <i id="icnNewSvc" class="material-icons">push_pin</i>
+                <label>Res1</label>
+                <i onclick="addremove(this)" class="material-icons">add</i>
+            </div>
+            <div id="div3">
+                <i id="icnNewSvc" class="material-icons">push_pin</i>
+                <label>Res1</label>
+                <i onclick="addremove(this)" class="material-icons">add</i>
+            </div>
+        </div>
     </div>
     <div class="" id="divRemove" hidden>
         <h1>Remove Service</h1>
     </div>
-    <script src="js/app.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/events.js"></script>
+</div>
+<script src="js/pops.js"></script>
+<script src="js/services.js"></script>
+<script src="js/events.js"></script>
