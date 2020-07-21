@@ -35,7 +35,7 @@
 }
 .event{
     display: grid;
-    grid-template-columns: 10fr 2fr;
+    grid-template-columns: 2fr 10fr;
     padding: 8px 0; margin-bottom: 2px;
     background-color: var(--light-background);
 }

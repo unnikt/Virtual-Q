@@ -1,13 +1,3 @@
-// const firebaseConfig = {
-//     apiKey: "AIzaSyDhCQUGfNJpo5U2V-briauPI7qjwzMLRTA",
-//     authDomain: "virq-app.firebaseapp.com",
-//     databaseURL: "https://virq-app.firebaseio.com",
-//     projectId: "virq-app",
-//     storageBucket: "virq-app.appspot.com",
-//     messagingSenderId: "164615998565",
-//     appId: "1:164615998565:web:bcacf809a8198edd7aca8c",
-//     measurementId: "G-S0YTXTZ0BM"
-// };
 
 // firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();

@@ -13,7 +13,7 @@
         margin: 12px 0;
     }
 
-    .list > div {
+    .list>div , .lstitem {
         display: grid;
         grid-template-columns: 1fr 10fr 1fr;
         margin: 4px 0;
@@ -23,7 +23,7 @@
         background-color: white
     }
 
-    .list > div >i {
+    .list>div>i {
         padding: 10px;
     }
 
@@ -70,25 +70,15 @@
             <option value="{{sid}}">{{sname}}</option>
             {{/each}}
         </select>
+        <div id="resCart" class="lstitem">
+            <i class="material-icons">shopping_cart</i>
+            <label id="lblCart">Unsaved resource linkages - 0</label>
+            <i class="material-icons" onclick="saveCart()">save</i>
+        </div>
         <h4>Attached resources</h4>
         <div id="lstAttached" class="list"></div>
         <h4>Un-attached resources</h4>
         <div id="lstUnAttached" class="list">
-            <div id="div1">
-                <i id="icnNewSvc" class="material-icons">push_pin</i>
-                <label>Res1</label>
-                <i onclick="addremove(this)" class="material-icons">add</i>
-            </div>
-            <div id="div2">
-                <i id="icnNewSvc" class="material-icons">push_pin</i>
-                <label>Res1</label>
-                <i onclick="addremove(this)" class="material-icons">add</i>
-            </div>
-            <div id="div3">
-                <i id="icnNewSvc" class="material-icons">push_pin</i>
-                <label>Res1</label>
-                <i onclick="addremove(this)" class="material-icons">add</i>
-            </div>
         </div>
     </div>
     <div class="" id="divRemove" hidden>

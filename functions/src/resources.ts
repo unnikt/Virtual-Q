@@ -68,11 +68,37 @@ resources.get('/getResources', (request, response) =>
     cors(request, response, () => {
         const bid = (request.query.bid) ? request.query.bid.toString() : "";
         if (bid) {
-            const payload: { rid: string, rcode:string, rname: string, rtype: string }[] = [];
+            const payload: { rid: string, rcode: string, rname: string, rtype: string }[] = [];
             db.collection('business').doc(bid).collection('resources').get()
                 .then(snaps => {
-                    snaps.forEach(doc => payload.push({ rid: doc.id,rcode:doc.data().rcode, rname: doc.data().rname, rtype: doc.data().rtype }));
+                    snaps.forEach(doc => payload.push({ rid: doc.id, rcode: doc.data().rcode, rname: doc.data().rname, rtype: doc.data().rtype }));
                     response.json(payload);
+                })
+                .catch(err => response.json({ title: "Get resTypes - ", err: err }))
+        }
+        else response.json({ title: "Get resTypes - ", err: 'No bid received' });
+    }));
+resources.get('/getresmap', (request, response) =>
+    cors(request, response, () => {
+        const bid = (request.query.bid) ? request.query.bid.toString() : "";
+        if (bid) {
+            const payload: {mid:string, sid: string, required: boolean, tid: string, rtype: string }[] = [];
+            db.collection('business').doc(bid).collection('resmap').get()
+                .then(resmaps => {
+                    resmaps.forEach(resmap => {
+                        const d = resmap.data();
+                        payload.push({mid:resmap.id, sid: d.sid, required: true, tid: d.tid, rtype: d.rtype })
+                    })
+                    db.collection('business').doc(bid).collection('restypes').get()
+                        .then(snaps => {
+                            snaps.forEach(res => {
+                                const dres = res.data();
+                                payload.push({mid:"", sid: "", required: false, tid: res.id, rtype: dres.rtype })
+                            })
+                            response.json(payload);
+                        }
+                        )
+                        .catch(err => response.json({ title: "Get resTypes - ", err: err }));
                 })
                 .catch(err => response.json({ title: "Get resTypes - ", err: err }))
         }

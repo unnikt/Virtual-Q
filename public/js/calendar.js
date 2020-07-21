@@ -58,7 +58,8 @@ function newEvent(event) {
     const lbl_bname = create('label'); lbl_bname.innerText = (mode === 'cus') ? event.bname : event.uname;
     const lbl_svc = create('label'); lbl_svc.innerText = event.sname;
     const lbl_status = create('label'); lbl_status.innerText = event.status;
-    div_event.appendChild(lbl_bname);div_event.appendChild(lbl_start);  div_event.appendChild(lbl_svc); div_event.appendChild(lbl_status);
+    div_event.appendChild(lbl_start); div_event.appendChild(lbl_bname);
+    div_event.appendChild(lbl_status); div_event.appendChild(lbl_svc); 
     return div_event;
 }
 //*********************************************************************************/
