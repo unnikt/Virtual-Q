@@ -3,18 +3,38 @@
         <p>User Profile</p>
         <i id="icn00" class="material-icons">expand_more</i>
     </div>
+    {{#if bShowMsg}}
+    <div class="modal block" id="msgBox">
+        <div class="mod-content">
+            <span>{{msg}}</span>
+            <button onclick="hide('msgBox')">Ok</button>
+        </div>
+    </div>
+    {{/if}}
     <div class="acc-cntnt" id="div00">
-        <a class="a-settings" href="#">Change Password</a>
+        <form action="/updateuser" method="POST">
+            {{#with usr}}
+            <input type="hidden" name="uid" value="{{uid}}">
+            <input type="text" name="fname" value="{{fname}}" required placeholder="First Name">
+            <input type="text" name="sname" value="{{sname}}" required placeholder="Second Name">
+            <input type="tel" name="phone" value="{{phone}}" required placeholder="Phone number">
+            <input type="email" name="email" value="{{email}}" required placeholder="Email id">
+            <input type="submit" value="Update">
+            {{/with}}
+            {{#if isBusiness}}
+            <input type="hidden" name="bid" value="{{bid}}">
+            {{/if}}
+        </form>
     </div>
     <div class="acc" onclick="toggle('icn01','div01')">
         <p>Business Accounts</p>
         <i id="icn01" class="material-icons">expand_more</i>
     </div>
     <div class="acc-cntnt" id="div01">
-        <a class="a-settings" href="createsp">Set up a new Business...</a>
+        <a class="a-settings" href="createsp?uid={{uid}}">Set up a new Business...</a>
         {{#if isBusiness}}
-        <a class="a-settings" href="vwservices?bid={{bid}}">Configure Services</a>
-        <a class="a-settings" href="store.html?bid={{bid}}">Configure Store</a>
+        <a class="a-settings" href="vwservices?uid={{uid}}&bid={{bid}}">Configure Services</a>
+        <a class="a-settings" href="store.html?uid={{uid}}&bid={{bid}}">Configure Store</a>
         {{/if}}
     </div>
     <div class="acc" onclick="toggle('icn02','div02')">
@@ -22,7 +42,7 @@
         <i id="icn02" class="material-icons">expand_more</i>
     </div>
     {{!-- TO DO: Link payment options --}}
-    <div class="acc-cntnt" id="div02"> 
+    <div class="acc-cntnt" id="div02">
         <a class="a-settings" href="#">Google pay</a>
         <a class="a-settings" href="#">Paypal</a>
         <a class="a-settings" href="#">Credit Card</a>

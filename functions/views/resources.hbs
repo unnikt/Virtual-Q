@@ -1,0 +1,84 @@
+<style>
+    .list-type-1 {
+        list-style: none;
+        padding: 8px;
+        height: 50vh;
+        border: 1px solid var(--border-color);
+        overflow-y: scroll;
+    }
+
+    .list-type-1>li {
+        margin: 4px 0;
+        padding: 12px;
+        background-color: var(--light-background);
+    }
+
+    .list {
+        padding: 0;
+    }
+
+    .list>div,
+    a {
+        padding: 12px;
+        margin: 2px;
+        background-color: var(--light-background);
+        font-size: small;
+    }
+
+    .list>a {
+        text-decoration: none;
+        color: var(--primary-color);
+    }
+</style>
+<div class="grid">
+    <div class="tabs-type-2" id="dvIcons">
+        <a onclick="setTab(this,'dvResType')" id="tab1">Resource Types</a>
+        <a onclick="setTab(this,'dvResources')" id="tab2">Resources</a>
+    </div>
+    <div id="dvResType" hidden>
+        <div id="btnAddType" class="bbdr" style="display: grid; grid-template-columns: 11fr 1fr;">
+            <h4>Create a new Resource Type</h4>
+            <i id="icnNew" class="material-icons" style="display:inline-block;">add</i>
+        </div>
+        <div id="dvNewType" hidden>
+            <form class="shdw pada-12" action="/addResType" method="POST">
+                <input type="hidden" name="uid" value="{{uid}}">
+                <input type="hidden" name="bid" value="{{bid}}">
+                <input type="text" id="Name" name="resType" placeholder="Resource Type (e.g. Instructor, Aircraft..etc)"
+                    required autocomplete="off">
+                <input class="btn" type="submit" id="btnSave" value="Create">
+            </form>
+        </div>
+        <ul class="list-type-1" id="lstResType"></ul>
+    </div>
+    <div id="dvResources" hidden>
+        <div id="btnAddRes" class="bbdr" style="display: grid; grid-template-columns: 11fr 1fr;">
+            <h4>Add a new Resource</h4>
+            <i id="icnNewRes" class="material-icons" style="display:inline-block;">add</i>
+        </div>
+        <div id="dvNewRes" hidden>
+            <form class="shdw pada-12" action="/addResource" method="POST">
+                <input type="hidden" name="uid" value="{{uid}}">
+                <input type="hidden" name="bid" value="{{bid}}">
+                <input type="text" id="rescode" name="code" placeholder="Code" required autocomplete="off" minlength="3"
+                    maxlength="3" size="3" style="width: fit-content;">
+                <i for="rescode" style="font-size: small;">Enter a unique 3 letter code / initial</i>
+                <input type="text" id="resname" name="name" placeholder="Resource Name" required autocomplete="off"
+                    style="display: inline-flex;">
+                <select name="type" id="selType"></select>
+                <input class="btn" type="submit" id="btnSaveRes" value="Create">
+            </form>
+        </div>
+        <h4>Resources</h4>
+        <input type="text" id="filter" onkeyup="filterList()" placeholder="Search resources.." title="Type in a name">
+        <div id="dvResList" class="grid list" style="grid-template-columns: 5fr 5fr 1fr;"></div>
+    </div>
+</div>
+<form action="/delResType" method="post" hidden id="frmDelResType">
+    <input type="hidden" name="uid" value="{{uid}}">
+    <input type="hidden" name="bid" value="{{bid}}">
+    <input type="text" id="frm3-type" name="tid">
+</form>
+<script src="js/tabs.js"></script>
+<script src="js/pops.js"></script>
+<script src="js/resources.js"></script>

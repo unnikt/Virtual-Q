@@ -1,0 +1,23 @@
+<div class="bbdr" style="display: flex;">
+    <p class="apptitle"> VirQ.app</p>
+    <i id="mainIcn" class="material-icons gicon-regular" onclick="togmenu()">menu</i>
+</div>
+<div id="mainNav" class="mainMenu" style="left: 100%;">
+    <div style="min-height: 60px;">
+        <i id="mainIcn" class="material-icons gicon-regular fltr" onclick="togmenu(this)">close</i>
+    </div>
+    <div class="gridicons">
+        <div class="icontiles" onclick="redirect('calendar?')">
+            <i class="material-icons gicon-regular">event</i>
+            <h4>Calendar</h4>
+        </div>
+        <div class="icontiles" onclick="redirect('settings?')">
+            <i class="material-icons gicon-regular">settings</i>
+            <h4>Settings</h4>
+        </div>
+        <div class="icontiles" onclick="auth.signOut()">
+            <i class="material-icons gicon-regular">double_arrow</i>
+            <h4>Log out</h4>
+        </div>
+    </div>
+</div>

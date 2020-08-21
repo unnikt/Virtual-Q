@@ -28,41 +28,48 @@ function showEvents(events, divEvents) {
         mEvents = events; markBusyDays();
         var evnt_lst = get(divEvents); evnt_lst.innerHTML = "";
         var dayhdr = "";
+        var idx = 0;
         mEvents.forEach(e => {
-            const d = ts2Date(e.start).getDate();
-            const dStr = ts2Date(e.start).toDateString();
-            if (d >= thisD) {
-                if (dayhdr != dStr) {
-                    dayhdr = dStr;
-                    const lbl_dt = create('label'); lbl_dt.setAttribute('class', 'date-hdr'); lbl_dt.innerText = dayhdr;
-                    evnt_lst.appendChild(lbl_dt);
+            if ((e.status != 'Completed') && (e.status != 'cancel')) {
+                const d = ts2Date(e.start).getDate();
+                const dStr = ts2Date(e.start).toDateString();
+                if (d >= thisD) {
+                    if (dayhdr != dStr) {
+                        dayhdr = dStr;
+                        const lbl_dt = create('label'); lbl_dt.setAttribute('class', 'date-hdr'); lbl_dt.innerText = dayhdr;
+                        evnt_lst.appendChild(lbl_dt);
+                    }
+                    evnt_lst.appendChild(newEvent(e, idx));
                 }
-                evnt_lst.appendChild(newEvent(e));
             }
+            idx++;
         });
     }
 }
-function newEvent(event) {
+function newEvent(event, idx) {
     var div_event = create('div');
     div_event.setAttribute('class', 'event');
-    div_event.addEventListener('click', () => {
-        const frmEl = get('frmcheckin').elements;
-        frmEl['aid'].value = event.aid;
-        frmEl['bname'].value = event.bname;
-        frmEl['sname'].value = event.sname;
-        frmEl['start'].value = [ts2Date(event.start).toDateString(), ts2Date(event.start).toLocaleTimeString()].join(' ');
-        frmEl['end'].value = [ts2Date(event.end).toDateString(), ts2Date(event.end).toLocaleTimeString()].join(' ');
-        get('frmcheckin').submit();
-    })
+    div_event.setAttribute('onclick', 'showCheckin(' + idx + ')');
     const lbl_start = create('label'); lbl_start.innerText = ts2LocalTime(event.start);
     const lbl_bname = create('label'); lbl_bname.innerText = (mode === 'cus') ? event.bname : event.uname;
     const lbl_svc = create('label'); lbl_svc.innerText = event.sname;
     const lbl_status = create('label'); lbl_status.innerText = event.status;
     div_event.appendChild(lbl_start); div_event.appendChild(lbl_bname);
-    div_event.appendChild(lbl_status); div_event.appendChild(lbl_svc); 
+    div_event.appendChild(lbl_status); div_event.appendChild(lbl_svc);
     return div_event;
 }
 //*********************************************************************************/
+
+function showCheckin(idx) {
+    const ev = mEvents[idx];
+    const frmEl = get('frmcheckin').elements;
+    frmEl['aid'].value = ev.aid;
+    frmEl['bname'].value = ev.bname;
+    frmEl['sname'].value = ev.sname;
+    frmEl['start'].value = [ts2Date(ev.start).toDateString(), ts2Date(ev.start).toLocaleTimeString()].join(' ');
+    frmEl['end'].value = [ts2Date(ev.end).toDateString(), ts2Date(ev.end).toLocaleTimeString()].join(' ');
+    get('frmcheckin').submit();
+}
 
 var prevDate = "";
 const calDates = get('cal-dates').children;
@@ -78,11 +85,11 @@ function setDateClicks() {
 
 function clickDate(date) {
     selDate = new Date([currYear, currMonth + 1, date].join('-'));
-    setParams('start', selDate); setParams('end', selDate);
     if (prevDate != "") setColor(prevDate, "var(--light-background)");
     setColor(date, blue);
     get('date').innerText = [date, months[currMonth], currYear].join('-');
     prevDate = date;
+    clk_tab('dvCalendar','icn03'); //Bubble up
 }
 
 function changeMonthYear(month_year, prev_next) {
@@ -121,9 +128,8 @@ function markBusyDays() {
 
 function fetchEvents() {
     spinner();
-    payload.id = (uid) ? 'uid' : (bid) ? 'bid' : (sid) ? 'sid' : null;
-    payload.val = (uid) ? uid : (bid) ? bid : (sid) ? sid : null;
-    mode = (uid) ? 'cus' : (bid) ? 'bus' : (sid) ? 'svc' : null;
+    payload.id = (mode == 'cus') ? 'uid' : (mode == 'bus') ? 'bid' : (mode == 'svc') ? 'sid' : null;
+    payload.val = (mode == 'cus') ? uid : (mode == 'bus') ? bid : (mode == 'svc') ? sid : null;
 
     params.body = JSON.stringify(payload);
     fetch("/getevents", params)

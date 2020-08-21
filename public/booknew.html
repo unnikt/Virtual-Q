@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book New</title>
-    <link rel="shortcut icon" href="">
+    <link rel="shortcut icon" href="img/virq.ico">
 
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -28,15 +28,20 @@
             padding: 8px;
             margin: 8px;
         }
+
+        .srch {
+            background: url(img/search-24px.svg) no-repeat scroll 7px 7px;
+        }
     </style>
 </head>
 
 <body>
     <div class="bbdr" style="display: flex;">
         <p class="apptitle"> VirQ.app</p>
-        <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu(this)">menu</i>
+        <i id="mainIcn" class="material-icons gicon-regular" onclick="togmenu(this)">menu</i>
     </div>
-    <div id="mainNav" class="mainMenu">
+    <div id="mainNav" class="mainMenu" style="left: 100%;">
+        <i id="mainIcn" class="material-icons gicon-regular fltr" onclick="togmenu(this)">close</i>
         <select name="" id="lstBus" onchange="setBid()">
             <option value="A03kpawiQBURtJ58HlQ6">Curtis Aviation</option>
         </select>
@@ -67,40 +72,39 @@
             </div>
         </div>
     </div>
-    <div class="acc-3cell">
-        <i class="material-icons" onclick="setTab('divCustomer')"> person</i>
-        <label id="lblCustomer" onclick="setTab('divCustomer')">Customer Details</label>
-        <i class="material-icons " onclick="searchCustomer('create')">check</i>
+    <div class="acc-3cell" onclick="clk_tab('dvCustomer','icn01')">
+        <span class="material-icons gicon-regular"> person</span>
+        <label id="lblCustomer">Customer Details</label>
+        <i id="icn01" class="material-icons">check</i>
     </div>
-    <div class="grid" id="divCustomer">
-        <div id="divSearch" class="grid" style="display: grid; grid-template-columns: 11fr 1fr;">
-            <input id="inpSearch" type="text" class="searchbox" placeholder="Enter email / phone" tabindex="1"
-                style="margin: 0;">
-            <i id="iSearch" class="material-icons" tabindex="2" onclick="searchCustomer('find')">search</i>
+    <div class="grid" id="dvCustomer">
+        <div id="divSearch" class="grid nopad" style="display: grid; grid-template-columns: 11fr 1fr;">
+            <input class="srch" id="inpSearch" type="text" class="searchbox" placeholder="Enter email / phone"
+                tabindex="1" style="margin: 0;">
+            <span id="iSearch" class="material-icons" tabindex="2" onclick="searchUser()">search</span>
         </div>
-        <div class="grid">
+        <div class="grid nopad">
             <label for="">Or Add new Customer</label>
             <form id="newuser" onsubmit="return false;">
                 <input type="text" id="fname" placeholder="First Name" autocomplete="given-name" required>
                 <input type="text" id="sname" placeholder="Sur Name" autocomplete="family-name" required>
                 <input type="tel" id="phone" placeholder="Phone Name" autocomplete="tel" required>
                 <input type="email" id="email" placeholder="Emaid Id" autocomplete="email" required>
-                <input type="button" value="Next" onclick="searchCustomer('create')">
             </form>
         </div>
     </div>
     <div class="acc-3cell">
         <i class="material-icons" onclick="getServices('divServices','tab2')">widgets</i>
         <label id="lblService" onclick="getServices('divServices','tab2')">Select a Service</label>
-        <i class="material-icons " onclick="showCal()">check</i>
+        <i id="icn02" class="material-icons " onclick="showCal('icn02')">check</i>
     </div>
     <div class="grid hide" id="divServices">
         <div id="svcgrid" class="grid"></div>
     </div>
     <div class="acc-3cell">
-        <i class="material-icons" onclick="showCal()">event</i>
-        <label id="lblDate" onclick="showCal()">Select a date</label>
-        <i class="material-icons" onclick="showTimePicker()">check</i>
+        <i class="material-icons" onclick="showCal('icn03')">event</i>
+        <label id="lblDate" onclick="showCal('icn03')">Select a date</label>
+        <i id="icn03" class="material-icons" onclick="showTimePicker('icn03')">check</i>
     </div>
     <div class="grid hide" id="divCalendar">
         <div class="cal-header">
@@ -120,14 +124,34 @@
     </div>
     <div class="acc-3cell">
         <i class="material-icons" onclick="setTab('dvTimePicker')">schedule</i>
-        <div id="divRes" class="slots" onclick="setTab('dvTimePicker')"></div>
-        <i class="material-icons" onclick="hide('dvTimePicker')">check</i>
+        <label id="divRes" onclick="setTab('dvTimePicker')">Select time</label>
+        <i class="material-icons" onclick="showResources()">check</i>
     </div>
     <!-- Time Picker -->
     <div class="grid hide" id="dvTimePicker">
         <div id="dvTimeline" class="timeline"></div>
     </div>
     <!-- end Date Picker -->
+    <div id="accTime" class="acc-3cell" onclick="clk_tab('dvResources','icn05')">
+        <i class="material-icons">business_center</i>
+        <label id="lblResources">Select Resources</label>
+        <i id="icn05" class="material-icons grey">check</i>
+    </div>
+    <div class="grid" id="dvResources" style="grid-template-columns: 2fr 10fr;">
+        <p>Instructor</p>
+        <div>
+            <span class="a-settings" onclick="javascript:clk_Resource(this,'KJL')">KJL</span>
+            <span class="a-settings" onclick="clk_Resource('KJL')">KJL</span>
+            <span class="a-settings" onclick="clk_Resource('KJL')">KJL</span>
+        </div>
+        <p>Aircraft</p>
+        <div>
+            <span class="a-settings" onclick="clk_Resource('KJL')">JAZ</span>
+            <span class="a-settings" onclick="clk_Resource('KJL')">JAZ</span>
+            <span class="a-settings" onclick="clk_Resource('KJL')">JAZ</span>
+        </div>
+    </div>
+
     <div class="acc-3cell">
         <i class="material-icons" onclick="setTab('divReview')">save</i>
         <label for="" onclick="setTab('divReview')">Save Booking</label>
@@ -162,12 +186,13 @@
             <div class="grid results" id="srchResult"></div>
         </div>
     </div>
+    <script src="js/pops.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/timepicker.js"></script>
     <script src="js/booknew.js"></script>
 
     <script defer>
-        drawTimeScale('dvTimeline', event.start, event.end);
+        drawTimeScale('dvTimeline', slot.start, slot.end);
         function hide(el) { get(el).style.display = 'none'; }
         //***********************************************************************
         setDateClicks();

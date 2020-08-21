@@ -1,14 +1,19 @@
-var reslst = [];
-//TO DO - Remove hard coding
-// var reslst = [{ "sid": "", "required": false, "tid": "1NFRrWdV79Iv3HwD5W5K", "rtype": "Aircraft" }, { "sid": "", "required": false, "tid": "cr4yUEdrIlzG6qkoVLJb", "rtype": "Instructor(CFI)" }];
+var Rtypes, Ra, Rd = [];
 
-var rmap = [];
+//Alter the default lstBus change event to set the inpBid value if changed 
+const lstBus = get('lstBus'); const inpBid = get('inpBid');
+inpBid.value = lstBus.value;
+lstBus.addEventListener('change', () => { inpBid.value = lstBus.value });
+//*************************/
 
 const loadResources = async () => {
     const response = await fetch('getresmap?bid=' + bid);
-    rmap = await response.json();
-    reslst = rmap.filter(itm => itm.sid == "");
-    rmap = rmap.filter(itm => itm.sid != "")
+    resp = await response.json();
+    // resp = { "Ra": [{ "mid": "DLrW2xXDiJhonP0V30bq", "sid": "1UnKreNbOL3Lv3cUdNl6", "required": true, "tid": "cr4yUEdrIlzG6qkoVLJb", "rtype": "Instructor(CFI)" }, { "mid": "nbFZMB6zoLVcm5nhlwE4", "sid": "1UnKreNbOL3Lv3cUdNl6", "required": true, "tid": "1NFRrWdV79Iv3HwD5W5K", "rtype": "Aircraft" }, { "mid": "tMI2Yi29NKcUsnNqapmA", "sid": "1UnKreNbOL3Lv3cUdNl6", "required": true, "tid": "cr4yUEdrIlzG6qkoVLJb", "rtype": "Instructor(CFI)" }], "Rtypes": [{ "mid": "", "sid": "", "required": false, "tid": "1NFRrWdV79Iv3HwD5W5K", "rtype": "Aircraft" }, { "mid": "", "sid": "", "required": false, "tid": "cr4yUEdrIlzG6qkoVLJb", "rtype": "Instructor(CFI)" }] }
+
+    Rtypes = resp.Rtypes;
+    Ra = resp.Ra;
+    Rd = [];
 }
 loadResources();
 
@@ -41,11 +46,11 @@ get('icnNewSvc').addEventListener('click', (e) => {
 const lstSvcs2 = get('lstSvcs2');
 const lstAttached = get('lstAttached');
 const lstUnAttached = get('lstUnAttached');
-lstSvcs2.addEventListener('change', () => {
+const lstSvc2Changed = () => {
     lstAttached.innerText = lstUnAttached.innerText = "";
     if (lstSvcs2.value) {
-        const tmpAttached = rmap.filter(itm => (itm.sid == lstSvcs2.value));
-        var tmpUnattached = reslst;
+        const tmpAttached = Ra.filter(itm => (itm.sid == lstSvcs2.value));
+        var tmpUnattached = Rtypes;
         tmpAttached.forEach(rec => {
             lstAttached.append(getResContainer(rec.tid, rec.rtype, 'push_pin', 'delete'));
             tmpUnattached = tmpUnattached.filter(itm => (itm.tid != rec.tid));
@@ -54,7 +59,8 @@ lstSvcs2.addEventListener('change', () => {
             lstUnAttached.append(getResContainer(rec.tid, rec.rtype, '', 'add'));
         })
     }
-})
+}
+lstSvcs2.addEventListener('change', lstSvc2Changed);
 
 function getResContainer(tid, rtype, txtPin, txtAddRem) {
     const dvContainer = create('div'); dvContainer.setAttribute('id', tid);
@@ -75,28 +81,50 @@ function addremove(ele) {
         ele.innerText = 'delete';
         icnPin.innerText = 'push_pin';
         lstAttached.append(parentDiv);
-        rmap.push({ sid: lstSvcs2.value, tid: parentDiv.id, rtype: lblRname.innerText, required: true })
-        lblRname.id = rmap.length - 1;
+        const idx = Rd.findIndex(item => { return ((item.sid == lstSvcs2.value) && (item.tid == parentDiv.id)) })
+        if (idx >= 0) {
+            Ra.push(Rd[idx]);
+            Rd.splice(idx, 1);
+        }
+        else
+            Ra.push({ mid: "", sid: lstSvcs2.value, tid: parentDiv.id, rtype: lblRname.innerText, required: true })
+        lblRname.id = Ra.length - 1;
     }
     else {
         ele.innerText = 'add';
         icnPin.innerText = '';
         lstUnAttached.append(parentDiv);
-        const idx = rmap.findIndex(item => { return ((item.sid == lstSvcs2.value) && (item.tid == parentDiv.id)) })
-        if (!rmap[idx].mid)
-            rmap.splice(idx, 1);            
+        const idx = Ra.findIndex(item => { return ((item.sid == lstSvcs2.value) && (item.tid == parentDiv.id)) })
+        if (Ra[idx].mid)
+            Rd.push(Ra[idx]);
+        Ra.splice(idx, 1);
     }
     const lblCart = get('lblCart');
-    lblCart.innerText = 'Unsaved resource linkages - ' + rmap.length;
-    lblCart.style.color = (rmap.length > 0) ? 'red' : 'black'
+    const nDels = Rd.length;
+    const nAdds = Ra.filter(x => { return x.mid == '' }).length;
+    lblCart.innerText = 'Unsaved Additions: ' + nAdds;
+    lblCart.innerText += '; Deletions: ' + nDels;
+    lblCart.style.color = (nAdds + nDels > 0) ? 'red' : 'black'
 }
 
 function saveCart() {
     const params = { method: 'POST', headers: { 'Accept': 'application/json' }, body: '' }
-    params.body = JSON.stringify({ bid: bid, rmap: rmap });
+    Rnew = Ra.filter(x => { return x.mid == '' }).map(x => { return { sid: x.sid, tid: x.tid, rtype: x.rtype, required: x.required } })
+    Rdel = Rd.map(x => { return { mid: x.mid } });
+    params.body = JSON.stringify({ bid: bid, Rn: Rnew, Rd: Rdel });
     fetch('saveresmap', params)
-        .then(resp => resp.text()
-            .then(txt => console.log(txt))
+        .then(resp => resp.json()
+            .then(rjson => refreshPage(rjson))
             .catch(err => console.log(err)))
         .catch(err => console.log(err));
+}
+
+function refreshPage(rjson) {
+    // console.log(rjson);
+    const lblCart = get('lblCart');
+    lblCart.innerText = rjson.msg;
+    lblCart.style.color = 'black';
+    lstSvcs2.selectedIndex = 0;
+    loadResources();
+    lstSvc2Changed();
 }

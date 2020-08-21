@@ -1,59 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>VirQ.app</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="shortcut icon" href="img/virq.ico">
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="/__/firebase/7.14.5/firebase-app.js"></script>
-    <!-- Add Firebase products that you want to use -->
-    <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
-    <script>
-        const auth = firebase.auth();
-        auth.onAuthStateChanged(user => { if (!user) window.location = "/"; })
-        function redirect(page) { window.location = page + auth.currentUser.uid; }
-    </script>
-</head>
+{{> header}}
 
 <body>
-    <div class="bbdr" style="display: flex;">
-        <p class="apptitle"> VirQ.app</p>
-        <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu()">menu</i>
-    </div>
-    <div id="mainNav" class="mainMenu">    
-        <div class="gridicons">
-            <div class="icontiles" onclick="redirect('calendar?uid=')">
-                <i class="material-icons gicon-regular">event</i>
-                <h4>Calendar</h4>
-            </div>
-            <div class="icontiles" onclick="redirect('settings?uid=')">
-                <i class="material-icons gicon-regular">settings</i>
-                <h4>Settings</h4>
-            </div>
-            <div class="icontiles" onclick="auth.signOut()">
-                <i class="material-icons gicon-regular">double_arrow</i>
-                <h4>Log out</h4>
-            </div>
-        </div>
-    </div>
-    {{{body}}}
     <script>
-        function get(el) { return document.getElementById(el) }
-        const mainNav = get('mainNav').style;
-        const mainIcn = get('mainIcn');
-        function togmenu() {
-            if (mainNav.height == '100%') { mainNav.height = "0"; mainIcn.innerText = 'menu'; }
-            else { mainNav.height = '100%'; mainIcn.innerText = 'expand_less'; }
-        }
+        function redirect(page) { window.location = [page, 'uid=', uid].join(''); }
     </script>
+    {{> cusnav}}
+    {{{body}}}
 </body>
 
 </html>

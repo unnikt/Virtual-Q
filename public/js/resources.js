@@ -71,7 +71,7 @@ function showResbyType(type) {
     filterList();
 }
 
-get('frm1-bid').value = get('frm2-bid').value = get('frm3-bid').value = bid;
+// get('frm1-bid').value = get('frm2-bid').value = get('frm3-bid').value = bid;
 function delResType(id) {
     get('frm3-type').value = id;
     const rtype = rtypes.find(item => { return item.tid == id })

@@ -1,3 +1,5 @@
+.grey{color: darkgray;}
+
 .cal-header{
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 3fr 1fr;
@@ -68,20 +70,23 @@
 }
 
 .timeline{
-    display: grid;
-    grid-template-columns: 1fr;
-    padding: 2px;
+    display: flex;
+    max-width: 85vw;
     overflow-x: scroll;
+    padding: 2px;
     text-align: center;
     width: fit-content;
     background-color: var(--light-background);
     border: 1px solid var(--shadow-color);
-    max-width: 98%;
 }
 
 .timeline > div {
     padding: 8px;
     width: 60px;margin: 1px;
+    font-size: small;
+    text-align: center;
+    background: white; 
+    color: var(--primary-color); 
     font-size: small;
 }
 .timeHeader {
@@ -89,11 +94,6 @@
     font-weight: 600;
     font-size: 16px;
     border-bottom: 1px solid;
-}
-.time{
-    grid-column: 1; text-align: right;
-    background: white; 
-    color: var(--primary-color); font-weight: 700;
 }
 .timeline > div >label{
     text-align: center;

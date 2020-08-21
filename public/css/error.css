@@ -1,25 +1,18 @@
-
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-
-    .center {
+   .center {
+        position: absolute;
         display: grid;
-        color: white;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid lightgrey;
+        padding: 10px;
+        max-height: 80%;
+        width: 80vw;
+        border-radius: 10px;
+        background-color: lightgrey;
     }
 
     .acc {
-        padding: 16px;
+        padding: 10px;
         cursor: pointer;
         font-weight: 600;
         border-bottom: 1px solid white;
@@ -31,21 +24,23 @@
     .acc>a {
         padding: 4px;
         text-decoration: none; vertical-align: middle;
-        color: white;
     }
 
 
 
-    .cover {
-    background: var(--light-background);
+.cover {
+    height: 100vh;
+    width: 100vw; 
+    background: dimgray;
     background-size: cover;
     background-repeat: no-repeat;
     background-position:center;
-    position: relative;
-    background-image:url("../img/undraw_donut_love_kau1.svg");
+    position: absolute;
 }
 
 body{
-    background: #3d4254;
     font-family: 'Fredoka One', cursive;    text-align: center;
+    color: blueviolet;
+    box-sizing: border-box;
+        background-image:url("../img/undraw_donut_love_kau1.svg");
 }

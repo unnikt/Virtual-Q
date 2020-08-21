@@ -40,32 +40,38 @@ dbstore.get('/delete', (req, res) =>
             .catch(error => { res.send("Deletion failed..." + error); })
     }));
 
+async function findUser(field: string, value: string) {
+    const data: { results: { fname: String, sname: String, email: String, phone: String, uid: String }[] } = { results: [] };
+    try {
+        const results = await db.collection('/users').where(field, "==", value).get();
+        results.forEach(doc => data.results.push({ fname: doc.data().fname, sname: doc.data().sname, email: doc.data().email, phone: doc.data().phone, uid: doc.id }));
+        return (data);
+    }
+    catch (err) {
+        return (err);
+    }
+}
 dbstore.post('/finduser', (req, res) =>
     cors(req, res, () => {
-        const payload = JSON.parse(req.body); //convert string to JSON
-        if (payload.mode === 'find') {
-            const data: { results: { fname: String, sname: String, email: String, phone: String, uid: String }[] } = { results: [] };
-            db.collection('/users').where(payload.field, "==", payload.value).get()
-                .then(results => {
-                    results.forEach(doc => data.results.push({ fname: doc.data().fname, sname: doc.data().sname, email: doc.data().email, phone: doc.data().phone, uid: doc.id }));
-                    res.json(data);
-                })
-                .catch(err => res.render('error', { title: 'Search user', msg: err }));
-        }
-        else if (payload.mode === 'create')
-            db.collection('users').where('email', '==', payload.email).get()
-                .then(qEmail => {
-                    if (qEmail.size > 0) res.json({ code: 0, msg: 'User with the same email exists..Please use search..' });
-                    else db.collection('users').where('phone', '==', payload.phone).get()
-                        .then(qPhone => {
-                            if (qPhone.size > 0) res.json({ code: 0, err: 'User with the same number exisits..Please use search..' })
-                            else res.json({ code: 1, err: 'No user found..' })
-                        })
-                        .catch(err => res.json({ err: err }));
-                })
-                .catch(err => res.json({ err: 'Create failed while validating...' + err }));
-        else
-            res.json({ code: -1, err: 'Invalid request...' });
+        const payload = JSON.parse(req.body);
+        findUser(payload.field, payload.value)
+            .then(data => res.json(data))
+            .catch(err => res.render('error', { title: 'Search user', msg: err }))
+    }));
+dbstore.post('/verifyuser', (req, res) =>
+    cors(req, res, () => {
+        const payload = JSON.parse(req.body);
+        db.collection('users').where('email', '==', payload.email).get()
+            .then(qEmail => {
+                if (qEmail.size > 0) res.json({ code: 0, msg: 'User with the same email exists..Please use search..' });
+                else db.collection('users').where('phone', '==', payload.phone).get()
+                    .then(qPhone => {
+                        if (qPhone.size > 0) res.json({ code: 0, err: 'User with the same number exisits..Please use search..' })
+                        else res.json({ code: 1, err: 'No user found..' })
+                    })
+                    .catch(err => res.json({ err: err }));
+            })
+            .catch(err => res.json({ err: 'Create failed while validating...' + err }));
     }));
 
 dbstore.get('/getbid', (req, res) =>
@@ -95,15 +101,23 @@ exports.dbstore = functions.https.onRequest(dbstore);
 
 //Create a record in the users collection
 exports.registerUser = functions.auth.user().onCreate(user => {
-    return db.collection('users').doc(user.uid).set({
-        fname: 'First Name',
-        sname: 'Sur Name',
-        phone: 'First Name',
+
+    const usr = {
+        fname: user.displayName?.split(" ")[0],
+        sname: user.displayName?.split(" ")[1],
+        phone: user.phoneNumber,
         email: user.email,
         business: false,
-        notify: 'email'
-    });
-})
+        notify: 'email',
+        bIncomplete: false
+    };
+
+    if (!usr.fname) { usr.fname = 'noname'; usr.bIncomplete = true; }
+    if (!usr.sname) { usr.sname = 'noname'; usr.bIncomplete = true; }
+    if (!usr.email) { usr.email = 'nomail'; usr.bIncomplete = true; }
+    if (!usr.phone) { usr.phone = 'notel'; usr.bIncomplete = true; }
+    return db.collection('users').doc(user.uid).set(usr);
+});
 
 //Create a record in the users collection when an appointment is created for a new customer
 // exports.createUser = functions.firestore.document('/appointments/{doc}').onCreate((snap, context) => {
@@ -141,7 +155,7 @@ exports.createDefaultService = functions.firestore.document('/business/{doc_id}'
         if (pdata) uid = pdata.uid;
 
         //Create the default service for the new Business created
-        return db.collection('/business/' + bid +"/services/").add(default_Services)
+        return db.collection('/business/' + bid + "/services/").add(default_Services)
             .then(result_svc => {
                 // update the user doc - set business flag to true
                 console.log()

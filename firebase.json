@@ -27,6 +27,10 @@
         "function": "settings"
       },
       {
+        "source": "/updateuser",
+        "function": "settings"
+      },
+      {
         "source": "/add",
         "function": "dbstore"
       },
@@ -36,6 +40,10 @@
       },
       {
         "source": "/finduser",
+        "function": "dbstore"
+      },
+      {
+        "source": "/verifyuser",
         "function": "dbstore"
       },
       {
@@ -55,15 +63,19 @@
         "function": "calendar"
       },
       {
+        "source": "/createsp",
+        "function": "business"
+      },
+      {
+        "source": "/createBus",
+        "function": "business"
+      },
+      {
         "source": "/services",
         "function": "services"
       },
       {
         "source": "/vwservices",
-        "function": "services"
-      },
-      {
-        "source": "/createsp",
         "function": "services"
       },
       {
@@ -85,6 +97,10 @@
       {
         "source": "/evntstatus",
         "function": "events"
+      },
+      {
+        "source": "/resources",
+        "function": "resources"
       },
       {
         "source": "/addResType",

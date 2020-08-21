@@ -1,5 +1,3 @@
-var event = { bid: '', bname: '', uid: '', sid: '', svc: '', start: '', end: '' };
-
 var dvTimeline;
 const HIGHLIGHT = "var(--primary-color)"
 const LOWLIGHT = "var(--light-background)"
@@ -16,7 +14,8 @@ dt_DayClose.setHours(17, 30, 0, 0);
 
 function to12Hr(t) {
     const hh = t.getHours(); const mm = lpad0(t.getMinutes());
-    return (hh > 12) ? ([(hh - 12), ':', mm, ' PM'].join('')) : ([hh, ':', mm, ' AM'].join(''));
+    if (hh == 12) return [hh, ':', mm, ' PM'].join('');
+    else return (hh > 12) ? ([(hh - 12), ':', mm, ' PM'].join('')) : ([hh, ':', mm, ' AM'].join(''));
 }
 function lpad0(mm) { return (mm < 10) ? '0' + mm : mm; }
 function incrTime(date, mins) { return new Date(date.getTime() + mins * 60000); }
@@ -33,7 +32,37 @@ function newTime(time, row, css) {
     div.setAttribute('class', css); //set the class as 
     div.setAttribute('data-row', row); //store the row number for later use
     div.innerText = to12Hr(time);
+    div.addEventListener('click', selTime);
     return div;
+}
+
+function tp_setColor(ts, te, bgcolor, color) {
+    while (ts <= te) { const cell = get(ts).style; cell.backgroundColor = bgcolor; cell.color = color; ts += min_TimeScale * millSecond; }
+}
+function selTime(e) {
+    const tms = Number(e.target.id);
+    var prev_start = ms_StartTime;
+    var prev_end = ms_EndTime;
+
+    if (!ms_StartTime) ms_StartTime = ms_EndTime = tms;
+    else if (!ms_EndTime) ms_EndTime = tms;
+    else if (tms < ms_StartTime) ms_StartTime = tms
+    else if (tms > ms_EndTime) ms_EndTime = tms;
+    else if ((tms == ms_StartTime) && (ms_EndTime > tms)) ms_StartTime += min_TimeScale * millSecond;
+    else if ((tms == ms_EndTime) && (ms_StartTime < tms)) ms_EndTime -= min_TimeScale * millSecond;
+    else if ((tms - ms_StartTime) >= (ms_EndTime - tms)) ms_EndTime = tms;
+    else ms_StartTime = tms;
+
+    if (prev_start) tp_setColor(prev_start, ms_StartTime, LOWLIGHT, HIGHLIGHT);
+    if (prev_end) tp_setColor(ms_EndTime, prev_end, LOWLIGHT, HIGHLIGHT);
+    tp_setColor(ms_StartTime, ms_EndTime, HIGHLIGHT, LOWLIGHT);
+
+    get('lblTime').innerText = [to12Hr(new Date(ms_StartTime)), to12Hr(new Date(ms_EndTime))].join('-');
+
+    const ts = new Date(ms_StartTime);
+    slot.start = new Date(selDate).setHours(ts.getHours(), ts.getMinutes(), 0, 0);
+    const te = new Date(ms_EndTime);
+    slot.end = new Date(selDate).setHours(te.getHours(), te.getMinutes(), 0, 0);
 }
 
 var arrSlots = [];
@@ -113,11 +142,12 @@ function addRes(start, duration, res, dvcol) {
             dvStart = get(t.getTime());
         }
     }
+    else console.log('slot not found..!')
 }
 
 function drawTimeScale(divTarget, Open, Close) {
-    dt_DayOpen = (Open) ? Open : new Date();
-    dt_DayClose = (Close) ? Close : new Date();
+    dt_DayOpen = new Date(Open);
+    dt_DayClose = new Date(Close);
     //**TODO Remove this code once the Open and Close times are set */
     dt_DayOpen.setHours(9, 30, 0, 0);
     dt_DayClose.setHours(17, 30, 0, 0);
@@ -125,8 +155,7 @@ function drawTimeScale(divTarget, Open, Close) {
 
     dvTimeline = get(divTarget);
     var t = dt_DayOpen; dvTimeline.innerHTML = ""; ms_StartTime = null;
-    setHeader('Start', 1);
+    // setHeader('Start', 1);
     var r = 1;
     while (t < dt_DayClose) { r++; dvTimeline.append(newTime(t, r, 'time')); t = incrTime(t, min_TimeScale); }
 }
-

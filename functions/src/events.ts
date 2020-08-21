@@ -28,7 +28,6 @@ events.post("/getevents", (req, res) =>
         start.setHours(0, 0, 0);
         end.setHours(23, 59, 59);
 
-        console.log(inp, start.getTime(),end.getTime());
         const data: {
             events: {
                 aid: string, start: string, end: string, status: string,
@@ -41,7 +40,6 @@ events.post("/getevents", (req, res) =>
                 // .where('status', 'in', ['On time','Delayed','Arrived','Reschedule'])         //Status = On time,Delayed,Arrived,Cancelled,Reschedule,Completed
                 .orderBy('start').get()
                 .then(results => {
-                    console.log(results);
                     results.forEach(doc => data.events.push({
                         aid: doc.id,
                         start: doc.data().start,
@@ -60,9 +58,7 @@ events.post("/getevents", (req, res) =>
 
 events.post("/evntstatus", (req, res) =>
     cors(req, res, () => {
-        console.log(req);
         const frm = JSON.parse(req.body);
-        console.log(frm);
         //Status = On time,Delayed,Arrived,Cancelled,Reschedule,Completed
         if (frm.status === 'GET')         //if status is 'GET' then return status all others update status.
             db.collection('appointments').doc(frm.aid).get()

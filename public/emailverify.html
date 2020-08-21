@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VirQ.app</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="img/virq.ico">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="/__/firebase/7.14.5/firebase-app.js"></script>
+    <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <style>
+        .playstore {
+            border-top: 1px solid darkgray;
+            display: grid;
+            grid-template-columns: auto auto;
+            margin: auto;
+            bottom: 0;
+            left: 50%;
+            position: absolute;
+            margin-bottom: 10%;
+            transform: translate(-50%);
+        }
+
+        .playstore>a>img,
+        .playstore>img {
+            margin: auto;
+            width: 150px;
+        }
+
+        .center {
+            position: absolute;
+            width: 80%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bbdr" style="display: flex;">
+        <p class="apptitle"> VirQ.app</p>
+    </div>
+    <div class="grid center">
+        <h4>Please check your email to complete the verification process</h4>
+        <a href="#" onclick="sendVerification()">Resend verification email</a>
+    </div>
+
+    <div class="playstore">
+        <a href="https://play.google.com/store"><img src="img/google-play-badge.png" alt=""></a>
+        <img src="img/google-play-badge.png" alt="">
+    </div>
+    <script>
+        const auth = firebase.auth();
+        const urlParams = new URLSearchParams(window.location.search);
+        var email = urlParams.get('email');
+
+        var actionCodeSettings = { url: 'https://virq.app/emailverify?email=' + email, handleCodeInApp: true, };
+        function sendVerification() {
+            auth.sendSignInLinkToEmail(email, actionCodeSettings)
+                .then(() => { alert('Verification Email sent!') })
+                .catch(err => alert(err))
+        }
+    </script>
+</body>
+
+</html>

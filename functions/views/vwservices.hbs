@@ -33,6 +33,14 @@
         font-weight: 800;
     }
 </style>
+{{#with pop}}
+<div class="modal block" id="msgBox">
+    <div class="mod-content">
+        <span>{{msg}}</span>
+        <button onclick="hide('msgBox')">Ok</button>
+    </div>
+</div>
+{{/with}}
 <div class="grid nopad">
     <div class="tabs-type-2" id="dvIcons">
         <a onclick="setTab(this,'dvViewServices')" id="tab1">View services</a>
@@ -45,7 +53,8 @@
         </div>
         <div id="dvNewService" hidden>
             <form action="/addservice" method="POST">
-                <input type="text" name="bid" value="" style="display: none;">
+                <input type="hidden" name="uid" value={{uid}}>
+                <input type="hidden" name="bid" value={{bid}} id="inpBid">
                 <input type="text" id="Name" name="sname" placeholder="Service Name" required autocomplete="off">
                 <textarea id="Desc" name="sdesc" placeholder="Description" required></textarea>
                 <input type="text" id="Price" name="sprice" placeholder="Price" autocomplete="off">
@@ -82,7 +91,7 @@
         <div id="lstAttached" class="list"></div>
         <div class="bbdr" style="display: grid; grid-template-columns: 11fr 1fr;">
             <h4>Unattached resources</h4>
-            <i class="material-icons gicon-regular" onclick="redirect('resources.html?bid=')">business_center</i>
+            <i class="material-icons gicon-regular" onclick="redirect('resources?bid=')">business_center</i>
         </div>
         <div id="lstUnAttached" class="list">
         </div>

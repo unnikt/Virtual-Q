@@ -21,25 +21,29 @@ const cors = corsMod({ origin: true });
 
 home.get("/home", (req, res) =>
     cors(req, res, () => {
-        const uid = req.query.uid;
-        if (uid) {
-            const data: { bid: string, bname: string }[] = [];
-            db.collection('business').where('uid', '==', uid).get()
-                .then(snaps => {
-                    snaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().bname }));
-                    if (data.length > 0) res.render('homeb', { layout: 'mainb', bus: data });
-                    else res.redirect('calendar?uid=' + uid);
-                })
-                .catch(err => res.render('error', { title: '/home - ', msg: err }));
-        }
+        const uid = req.query.uid?.toString();
+        if (uid) db.collection('users').doc(uid).get()
+            .then(usr => {
+                const dat = usr.data();
+                if ((dat) && (dat.bIncomplete)) res.redirect('settings?uid=' + uid + "&usr=true"); //1. User details incomplete
+                else {
+                    const data: { bid: string, bname: string }[] = [];
+                    db.collection('business').where('uid', '==', uid).get()
+                        .then(snaps => {
+                            snaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().bname }));
+                            if (data.length > 0) res.render('homeb', { layout: 'mainb', bus: data }); //2. Logged in user has Business(es) set up
+                            else res.redirect('calendar?uid=' + uid); //3. User is not a Business
+                        })
+                        .catch(err => res.render('error', { title: '/home - ', loc: '/home', msg: err }));
+                }
+            })
+            .catch(err => res.render('error', { title: '/home - ', loc: '/home', msg: err }));
         else res.render('error', { title: '/home - ', msg: 'No user ID.. Please sign in' })
     }));
 
 home.get("/booknew", (req, res) =>
     cors(req, res, () => {
         const uid = req.query.uid;
-        console.log(uid);
-
         if (uid) {
             const data: { bid: string, bname: string }[] = [];
             db.collection('business').where('uid', '==', uid).get()

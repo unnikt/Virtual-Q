@@ -18,10 +18,6 @@ input[type=checkbox] {
     height: 20px;
 }
 
-.results {
-    margin-top: 24px;
-}
-
 .results a {
     text-decoration: underline;
     padding: 12px;

@@ -1,9 +1,11 @@
 function toast(msg) {
     var toast = get('toast');
-    if (toast == null) { toast = create('div'); toast.setAttribute('class', 'toast'); toast.id = 'toast'; }
+    if (toast == null) {
+        toast = create('div'); toast.setAttribute('class', 'toast'); toast.id = 'toast'; document.body.append(toast);
+    }
     toast.innerText = msg;
-    document.body.append(toast);
-    setTimeout(() => { toast.style.opacity = 0; }, 500);
+    setTimeout(() => { document.body.removeChild(toast);}, 1000);
+    
 }
 
 function spinner(action) {
@@ -37,6 +39,6 @@ function showError(title, msg) {
     }
     get('title').innerText = title;
     get('msg').innerText = msg;
-    disp(get('msg'),"block");
-    disp(modForm,"block");
+    disp(get('msg'), "block");
+    disp(modForm, "block");
 }

@@ -1,22 +1,21 @@
 <style>
-    .icons-bar>a {
-        text-decoration: none;
-        padding: 0.2em;
+    .bus>a {
         color: var(--primary-color);
+        margin: 0;
+        padding: 8px;
+        text-decoration: none;
     }
 </style>
 <div class="grid">
-    <div class="icons-bar bbdr">
-        <p style="color: var(--accent-color); width: 70%;">{{bname}}</p>
-        <a id="icn01" class="material-icons" href="https://g.page/curtisaviation?share">place</a>
-        <a id="icn01" class="material-icons" href="tel:0466149150"> call</a>
-        <a id="icn01" class="material-icons" href="mailto:unnikt@gmail.com"> email</a>
-        <a id="icn01" class="material-icons" href="https://curtisaviation.com.au/"> public</a>
+    <div class="bus bbdr">
+        <p>{{bname}}</p>
+        <a class="material-icons" href="https://g.page/curtisaviation?share">place</a>
+        <a class="material-icons" href="tel:0466149150"> call</a>
+        <a class="material-icons" href="mailto:unnikt@gmail.com"> email</a>
+        <a class="material-icons" href="https://curtisaviation.com.au/"> public</a>
     </div>
-    <div>
-        <label id="start" style="color:var(--primary-color);font-weight: bold;">{{start}}</label>
-        <label id="sname" style="display: block;">{{sname}}</label>
-    </div>
+    <label id="start" style="color:var(--primary-color);font-weight: bold;">{{start}}</label>
+    <label id="sname" style="display: block;">{{sname}}</label>
     <div style="display: grid; grid-template-columns: 11fr 1fr;">
         <select id="status">
             <option value="">Select your current status</option>

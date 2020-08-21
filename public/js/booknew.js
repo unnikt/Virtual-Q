@@ -1,11 +1,120 @@
 var user = { fname: '', sname: '', email: '', phone: '', notify: '' }
-event.bid = lstBus.value;
+var slot = { bid: '', bname: '', uid: '', sid: '', svc: '', start: '', end: '' };
 
-var SAVE_READY = false;
-var msg;
+var VERIFIED = false;
+get('dvCustomer').style.display = 'block';
+function clk_tab(dv, ic) {
+    const dvStyle = get(dv).style;
+    if ((dvStyle.display == 'none') || (dvStyle.display == '')) {
+        preTab(dv);
+        dvStyle.display = 'block';
+    }
+    else {
+        VERIFIED = false;
+        switch (dv) { //Verify Data entered
+            case ('dvCustomer'): verifyUser(); break;
+            case ('dvCalendar'): verifyDate(); break;
+            default: VERIFIED = true; break;
+        }
+        if (VERIFIED) {
+            dvStyle.display = 'none';
+            setIcnClr(ic); VERIFIED = false;
+            nextTab(dv, ic);
+        }
+    }
+}
+const preTab = async (dv) => {
+    switch (dv) { //Preprocess if necessary
+        case ('dvServices'): loadServices(); break;
+        case ('dvTimePicker'): showTimePicker(); break;
+        case ('dvResources'): loadResources(); break;
+    }
+}
+const nextTab = async (dv) => {
+    switch (dv) { //Next step
+        case ('dvCustomer'): clk_tab('dvServices', 'icn02'); break;
+        case ('dvServices'): clk_tab('dvCalendar', 'icn03'); break;
+        case ('dvCalendar'): clk_tab('dvTimePicker', 'icn04'); break;
+        case ('dvTimePicker'): clk_tab('dvResources', 'icn05'); break;
+    }
+}
+
+var bUserVerified = false;
+const verifyUser = async () => {
+    const email = get('email').value; const phone = get('phone').value;
+    if ((get('fname').value == user.fname) && (get('sname').value == user.sname) && (email == user.email) && (phone == user.phone))
+        VERIFIED = bUserVerified = true;
+    else if (email.length < 8) toast("Please enter a valid email id!");
+    else if (phone.length < 8) toast("Please enter a valid phone!");
+    else {
+        const params = { method: 'POST', headers: { 'Accept': 'application/json' }, body: JSON.stringify({ phone: phone, email: email }) };
+
+        spinner();
+        const response = await fetch('verifyuser', params);
+        const result = await response.json();
+        spinner('stop');
+
+        if (result.code == 1) { bUserVerified = true; VERIFIED = true; setUser(); }
+        else toast(result.msg);
+    }
+}
+function searchUser() {
+    const srchText = get('inpSearch').value;
+    if (srchText.length < 8) toast("Please enter a valid email id or Phone number!");
+    else {
+        const params = {
+            method: 'POST', headers: { 'Accept': 'application/json' },
+            body: JSON.stringify({ field: isNaN(srchText) ? 'email' : 'phone', value: srchText })
+        };
+        spinner();
+        fetch('finduser', params)
+            .then(response => response.json()
+                .then(data => { showResults(data.results); spinner('stop'); })
+                .catch(err => { toast(err); spinner('stop'); }))
+            .catch(err => { toast(err); spinner('stop'); })
+    }
+}
+function showResults(results) {
+    if (results.length > 0) {
+        get('selCustomer').style.display = 'block';
+        results.forEach(cust => {
+            const newdiv = create('a'); newdiv.innerText = [cust.fname, cust.sname].join(' ');
+            newdiv.addEventListener('click', e => {
+                get('fname').value = cust.fname; get('sname').value = cust.sname;
+                get('email').value = cust.email; get('phone').value = cust.phone;
+                slot.uid = cust.uid; setUser();
+                get('selCustomer').style.display = 'none';
+            });
+            const divsrchResult = get('srchResult'); divsrchResult.innerHTML = "";
+            divsrchResult.appendChild(newdiv);
+        });
+    }
+}
+
+function setUser() {
+    user.fname = get('fname').value; user.sname = get('sname').value;
+    user.email = get('email').value; user.phone = get('phone').value;
+    get('lblCustomer').innerText = [user.fname, user.sname].join(' ');
+    bUserVerified = true;
+    clk_tab('dvCustomer', 'icn01');
+}
+
+var selSvc = null;
+function saveService(sid, sname) {
+    slot.sid = sid; slot.svc = sname;
+    if (selSvc) selSvc.background = 'var(--secondary-color)';
+    selSvc = get(sid).style; selSvc.background = 'var(--primary-color)';
+    get('lblService').innerText = sname;
+    clk_tab('dvServices', 'icn02');
+}
+
+function verifyDate() {
+    const selDt = get('lblDate').innerText = get('date').innerText;
+    VERIFIED = (selDt) ? true : false;
+}
 
 function findResources() {
-    const payload = { bid: 'JJwLFsdHlN13pa5PE6uJ', sid: 'JJwLFsdHlN13pa5PE6uJ', date: selDate };
+    const payload = { bid: bid, sid: sid, date: selDate };
     const params = { method: 'POST', headers: { 'Accept': 'application/json' }, body: JSON.stringify(payload) };
     fetch('/findResources', params)
         .then(res => res.json()
@@ -20,154 +129,62 @@ function setNotify() {
     if (get('nottel').checked) user.notify += '|phone';
     get('submit').disabled = (user.notify.length > 1) ? false : true;
 }
-function setParams(field, val) {
-    switch (field) {
-        case 'bid': case 'bname': case 'sid': case 'svc': case 'uid': case 'start': case 'end': event[field] = val; break;
-        case 'fname': case 'sname': case 'phone': case 'email': case 'notify': user[field] = val; break;
-    }
-}
-function getParams(field) {
-    switch (field) {
-        case 'bid': case 'sid': case 'uid': case 'start': case 'end': return event[field]; break;
-        case 'fname': case 'sname': case 'phone': case 'email': case 'notify': return user[field]; break;
-    }
-}
-function showReview(val) {
-    validate();
-    if (SAVE_READY) {
-        get('name').innerText = [getParams('fname'), getParams('sname')].join(' ');
-        get('mail').innerText = getParams('email');
-        get('tel').innerText = getParams('phone');
-        get('svc').innerText = get(getParams('sid')).innerText;
-        get('start').innerText = new Date(getParams('start')).toString().slice(0, 21);
-        get('end').innerText = new Date(getParams('end')).toString().slice(0, 21);
-        setTab(val);
-    }
-    else alert(msg);
-}
 
-var currDiv = get('divCustomer');
-setTab('divCustomer', 'tab1');
-function setTab(div, tab) {
-    if (currDiv) currDiv.style.display = 'none';
-    currDiv = get(div); currDiv.style.display = 'grid';
-}
-
+var SAVE_READY = false; var msg;
 function validate() {
-    setParams('bid', lstBus.value); setParams('bname', lstBus.options[lstBus.selectedIndex].text);
-    setParams('fname', get('fname').value);
-    msg = "First name is required"; if (user.fname == "") { SAVE_READY = false; return }
-    setParams('sname', get('sname').value);
-    msg = "Sur name is required"; if (user.sname == "") { SAVE_READY = false; return }
-    setParams('email', get('email').value);
-    msg = "Email required"; if (user.email == "") { SAVE_READY = false; return }
-    setParams('phone', get('phone').value);
-    msg = "Phone number is required"; if (user.phone == "") { SAVE_READY = false; return }
-
-    msg = "No Service selected"; if (event.sid == "") { SAVE_READY = false; return }
-    // msg = "No Service selected"; if (event.sname == "") { SAVE_READY = false; return }
-    event.start = new Date(selDate); event.end = new Date(selDate);
-    var dt = new Date(ms_StartTime); event.start.setHours(dt.getHours(), dt.getMinutes()); event.start = event.start.getTime();
-    dt = new Date(ms_EndTime); event.end.setHours(dt.getHours(), dt.getMinutes()); event.end = event.end.getTime();
-    // event.end = Number(tpEndTimems);
-    msg = "Start time is not selected"; if (event.start == "") { SAVE_READY = false; return }
-    msg = "End time is not selected"; if (event.end == "") { SAVE_READY = false; return }
-    msg = null; SAVE_READY = true;
+    if (!user.fname) return "First name is required";
+    if (!user.sname) return "Sur name is required";
+    if (!user.email) return "Email required";
+    if (!user.phone) return "Phone number is required";
+    if ((!slot.bid) || (!slot.bname)) return "Business info unavailable..";
+    if (!slot.sid) return "No Service selected";
+    if (!slot.start) return "Start time is not selected";
+    if (!slot.end) return "End time is not selected";
+    return null;
 }
 
-var bCreateUser = true;
-function searchCustomer(mode) {
-    //Validate values - Mode = find / create; 
-    const payload = { mode: mode, type: 'cus', field: '', value: '', fname: '', sname: '', phone: '', email: '' };
-    if (mode == 'find') {
-        payload.value = get('inpSearch').value;
-        if (payload.value.length < 8) { toast("Please enter a valid email id or Phone number!"); return; }
-        else payload.field = isNaN(payload.value) ? 'email' : 'phone';
-    }
-    else if (mode == 'create') {
-        if (!bCreateUser) { getServices('divServices'); return; }
-        const email = get('email').value; if (email.length < 8) { toast("Please enter a valid email id!"); return; }
-        const phone = get('phone').value; if (phone.length < 8) { toast("Please enter a valid phone!"); return; }
-        payload.phone = phone; payload.email = email; payload.fname = get('fname'); payload.sname = get('sname');
-    }
-    const params = { method: 'POST', headers: { 'Accept': 'application/json' }, body: JSON.stringify(payload) };
-    spinner();
-    fetch('/finduser', params)
-        .then(response => response.json()
-            .then(data => {
-                if (mode == 'find') showResults(data.results)
-                else if (mode == 'create') { (data.code == 1) ? getServices('divServices') : toast(data.msg); bCreateUser = true; }
-            })
-            .catch(err => console.log(err)))
-        .catch(err => console.log(err))
-    spinner('stop');
-}
-function showResults(results) {
-    if (results.length == 0) return;
-    const divsrchResult = get('srchResult'); divsrchResult.innerHTML = "";
-    get('selCustomer').style.display = 'block';
-    results.forEach(cust => {
-        const newdiv = create('a');
-        newdiv.innerText = [cust.fname, cust.sname].join(' ');
-        newdiv.addEventListener('click', e => {
-            setParams('fname', cust.fname); get('fname').value = cust.fname;
-            setParams('sname', cust.sname); get('sname').value = cust.sname;
-            setParams('email', cust.email); get('email').value = cust.email;
-            setParams('phone', cust.phone); get('phone').value = cust.phone;
-            setParams('uid', cust.uid);
-            get('selCustomer').style.display = 'none';
-            bCreateUser = false;
-        });
-        divsrchResult.appendChild(newdiv);
-    });
-}
 function saveBooking() {
-    const newDoc = { type: "appointment", user: user, event: event };
-    const options = { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(newDoc) };
-    validate();
-    if (SAVE_READY) {
+    const err = validate();
+    if (!err) {
         spinner();
-        fetch('/saveslot', options)
-            .then(response => response.text()
-                .then(data => { showfinal(); spinner('stop'); })
-                .catch(err => console.log("Data: ", err)))
-            .catch(err => setTab('divfinal'));
+        const newDoc = { type: "appointment", user: user, slot: slot, rsel: res };
+        const options = { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(newDoc) };
+        fetch('saveslot', options)
+            .then(response => {
+                if (response.ok) {
+                    response.text()
+                        .then(data => { get('divfinal').style.display = 'block'; spinner('stop'); })
+                        .catch(err => console.log("Data: ", err));
+                }
+                else { spinner('stop'); toast("Could not save.. status code: " + response.statusText); }
+            })
     }
-    else alert(msg);
+    else toast(err);
 }
-function showCal() {
-    get('dvTimePicker').style.display = 'none';
-    setTab('divCalendar', 'tab3')
-}
-function showfinal() {
-    const divfinal = get('divfinal').style;
-    divfinal.display = 'block';
-}
+
 
 //***********************************************************************
+// TO be preloaded at server side
 var SVC_RELOAD = true;
-function log(val) { console.log(val); }
-function getServices(div, tab) {
-    if ((SVC_RELOAD) || (event.bid != lstBus.value)) {
-        setParams('bid', lstBus.value);
-        if (event.bid) {
+function loadServices() {
+    if ((SVC_RELOAD) || (slot.bid != lstBus.value)) {
+        slot.bid = lstBus.value; slot.bname = lstBus.options[lstBus.selectedIndex].text;
+        if (slot.bid) {
             spinner();
-            fetch('/services?mode=jsn&bid=' + event.bid)
+            fetch('/services?mode=jsn&bid=' + slot.bid)
                 .then(response => response.json()
                     .then(data => { loadSvcs(data); spinner('stop'); })
                     .catch(err => { log(err); spinner('stop') }))
                 .catch(err => { log(err); spinner('stop') });
         }
     }
-    get('lblCustomer').innerText = [get('fname').value, get('sname').value].join(' ');
-    setTab(div);
 }
 
 var services;
 function loadSvcs(data) {
     services = data;
     const svcGrid = get('svcgrid'); svcGrid.innerHTML = "";
-    const dvServices = create('div'); 
+    const dvServices = create('div');
     services.forEach(element => {
         const alink = create('a');
         alink.setAttribute('class', 'a-settings');
@@ -177,31 +194,44 @@ function loadSvcs(data) {
         dvServices.append(alink);
     });
     svcGrid.append(dvServices);
-    const btnnext = create('button');
-    btnnext.innerText = 'Next';
-    btnnext.addEventListener('click', (e) => setTab('divCalendar'));
-    svcGrid.append(btnnext);
     SVC_RELOAD = false;
 }
 
-var selSvc = null;
-function saveService(sid, sname) {
-    setParams('sid', sid); setParams('svc', sname);
-    if (selSvc) selSvc.background = 'var(--secondary-color)';
-    selSvc = get(sid).style;
-    selSvc.background = 'var(--primary-color)';
-    get('lblService').innerText = sname;
-}
+
 
 function showTimePicker() {
-    get('lblDate').innerText = get('date').innerText;
-    get('divCalendar').style.display = 'none';
     get('dvTimePicker').style.display = 'grid';
-    addRes(1593306000000, 180, 'JAZ', 2);
-    addRes(1593225000000, 120, 'PBS', 3);
-    addRes(1593142200000, 30, 'WKM', 4);
-    addRes(1593230400000, 30, 'JKL', 5);
+    get('lblTime').innerText = "Select a time slot";
+    drawTimeScale('dvTimeline', selDate, selDate);
 }
+
+function loadResources() {
+
+}
+
+var res = { tid: 'cr4yUEdrIlzG6qkoVLJb', rid: 'PnslCPxXYwzSIkRVPcZy' };
+function clk_Resource(e, val) {
+    res.start = slot.start; res.end = slot.end;
+    e.style.background = 'var(--primary-color)';
+    get('lblResources').innerText = val;
+}
+
+var currDiv = get('dvCustomer');
+function setTab(dv, ic, open) {
+    const icnStyle = get(ic).style;
+    if (open) {
+        if (currDiv) currDiv.style.display = 'none';
+        currDiv = get(dv);
+        currDiv.style.display = 'grid';
+        if (ic) icnStyle.color == 'darkgray';
+    }
+    else {
+        currDiv.style.display = 'block';
+        if (ic) icnStyle.color == 'var(--primary-color)';
+    }
+}
+function setIcnClr(icn) { i = get(icn); i.style.color = (VERIFIED) ? 'var(--primary-color)' : 'darkgray'; }
 //***********************************************************************
 get('iSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
 get('inpSearch').addEventListener('keyup', (e) => { if (e.keyCode == 13) searchCustomer() });
+function log(val) { console.log(val); }

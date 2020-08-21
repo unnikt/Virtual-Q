@@ -1,70 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>VirQ.app</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="shortcut icon" href="img/virq.ico">
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="/__/firebase/7.14.5/firebase-app.js"></script>
-    <!-- Add Firebase products that you want to use -->
-    <script src="/__/firebase/7.14.5/firebase-auth.js"></script>
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
-    <script>
-    </script>
-    <!--This is mainb -->
-    <script src="js/app.js"></script>
-</head>
-
+{{> header}}
 <body>
-    <div class="bbdr" style="display: flex;">
-        <p class="apptitle"> VirQ.app</p>
-        <i id="mainIcn" class="material-icons gicon-regular" style="z-index: 2;" onclick="togmenu()">menu</i>
-    </div>
-    <div id="mainNav" class="mainMenu">
-        <select name="" id="lstBus" onchange="setBid()">
-            {{#each bus}}
-            <option value={{bid}}>{{bname}}</option>
-            {{/each}}
-        </select>
-        <div class="gridicons">
-            <div class="icontiles" onclick="redirect('booknew?')">
-                <i class="material-icons gicon-regular">assignment</i>
-                <h4>Booking</h4>
-            </div>
-            <div class="icontiles" onclick="redirect('calendar?')">
-                <i class="material-icons gicon-regular">event</i>
-                <h4>Calendar</h4>
-            </div>
-            <div class="icontiles" onclick="redirect('vwservices?')">
-                <i class="material-icons gicon-regular">widgets</i>
-                <h4>Services</h4>
-            </div>
-            <div class="icontiles" onclick="redirect('resources.html?')">
-                <i class="material-icons gicon-regular">business_center</i>
-                <h4>Resources</h4>
-            </div>
-            <div class="icontiles" onclick="redirect('settings?')">
-                <i class="material-icons gicon-regular">settings</i>
-                <h4>Settings</h4>
-            </div>
-            <div class="icontiles" onclick="auth.signOut()">
-                <i class="material-icons gicon-regular">double_arrow</i>
-                <h4>Log out</h4>
-            </div>
-        </div>
-    </div>
+    {{> busnav}}
     {{{body}}}
     <script>
         if (!bid) bid = document.getElementById('lstBus').value;
         function redirect(page) { window.location = [page, 'uid=', uid, "&bid=", bid].join(''); }
     </script>
 </body>
-
 </html>

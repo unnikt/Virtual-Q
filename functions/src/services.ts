@@ -4,6 +4,8 @@ import express = require('express');
 import hbEngine = require('express-handlebars');
 import corsMod = require('cors');
 
+import { getBusinesses, getServices, addDoc } from './common';
+
 const services = express();
 const db = admin.firestore();
 
@@ -22,12 +24,14 @@ const cors = corsMod({ origin: true });
 services.get('/services', (request, response) =>
     cors(request, response, () => {
         // Get the provider id and create path to services collection
+        const uid = (request.query.uid) ? request.query.uid.toString() : "";
         const bid = (request.query.bid) ? request.query.bid.toString() : "";
         const mode = (request.query.mode) ? request.query.mode.toString() : "";
         if ((bid === null) || (bid === "")) response.send("No bid specified...");
         else {
             // Get the providers with matching uid        
             const params: { sid: string, sname: string }[] = [];
+
             db.collection('business').doc(bid).collection('services').get()
                 .then(svcs => {
                     svcs.forEach(svc => params.push({ sid: svc.id, sname: svc.data().sname }));
@@ -35,7 +39,7 @@ services.get('/services', (request, response) =>
                         response.setHeader('Access-Control-Allow-Origin', '*')
                         response.json(params);
                     }
-                    else response.render('services', { svcs: params });
+                    else response.render(['vwservices?uid=', uid, "&bid=", bid].join(''));
                 })
                 .catch(err => response.render('error', { title: "Get Services", msg: err }))
         }
@@ -46,17 +50,17 @@ services.get('/services', (request, response) =>
 // Inputs: pid, doc
 services.post('/addservice', (req, res) => {
     cors(req, res, () => {
-        console.log(req.body);
-        const data = req.body; const bid = data.bid;
+        const data = req.body;
+        const uid = data.uid; const bid = data.bid;
         const svc = { sname: data.sname, sdesc: data.sdesc, price: data.sprice };
 
         // Get the service to be deleted and create the path to the service
         // const bid = data.pid;
-        if ((bid) && (svc))
-            db.collection('business/' + bid + "/services").add(svc)
-                .then(snap => res.redirect('/vwservices?bid=' + bid))
-                .catch(err => res.json({ code: 0, msg: err }))
-        else res.json({ code: -1, msg: 'Missing Data...' });
+        if ((uid) && (bid) && (svc))
+            addDoc('business/' + bid + "/services", svc)
+                .then(snap => res.redirect(['vwservices?uid=', uid, '&bid=', bid, '&code=1'].join('')))
+                .catch(err => res.render('error', { code: -1, msg: err }))
+        else res.render('error', { code: -1, msg: 'Missing Data...' });
     });
 });
 
@@ -70,14 +74,26 @@ services.post('findResources', (req, res) =>
 services.get('/createsp', (request, response) => response.render('createsp'));
 services.get('/vwservices', (req, res) =>
     cors(req, res, () => {
-        const bid = req.query.bid;
+        const uid = req.query.uid?.toString();
+        const bid = req.query.bid?.toString();
+        const code = req.query.code;
+        const pop = { msg: '' };
+        switch (code) {
+            case ('1'): pop.msg = "Service created successfully..."; break;
+        }
+
         const svcs: { sid: string, sname: string }[] = [];
-        if (bid) db.collection('business/' + bid + '/services').get()
-            .then(snaps => {
-                snaps.forEach(doc => svcs.push({ sid: doc.id, sname: doc.data().sname }));
-                res.render('vwservices', { bid: bid, svcs: svcs })
-            })
-            .catch(err => res.render('error', { title: 'vwservices', msg: err }))
+        if (uid) getBusinesses(uid)
+            .then(busdata => {
+                if (bid) getServices(bid).then(snaps => {
+                    snaps.forEach(doc => svcs.push({ sid: doc.sid, sname: doc.sname }));
+                    res.render('vwservices', (code) ? { uid: uid, bid: bid, bus: busdata, svcs: svcs, pop: pop }
+                        : { uid: uid, bid: bid, bus: busdata, svcs: svcs });
+                })
+                    .catch(err => res.render('error', { title: 'vwservices', msg: err }));
+                else res.redirect('/')
+            }).catch(err => console.log(err));
+        else res.redirect('/')
     }));
 
 exports.services = functions.https.onRequest(services);
