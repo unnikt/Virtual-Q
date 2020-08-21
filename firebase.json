@@ -19,6 +19,10 @@
         "function": "home"
       },
       {
+        "source": "/booknew",
+        "function": "home"
+      },
+      {
         "source": "/settings",
         "function": "settings"
       },
@@ -75,10 +79,6 @@
         "function": "services"
       },
       {
-        "source": "/saveresmap",
-        "function": "services"
-      },
-      {
         "source": "/getevents",
         "function": "events"
       },
@@ -112,6 +112,10 @@
       },
       {
         "source": "/getresmap",
+        "function": "resources"
+      },
+      {
+        "source": "/saveresmap",
         "function": "resources"
       }
     ]

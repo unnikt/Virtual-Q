@@ -67,19 +67,6 @@ services.post('findResources', (req, res) =>
         //1. Get resources for the SID
         //2. Search resource table for availability
     }));
-services.post('/saveresmap', (req, res) =>
-    cors(req, res, () => {
-        const data = JSON.parse(req.body);
-        const bid = data.bid;
-        const rmap: { sid: string, tid: string, rtype: string, required: boolean }[] = data.rmap;
-        const batch = db.batch();
-        if ((bid) && (rmap))
-            rmap.forEach(itm => batch.set(db.collection('business').doc(bid).collection('resmap').doc(), itm));
-        batch.commit()
-            .then(snaps => res.json({ code: 1, msg: 'Batch saved successfully...' }))
-            .catch(err => res.json({ code: -1, msg: err }))
-    }));
-
 services.get('/createsp', (request, response) => response.render('createsp'));
 services.get('/vwservices', (req, res) =>
     cors(req, res, () => {

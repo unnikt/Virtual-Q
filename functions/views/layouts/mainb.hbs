@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="shortcut icon" href="#">
+    <link rel="shortcut icon" href="img/virq.ico">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="/__/firebase/7.14.5/firebase-app.js"></script>
     <!-- Add Firebase products that you want to use -->
@@ -20,8 +20,6 @@
     </script>
     <!--This is mainb -->
     <script src="js/app.js"></script>
-    <script src="js/business.js"></script>
-
 </head>
 
 <body>
@@ -31,25 +29,28 @@
     </div>
     <div id="mainNav" class="mainMenu">
         <select name="" id="lstBus" onchange="setBid()">
+            {{#each bus}}
+            <option value={{bid}}>{{bname}}</option>
+            {{/each}}
         </select>
         <div class="gridicons">
-            <div class="icontiles" onclick="redirect('booknew.html?bid=')">
+            <div class="icontiles" onclick="redirect('booknew?')">
                 <i class="material-icons gicon-regular">assignment</i>
                 <h4>Booking</h4>
             </div>
-            <div class="icontiles" onclick="redirect('calendar?bid=')">
+            <div class="icontiles" onclick="redirect('calendar?')">
                 <i class="material-icons gicon-regular">event</i>
                 <h4>Calendar</h4>
             </div>
-            <div class="icontiles" onclick="redirect('vwservices?bid=')">
+            <div class="icontiles" onclick="redirect('vwservices?')">
                 <i class="material-icons gicon-regular">widgets</i>
                 <h4>Services</h4>
             </div>
-            <div class="icontiles" onclick="redirect('resources.html?bid=')">
+            <div class="icontiles" onclick="redirect('resources.html?')">
                 <i class="material-icons gicon-regular">business_center</i>
                 <h4>Resources</h4>
             </div>
-            <div class="icontiles" onclick="redirect('settings?bid=')">
+            <div class="icontiles" onclick="redirect('settings?')">
                 <i class="material-icons gicon-regular">settings</i>
                 <h4>Settings</h4>
             </div>
@@ -61,9 +62,8 @@
     </div>
     {{{body}}}
     <script>
-        if (typeof bid === "undefined") bid = document.getElementById('lstBus').value;
-        function redirect(page) { window.location = page + bid; }
-        function get(el) { return document.getElementById(el) }
+        if (!bid) bid = document.getElementById('lstBus').value;
+        function redirect(page) { window.location = [page, 'uid=', uid, "&bid=", bid].join(''); }
     </script>
 </body>
 

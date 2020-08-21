@@ -82,19 +82,23 @@ resources.get('/getresmap', (request, response) =>
     cors(request, response, () => {
         const bid = (request.query.bid) ? request.query.bid.toString() : "";
         if (bid) {
-            const payload: {mid:string, sid: string, required: boolean, tid: string, rtype: string }[] = [];
+            const attached: { mid: string, sid: string, required: boolean, tid: string, rtype: string }[] = [];
+            const rtypes: { mid: string, sid: string, required: boolean, tid: string, rtype: string }[] = [];
+            const payload = { Ra: attached, Rtypes: rtypes };
             db.collection('business').doc(bid).collection('resmap').get()
                 .then(resmaps => {
                     resmaps.forEach(resmap => {
                         const d = resmap.data();
-                        payload.push({mid:resmap.id, sid: d.sid, required: true, tid: d.tid, rtype: d.rtype })
+                        attached.push({ mid: resmap.id, sid: d.sid, required: true, tid: d.tid, rtype: d.rtype })
                     })
                     db.collection('business').doc(bid).collection('restypes').get()
                         .then(snaps => {
                             snaps.forEach(res => {
                                 const dres = res.data();
-                                payload.push({mid:"", sid: "", required: false, tid: res.id, rtype: dres.rtype })
+                                rtypes.push({ mid: '', sid: '', required: false, tid: res.id, rtype: dres.rtype })
                             })
+                            payload.Ra = attached;
+                            payload.Rtypes = rtypes;
                             response.json(payload);
                         }
                         )
@@ -103,6 +107,22 @@ resources.get('/getresmap', (request, response) =>
                 .catch(err => response.json({ title: "Get resTypes - ", err: err }))
         }
         else response.json({ title: "Get resTypes - ", err: 'No bid received' });
+    }));
+    
+resources.post('/saveresmap', (req, res) =>
+    cors(req, res, () => {
+        const payload = JSON.parse(req.body);
+        const bid = payload.bid;
+        const Rn: { sid: string, tid: string, rtype: string, required: boolean }[] = payload.Rn;
+        const Rd: { mid: string }[] = payload.Rd;
+        const batch = db.batch();
+        if ((bid)) {
+            Rn.forEach(itm => batch.set(db.collection('business').doc(bid).collection('resmap').doc(), itm));
+            Rd.forEach(itm => batch.delete(db.collection('business').doc(bid).collection('resmap').doc(itm.mid)));
+        }
+        batch.commit()
+            .then(snaps => res.json({ code: 1, msg: 'Changes were saved successfully...' }))
+            .catch(err => res.json({ code: -1, msg: err }))
     }));
 
 resources.post('/delResource', (req, res) =>

@@ -35,4 +35,21 @@ home.get("/home", (req, res) =>
         else res.render('error', { title: '/home - ', msg: 'No user ID.. Please sign in' })
     }));
 
+home.get("/booknew", (req, res) =>
+    cors(req, res, () => {
+        const uid = req.query.uid;
+        console.log(uid);
+
+        if (uid) {
+            const data: { bid: string, bname: string }[] = [];
+            db.collection('business').where('uid', '==', uid).get()
+                .then(snaps => {
+                    snaps.forEach(doc => data.push({ bid: doc.id, bname: doc.data().bname }));
+                    res.render('booknew', { layout: 'mainb', bus: data });
+                })
+                .catch(err => res.render('error', { id: -1, msg: err }));
+        }
+        else res.render('error', { id: -1, msg: 'UID missing' })
+    }));
+
 exports.home = functions.https.onRequest(home);

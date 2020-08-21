@@ -13,7 +13,8 @@
         margin: 12px 0;
     }
 
-    .list>div , .lstitem {
+    .list>div,
+    .lstitem {
         display: grid;
         grid-template-columns: 1fr 10fr 1fr;
         margin: 4px 0;
@@ -44,7 +45,7 @@
         </div>
         <div id="dvNewService" hidden>
             <form action="/addservice" method="POST">
-                <input type="text" name="bid" value="A03kpawiQBURtJ58HlQ6" style="display: none;">
+                <input type="text" name="bid" value="" style="display: none;">
                 <input type="text" id="Name" name="sname" placeholder="Service Name" required autocomplete="off">
                 <textarea id="Desc" name="sdesc" placeholder="Description" required></textarea>
                 <input type="text" id="Price" name="sprice" placeholder="Price" autocomplete="off">
@@ -75,9 +76,14 @@
             <label id="lblCart">Unsaved resource linkages - 0</label>
             <i class="material-icons" onclick="saveCart()">save</i>
         </div>
-        <h4>Attached resources</h4>
+        <div class="bbdr" style="display: grid; grid-template-columns: 11fr 1fr;">
+            <h4>Attached resources</h4>
+        </div>
         <div id="lstAttached" class="list"></div>
-        <h4>Un-attached resources</h4>
+        <div class="bbdr" style="display: grid; grid-template-columns: 11fr 1fr;">
+            <h4>Unattached resources</h4>
+            <i class="material-icons gicon-regular" onclick="redirect('resources.html?bid=')">business_center</i>
+        </div>
         <div id="lstUnAttached" class="list">
         </div>
     </div>
